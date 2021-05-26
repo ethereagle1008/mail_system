@@ -1,0 +1,762 @@
+@charset "UTF-8";
+@import "https://fonts.googleapis.com/earlyaccess/notosansjapanese.css";
+@import "./icon.css";
+@import "http://unmeis.com/m999/img/cs/css/slick.css";
+@import "http://unmeis.com/m999/img/cs/css/slick-theme.css";
+@import "./font.css?170530";
+
+/*=================================================
+GENERAL
+main color -> #7f4090
+accent color -> #fa5e3f
+=================================================*/
+
+
+a{
+	color: #333;
+	text-decoration: none;
+	display: block;
+	word-wrap: break-word;
+}
+body{
+	font-family: 'Quicksand', "游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", 'メイリオ' , Meiryo , Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	color: #333;
+	width: 100%;
+	-webkit-text-size-adjust: 100%;
+    line-height: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#wrapper {
+	overflow-x: hidden;
+	position: relative;
+}
+
+
+.flex{
+  display:-webkit-box;
+  display:-moz-box;
+  display:box;
+
+  -moz-box-orient:horizontal;
+  -webkit-box-orient:horizontal;
+  flex-direction:row;
+
+  -ms-flex-wrap:wrap;
+  -moz-flex-wrap:wrap;
+  -webkit-flex-wrap:wrap;
+  flex-wrap:wrap;
+
+  -moz-box-pack:justify;
+  -ms-box-pack:justify;
+  box-pack:justify;
+  flex-pack:justify;
+  -webkit-justify-content:space-between;
+  justify-content:space-between;
+  /*
+  justify-content:space-around;
+  */
+}
+
+
+.flex.center{
+	align-items: center;
+	-webkit-align-items: center;
+	-moz-align-items: center;
+}
+.flex.bottom{
+	align-items: flex-end;
+	-webkit-align-items: flex-end;
+	-moz-align-items: flex-end;
+}
+.flex.stretch{
+	align-items: stretch;
+	-webkit-align-items: stretch;
+	-moz-align-items: stretch;
+}
+.flex.wrap{
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+}
+.flex.middle{
+	justify-content: center;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+}
+.flex.end{
+	justify-content: flex-end;
+	-webkit-justify-content: flex-end;
+	-moz-justify-content: flex-end;
+}
+
+
+
+.fontSize{
+	font-weight: bold;
+	padding: 10px 2%;
+}
+
+.fontSize p{
+	font-size: 0.8em;
+}
+
+.fontSize ul{
+	border-radius: 3px;
+	margin-left: 10px;
+}
+.fontSize li{
+	padding: 5px 25px;
+	background: #fff;
+	font-size: .8em;
+}
+.fontSize li:last-child{
+	border-right: 0;
+}
+.fontSize li.on{
+	color: #fff;
+}
+
+/*=================================================
+HEADER
+=================================================*/
+header{
+  height: 55px;
+  font-weight: bold;
+　letter-spacing: -1px;
+  text-align: center;
+  font-size: 2.4em;
+}
+
+header li{
+  font-size: 0.6em;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+header li:first-child{
+  position: relative;
+  width: 30.4%;
+}
+header li:first-child span{
+  display: block;
+  height: inherit;
+  line-height: 55px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+header li:first-child span{
+  color: #fff;
+  width: 100%;
+}
+
+header li:first-child img{
+  height: 55px !important;
+}
+
+header li:not(:first-child){
+  width: 23.2%;
+  line-height: 1.1em;
+}
+
+
+header li:not(:first-child) a i{
+  display: inline-block;
+  vertical-align: middle;
+    font-size: 1.1em;
+    padding-bottom: 3px;
+}
+
+header li:not(:first-child) a span{
+  display: inline-block;
+  text-align: left;
+}
+
+
+header li.add a i{
+  vertical-align: super;
+}
+
+header li.add a span{
+
+
+}
+
+header li.consult{
+  line-height: 55px;
+}
+
+header li:last-child{
+  border-right: 0;
+  line-height: 55px;
+}
+
+header li:last-child a{
+  padding-top: 0;
+}
+
+header li a i{
+  margin-right: 3px;
+  vertical-align: text-bottom;
+}
+
+header a, a:link, a:active, a:visited {
+  outline:none;
+  text-decoration:none;
+}
+
+
+/*=================================================
+FOOTER
+=================================================*/
+footer{
+	text-align: center;
+	line-height: 1;
+	padding-bottom: 20px;
+	position: relative;
+}
+
+#footer_menu {
+  font-weight: bold;
+  font-size: 1.6em;
+}
+
+footer *{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+footer ul .left{
+float: left;
+width: 50%;
+padding: 12px 0px;
+border-bottom: 1px solid;
+border-right: 1px solid;
+}
+
+footer ul .right{
+float: right;
+width: 50%;
+padding: 12px 0px;
+border-bottom: 1px solid;
+}
+
+
+.clear {
+    clear:both;　/*floatの解除、ここがポイント*/
+}
+
+
+#support {
+  font-size: 1.4em;
+  margin: 20px 0;
+}
+
+#support a{
+  display:initial;
+  padding: 0 3px; 
+
+}
+
+
+#pagetop{
+	position: relative;
+	padding: 23px 0 10px 0;
+	font-weight: bold;
+    font-size: 1.8em;
+}
+#pagetop::before{
+	content: "";
+	width: 6px;
+	height: 6px;
+	position: absolute;
+	top: 12px;
+	left: 50%;
+	margin-left: -3px;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+}
+
+
+footer small{
+  font-size: 1.3em;
+}
+
+
+footer a, a:link, a:active, a:visited {
+  outline:none;
+  text-decoration:none;
+}
+
+
+/*=================================================
+NAV
+=================================================*/
+
+nav{
+  position: absolute;
+  top: 0px;
+  right: 0;
+  background: rgba(28, 28, 28, .97);
+  width: 80%;
+  height: 100%;
+  color: #949494;
+  line-height: 1;
+  z-index: -1;
+  transform: translateX(80%);
+  -webkit-transform: translateX(80%);
+  -moz-transform: translateX(80%);
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  opacity: 0;
+}
+
+nav.on{
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  z-index: 20;
+  opacity: 1;
+}
+
+nav a{
+  color: #fff;
+  font-weight: bold;
+}
+nav li{
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+nav li:first-child{
+  text-align: center;
+  padding: 6px 0;
+  font-size: 15px;
+  background: rgba(255, 255, 255, .1);
+  border-bottom: 0;
+}
+nav li a{
+  padding: 14px 4%;
+  font-size: 15px;
+}
+nav li a i,
+nav .close i{
+  margin-right: 10px;
+}
+nav .close{
+  text-align: center;
+  background: rgba(255, 255, 255, .1);
+  padding: 14px 0;
+  width: 50%;
+  margin: 20px auto 0 auto;
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+}
+#navbox{
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .37);
+  display: none;
+  z-index: 15;
+}
+#navbox.on{
+  display: block;
+}
+
+
+
+/*=================================================
+RESET.css
+=================================================
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+	display: block;
+}
+
+nav ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+
+/* change colours to suit your needs */
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: bold;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/* change border colour to suit your needs*/
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+input, select {
+	vertical-align: middle;
+}
+.cf::after{
+	content: "";
+	clear: both;
+	display: block;
+}
+
+li{
+	list-style: none;
+}
+img{
+	vertical-align: middle;
+}
+i{
+	font-style: normal;
+}
+
+/*=================================================
+COMMON
+=================================================*/
+#user,
+#ranking ul{
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+header li:first-child img{
+	vertical-align: bottom;
+}
+
+header li:first-child img,
+.thumb img,
+#ranking > ul li a > span img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+nav,
+#navbox{
+	transition: all .3s ease;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+}
+
+/*
+input,
+select,
+textarea{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	header li a: "Noto Sans Japanese", sans-serif;
+	color: #333;
+	width: 100%;
+	border-radius: 3px;
+	display: block;
+}
+
+
+
+input:focus,
+select:focus,
+textarea:focus{
+	outline: 0;
+}
+*/
+
+/*=================================================
+icon.css
+=================================================*/
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../../cs/css/fonts/icomoon.eot?hrv99r');
+  src:  url('../../cs/css/fonts/icomoon.eot?hrv99r#iefix') format('embedded-opentype'),
+  url('../../cs/css/fonts/icomoon.ttf?hrv99r') format('truetype'),
+  url('../../cs/css/fonts/icomoon.woff?hrv99r') format('woff'),
+  url('../../cs/css/fonts/icomoon.svg?hrv99r#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow:before {
+  content: "\e900";
+}
+.icon-coffee-cup:before {
+  content: "\e901";
+}
+.icon-crystal:before {
+  content: "\e902";
+}
+.icon-delete:before {
+  content: "\e903";
+}
+.icon-history:before {
+  content: "\e904";
+}
+.icon-camera:before {
+  content: "\e905";
+}
+.icon-reply:before {
+  content: "\e906";
+}
+.icon-heart_fill:before {
+  content: "\e907";
+}
+.icon-heart:before {
+  content: "\e908";
+}
+.icon-cancel:before {
+  content: "\e909";
+}
+.icon-phone:before {
+  content: "\e90a";
+}
+.icon-book:before {
+  content: "\e90b";
+}
+.icon-message:before {
+  content: "\e90c";
+}
+.icon-support:before {
+  content: "\e90d";
+}
+.icon-letter:before {
+  content: "\e90e";
+}
+.icon-point:before {
+  content: "\e90f";
+}
+.icon-handwriting:before {
+  content: "\e910";
+}
+.icon-dove:before {
+  content: "\e911";
+}
+.icon-hand:before {
+  content: "\e912";
+}
+.icon-tarot:before {
+  content: "\e913";
+}
+.icon-solar:before {
+  content: "\e914";
+}
+.icon-cup:before {
+  content: "\e915";
+}
+.icon-yen:before {
+  content: "\e916";
+}
+.icon-lifeline:before {
+  content: "\e917";
+}
+.icon-crown:before {
+  content: "\e918";
+}
+.icon-user:before {
+  content: "\e919";
+}
+.icon-four:before {
+  content: "\e91a";
+}
+.icon-card:before {
+  content: "\e91b";
+}
+.icon-at:before {
+  content: "\e91c";
+}
+.icon-book1:before {
+  content: "\e91f";
+}
+.icon-floppy-disk:before {
+  content: "\e962";
+}
+.icon-bubbles:before {
+  content: "\e96c";
+}
+.icon-video-camera:before {
+  content: "\e91d";
+}
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+.icon-star-full:before {
+  content: "\e9d9";
+}
+.icon-smile:before {
+  content: "\e9e1";
+}
+/*=================================================
+UNDER 320 DEVICE
+=================================================*/
+@media only screen and (max-width: 320px) {
+	header li:not(:first-child) a i{
+		display: none;
+	}
+
+	header li:not(:first-child) a span{
+		text-align: center;
+	}
+
+　　header li:not(:first-child) a span {
+
+    font-size: 10px;
+
+    }
+
+　　header li:last-child {
+    font-size: 11px;
+
+    }
+
+header li.add a span{
+
+}
+
+
+	#user .inner{
+		width: 100%;
+		margin-right: 0;
+	}
+	#user .favor {
+		width: 100%;
+		margin-top: 10px;
+	}
+	#user .favor a{
+		padding: 10px 0;
+		height: auto !important;
+		line-height: 1;
+	}
+	#user .favor br{
+		display: none;
+	}
+	.typeGenre li a{
+		padding-right: 0;
+	}
+	nav li a,
+	nav .close{
+    　　font-size: 14px;
+	}
+	nav li a{
+		padding: 10px 4%;
+	}
+	nav .close{
+		padding: 10px 0;
+		margin: 12px auto 0 auto;
+	}
+  nav li:first-child {
+    padding: 4px 0;
+    font-size: 13px;
+  }
+
+}
+
+/*=================================================
+ARCHIVE
+=================================================*/
+#archive .info{
+  background: #f5f5f5;
+}
+#archive .info > div:last-child{
+  width: calc(100% - 80px);
+  padding-left: 10px;
+  font-size: .9rem;
+  line-height: 1.2rem;
+}
+.pagenation{
+  text-align: center;
+  font-weight: bold;
+  padding: 20px 0;
+  display: table;
+  margin: 0 auto;
+  font-size: 1.8em;
+}
+.pagenation li{
+    height: 40px;
+    line-height: 40px;
+    width: 45px;
+    margin-left: 5px;
+    display: table-cell;
+    padding-left: 5px;
+}
+.pagenation li:first-child{
+  margin-left: 0;
+}
+.pagenation li a{
+  color: #fff;
+}

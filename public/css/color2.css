@@ -1,0 +1,463 @@
+@charset "UTF-8";
+
+
+/*=================================================
+INDEX
+=================================================*/
+
+#user .inner > div p:last-child a{
+  color: #533d2a;
+  border: 1px solid #533d2a;
+
+}
+
+#user .favor a{
+  background: #533d2a;
+}
+
+.fontSize{
+  color: #533d2a;
+}
+
+.fontSize ul{
+  border: 1px solid #533d2a;
+}
+
+.fontSize li{
+  border-right: 1px solid #533d2a;
+}
+
+.fontSize li.on{
+  background: #533d2a;
+}
+
+/*=================================================
+ARCHIVE
+=================================================*/
+
+.pagenation{
+  color: #533d2a;
+}
+
+.pagenation li a{
+  background: #533d2a;
+}
+
+/*=================================================
+SINGLE
+=================================================*/
+
+#single .photo a{
+  border: 1px solid #533d2a;
+  color: #533d2a;
+}
+
+#single .detail li a{
+  color: #533d2a;
+}
+
+/*===========================
+*Teller_mailbox
+*system-115
+===========================*/
+
+.more a{
+  color: #533d2a;
+  border: 1px solid #533d2a;
+}
+
+.typeGenre li a::after,
+#career ul.list li a::after,
+#single .photo a::after{
+  border-top: 3px solid #533d2a;
+  border-right: 3px solid #533d2a;
+}
+
+#free li a p:first-child{
+  color: #533d2a;
+}
+
+/*===========================
+*Navigation menu
+*All page Design
+===========================*/
+
+h1 {
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6a7fc9+0,7f4090+100 */
+  background: #2f1f11; /* Old browsers */
+  background: -moz-linear-gradient(top, #785e47 0%, #2f1f11 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #785e47 0%,#2f1f11 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #785e47 0%,#2f1f11 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2f1f11', endColorstr='#533d2a',GradientType=0 ); /* IE6-9 */
+}
+
+h1:after{
+  background:url(../img/texture.png); /* サイトにより変更 */
+}
+
+/*===========================
+*Caption
+*All page Design
+===========================*/
+
+#consultation_form h1:after{
+  content:'';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:url(../img/texture.png); /* サイトにより変更 */
+  opacity: 0.1;
+}
+
+
+/*=================================================
+HEADER
+=================================================*/
+
+header{
+  border-bottom: 1px solid #533d2a;
+  color: #533d2a;
+}
+
+header a {color:#533d2a;}
+header a:link {color:#533d2a;}
+header a:visited {color:#533d2a;}
+header a:active {color:#533d2a;}
+
+header li {
+  border-right: 1px solid #533d2a;
+}
+
+
+/*=================================================
+FOOTER
+=================================================*/
+footer{
+  background:url(../img/footer_texture.jpg); /* サイトにより変更 */
+  color: #967e66;
+}
+
+#pagetop{
+  border-bottom: 1px solid #967e66;
+}
+
+#pagetop::before{
+  border-left: 3px solid #decbb9;
+  border-top: 3px solid #decbb9;
+}
+
+footer ul.flex.wrap li{
+  border-bottom: 1px solid #967e66;
+  border-right: 1px solid #967e66;
+}
+
+footer a {color:#decbb9;}
+footer a:link {color:#decbb9;}
+footer a:visited {color:#decbb9;}
+footer a:active {color:#decbb9;}
+
+/*===========================
+*home Segment Area(information)
+*system-01
+===========================*/
+h2.info{
+  background:#A27B4E;
+}
+div.info_frame{
+  border:2px solid #A27B4E;
+}
+
+/*===========================
+*home Mymenu Area
+*system-01
+===========================*/
+#mymenu ul li span {
+  color:#fff;
+  background:#fc980a;
+}
+
+/*===========================
+*home fortune Area Ribbon
+*system-01 All-site-common
+===========================*/
+.teller_wrap h2 , .teller_list h2 {
+  color:#ffffff;
+  text-shadow:1px 2px 0px #A23844;
+  box-shadow: 12px 6px 34px 0 rgba(0, 0, 0, 0), 1px 24px 0px -10px #fff;
+}
+.teller_wrap h2:after , .teller_list h2:after {
+  background:#F88193;
+}
+.teller_wrap h2:before , .teller_list h2:before {
+  background:#F88193;
+}
+.ribbon_bg {
+  border:17px solid rgba(0, 0, 0, 0);
+  border-left:16px solid #fff;
+  border-right:16px solid #fff;
+}
+.teller_wrap .ribbon_shadow , .teller_list .ribbon_shadow  {
+  border-top:15px solid #B43E4F;
+  border-left:18px solid rgba(0, 0, 0, 0);
+  border-right:18px solid rgba(0, 0, 0, 0);
+}
+.teller_wrap h2 , .teller_list h2 , .ribbon_bg {
+    background-color:#F02340;
+    background-image:
+    -webkit-gradient(linear, 0 0, 100% 100%,
+    color-stop(.25, #eb7b8c),
+    color-stop(.25, transparent),
+    color-stop(.5, transparent),
+    color-stop(.5, #eb7b8c),
+    color-stop(.75, #eb7b8c),
+    color-stop(.75, transparent),
+    to(transparent));
+}
+
+/*===========================
+*Teller profile caption Ribbon
+*system-107
+*Customer Review
+*description-30
+===========================*/
+#teller_profile h1.cap {
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6a7fc9+0,7f4090+100 */
+  background: #2f1f11; /* Old browsers */
+  background: -moz-linear-gradient(top, #785e47 0%, #2f1f11 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #785e47 0%,#2f1f11 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #785e47 0%,#2f1f11 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2f1f11', endColorstr='#533d2a',GradientType=0 ); /* IE6-9 */
+
+
+}
+
+#teller_profile h1:after{
+  content:'';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:url(../img/texture.png); /* サイトにより変更 */
+  opacity: 0.1;
+}
+
+#teller_profile h1 span.genre {
+  color:#fff;
+}
+
+/*===========================
+*home fortune Area slider icon
+*system-01
+===========================*/
+.flex-control-paging li a {
+  border:1px solid #998e88 !important;
+}
+.flex-control-paging li a.flex-active {
+  background:#998e88 !important;
+}
+
+/*===========================
+*New arrival Mail box
+*system-111
+===========================*/
+ul.mailbox_contents li a div.subject{
+  background:#b98624;
+  color:#ffffff;
+}
+
+/*--  unselected design  --*/
+ol.siteclr li.pager_btn > a > p{
+  background:#78581f;
+  color:#ffffff;
+}
+/*--  selected design  --*/
+ol.siteclr li.pager_btn >p{
+  background:#ffffff;
+  color:#78581f;
+  border:2px solid #78581f;
+}
+
+/*===========================
+*Mail detail
+*system-113
+===========================*/
+div#mail_caption div.subject_area a.responce_btn{
+  background:#fc980a;
+  color:#ffffff;
+}
+aside#teller_about{
+  background:#8a6832;
+}
+/*  teller_about Btn design  */
+a.btn_profile , .btn_profile ,a.btn_teller_mail , .btn_teller_mail{
+  color:#765606;
+  border:1px solid #d3cec8;
+  -moz-box-shadow:1px 3px 0 #645543;
+  -webkit-box-shadow:1px 3px 0 #645543;
+  box-shadow:1px 3px 0 #645543;
+  -moz-box-shadow:0 0 0 3px #fff inset,
+             0 0 0 3px #fff inset,
+             0 0 0 4px #d3cec8 inset;
+  -webkit-box-shadow:0 0 0 3px #fff inset,
+             0 0 0 3px #fff inset,
+             0 0 0 4px #d3cec8 inset;
+  box-shadow:0 0 0 3px #fff inset,
+             0 0 0 3px #fff inset,
+             0 0 0 4px #d3cec8 inset;
+}
+
+/*===========================
+*Teller_mailbox
+*system-115
+*system-116
+===========================*/
+#teller_mailbox span.sender{
+  background:#6B9040; /*green*/
+}
+#teller_mailbox span.receiver{
+  background:#D6412E;
+}
+
+/*===========================
+*Teller img frame
+*system-011 *system-012 *system-013
+*system-014 *system-015 *system-051
+*system-052 *system-053 *system-054
+*system-101 *system-107
+===========================*/
+#teller_profile div.description figure img,
+ul.tellerlist_contents li figure img,
+div.favo_teller figure img{
+  border:2px solid #533d2a;
+  /*width: 136px;
+  height: 136px;*/
+}
+
+#container .more {
+    border: 1px solid #533d2a;
+    background: #533d2a;
+}
+
+/*===========================
+*Teller profile
+*system-107
+===========================*/
+section#teller_profile {
+
+}
+#consultation_form h1.cap {
+
+}
+
+/*===========================
+*News Box
+*system-125
+*system-126
+===========================*/
+#newsbox .news_type_01 {
+  background: #e44e6e;
+  color: #FFF;
+}
+
+ #newsbox .news_type_02 {
+  background: #eda01b;
+  color: #ffffff;
+ }
+
+/*===========================
+*home Domain Area
+*system-01
+===========================*/
+
+
+
+/*===========================
+*Customer Review
+*description-30
+===========================*/
+article.review_body {
+  background:#decbb9;
+  color:#533d2a;
+}
+.review_area {
+  background:#ffffff;
+}
+
+/*===========================
+*Pickup Teller Interview
+*description-???
+===========================*/
+#teller_interview h1{
+  color:#886201;
+  border-bottom:3px dotted #886201;
+}
+#teller_interview h1::after {
+  background:url(../img/pickteller_caption.png) no-repeat;
+}
+#teller_interview article.teller_area {
+  background:#f4eae6;
+}
+/*  ▼ button ▼ */
+a.interview, .interview{
+  background: #ff6f68; /* Old browsers */
+  background: -moz-linear-gradient(top,  #ff6f68 0%, #ed5b70 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff6f68), color-stop(100%,#ed5b70)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #ff6f68 0%,#ed5b70 100%); /* Chrome10+,Safari5.1+ */
+  border: 1px solid #fb7471;
+  box-shadow: inset 0 1px 0 rgba(255,215,206, 0.8),
+  inset 1px 0 0 rgba(255,215,206, 0.3),
+  inset -1px 0 0 rgba(255,215,206, 0.3),
+  inset 0 -1px 0 rgba(255,215,206, 0.2);
+  color: #ffffff;
+  text-shadow: 1px 1px 1px #a03c51;
+}
+
+#teller_interview article.interview_area h2.first_cap,
+#teller_interview article.interview_area h2.last_cap{
+  background:#906841 none repeat scroll 0% 0%;
+  color:#ffffff;
+}
+#teller_interview article.interview_area h3{
+  color:#443e3d;
+  border-left:8px solid #906841;
+}
+#teller_interview article.interview_area p.interviewer{
+  color:#f14e65;
+}
+#teller_interview article.interview_area p.interviewee span{
+  color:#2f2a29;
+}
+
+/*===========================
+*Completion of Registration
+*system-301
+===========================*/
+body.reg {
+  background:#fff; /* face body color */
+}
+body.reg div.formbg_center{
+  background:url(../../../members/sm/img/formBg_center.jpg) repeat-y;
+  -webkit-background-size: 100% auto;
+  -moz-background-size: 100% auto;
+  background-size:100% auto;
+}
+body.reg small {
+  color:#967e66; /* copy right color */
+}
+
+/*===========================
+*fortune_blog
+===========================*/
+
+#fortune_blog .blog_btn a {
+    background: #533d2a;
+
+}
+
