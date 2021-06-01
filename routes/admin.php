@@ -47,6 +47,7 @@ Route::group(['middleware'=>'checkAdmin','as' =>'admin.'],function () {
     Route::get('/auto-message', 'AdminController@autoMessage')->name('auto-message');
     Route::get('/auto-delete/{auto_id}', 'AdminController@autoDelete');
     Route::post('/member-delete', 'AdminController@memberDelete');
+    Route::post('/member-multi-delete', 'AdminController@memberMultiDelete');
     Route::post('/character-delete', 'AdminController@characterDelete');
     Route::post('/auto-message', 'AdminController@autoMessagePost');
     Route::get('/auto-list', 'AdminController@autoMessageList')->name('auto-list');
@@ -62,6 +63,7 @@ Route::group(['middleware'=>'checkAdmin','as' =>'admin.'],function () {
     Route::get('/reply-message', 'AdminController@replyMessage');
     Route::post('/message-list', 'AdminController@messageList');
     Route::get('/dig-user', 'AdminController@digUser');
+    Route::post('/dig-message', 'AdminController@digMessage');
     Route::post('/user-list', 'AdminController@userList');
 });
 

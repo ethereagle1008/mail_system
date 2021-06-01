@@ -232,9 +232,7 @@
 
                         <div class="form-group">
                             <label for="message-text" class="form-control-label">Message:</label>
-                            <textarea class="form-control" id="message_text" name="message_text" rows="10">今日って予定変更無しで間違いないよね？♥
-めっちゃ楽しみにしてるし、時間前に着いちゃうかも（笑）♥
-あ！！変更なしで…続きはこちら</textarea>
+                            <textarea class="form-control" id="message_text" name="message_text" rows="10"></textarea>
                         </div>
                         <input class="d-none" name="csv_file" id="form_csv_file" type="file">
                     </form>

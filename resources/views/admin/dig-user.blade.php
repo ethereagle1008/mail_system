@@ -54,16 +54,16 @@
 
                             </div>
 
-                            <div class="col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-label">キャラBOX</label>
-                                    <select name="characters[]" class="form-control select2" data-placeholder="キャラ" multiple>
-                                        @for($i = 0; $i < count($characters); $i++)
-                                            <option value="{{$characters[$i]['id']}}">{{$characters[$i]['unique_id']}}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
+{{--                            <div class="col-md-6 col-lg-6">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label">キャラBOX</label>--}}
+{{--                                    <select name="characters[]" class="form-control select2" data-placeholder="キャラ" multiple>--}}
+{{--                                        @for($i = 0; $i < count($characters); $i++)--}}
+{{--                                            <option value="{{$characters[$i]['id']}}">{{$characters[$i]['unique_id']}}</option>--}}
+{{--                                        @endfor--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-lg-6">

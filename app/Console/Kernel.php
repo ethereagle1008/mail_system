@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         Commands\SendAutoMessage::class,
+        Commands\SendMail::class,
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('auto:message')->everyMinute();
+        $schedule->command('send:mail')->everyFifteenMinutes();
     }
 
     /**

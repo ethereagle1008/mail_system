@@ -54,7 +54,7 @@
             url:url,
             type:'post',
             data: {
-                unique_id : $('[name="unique_id"]').val(),
+                unique_id : $('[name="unique_id[]"]').val(),
                 user_name : $('[name="user_name"]').val(),
                 gender : $('[name="gender"]').val(),
                 start_age : $('[name="start_age"]').val(),

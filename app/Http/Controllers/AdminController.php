@@ -6,6 +6,7 @@ use App\AutoMessage;
 use App\Character;
 use App\Http\Controllers\Controller;
 use App\LoginLog;
+use App\Mail;
 use App\PointList;
 use App\Question;
 use App\Region;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use function Psy\debug;
 
-class AdminController extends Controller{
+class AdminController extends Controller
+{
     /**
      * Create a new controller instance.
      *
@@ -33,24 +35,24 @@ class AdminController extends Controller{
         return view('admin.auth.login');
     }
 
-    public function searchMembers(){
+    public function searchMembers()
+    {
         $members_origin = User::where('role', 'user');
         $members = $members_origin->paginate(20);
-        foreach ($members as $member){
-            $birth = $member -> birth;
+        foreach ($members as $member) {
+            $birth = $member->birth;
             $birthYear = date('Y', strtotime($birth));
             $cur_year = date("Y");
-            if($member->gender == 0){
+            if ($member->gender == 0) {
                 $member->gender = '男性';
-            }
-            else{
+            } else {
                 $member->gender = '女性';
             }
 
             $member->age = $cur_year - $birthYear;
             $login = LoginLog::where('user_id', $member->id)->orderBy('id', 'desc')->get()->first();
-            if(isset($login))
-                $member -> last_login = $login -> created_at;
+            if (isset($login))
+                $member->last_login = $login->created_at;
             else
                 $member->last_login = '';
         }
@@ -61,8 +63,8 @@ class AdminController extends Controller{
         ];
         $search_param = [];
         $search_param['unique_id'] = '';
-        $search_param['name'] ='';
-        $search_param['gender'] ='';
+        $search_param['name'] = '';
+        $search_param['gender'] = '';
         $search_param['start_age'] = '';
         $search_param['end_age'] = '';
         $search_param['start_count'] = '';
@@ -83,7 +85,8 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function searchMembersPost(Request $request){
+    public function searchMembersPost(Request $request)
+    {
         $search_param = [];
         $search_param['unique_id'] = $request->input('unique_id');
         $search_param['name'] = $request->input('name');
@@ -101,28 +104,28 @@ class AdminController extends Controller{
         $search_param['start_last_login_day'] = $request->input('start_last_login_day');
         $search_param['end_last_login_day'] = $request->input('end_last_login_day');
 
-        $members_origin = User::where('role', 'user')->where('unique_id', 'like', '%'.$search_param['unique_id'].'%')->where('name', 'like', '%'.$search_param['name'].'%');
+        $members_origin = User::where('role', 'user')->where('unique_id', 'like', '%' . $search_param['unique_id'] . '%')->where('name', 'like', '%' . $search_param['name'] . '%');
         $members = $members_origin->paginate(20);
-        foreach ($members as $index => $member){
-            $birth = $member -> birth;
+        foreach ($members as $index => $member) {
+            $birth = $member->birth;
             $birthYear = date('Y', strtotime($birth));
             $cur_year = date("Y");
             $age = $cur_year - $birthYear;
 
-            if(isset($search_param['gender'])){
-                if($member->gender != $search_param['gender']){
+            if (isset($search_param['gender'])) {
+                if ($member->gender != $search_param['gender']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['start_age'])){
-                if($age < $search_param['start_age']){
+            if (!empty($search_param['start_age'])) {
+                if ($age < $search_param['start_age']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_age'])){
-                if($age > $search_param['end_age']){
+            if (!empty($search_param['end_age'])) {
+                if ($age > $search_param['end_age']) {
                     unset($members[$index]);
                     continue;
                 }
@@ -132,94 +135,94 @@ class AdminController extends Controller{
             $cnt = $buy_point->count();
 
 
-            if(!empty($search_param['start_count'])){
-                if($cnt < $search_param['start_count']){
+            if (!empty($search_param['start_count'])) {
+                if ($cnt < $search_param['start_count']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_count'])){
-                if($cnt > $search_param['end_count']){
+            if (!empty($search_param['end_count'])) {
+                if ($cnt > $search_param['end_count']) {
                     unset($members[$index]);
                     continue;
                 }
             }
 
             $amount = 0;
-            foreach ($buy_point as $buy){
-                $amount += $buy -> price;
+            foreach ($buy_point as $buy) {
+                $amount += $buy->price;
             }
 
-            if(!empty($search_param['start_money'])){
-                if($amount < $search_param['start_money']){
+            if (!empty($search_param['start_money'])) {
+                if ($amount < $search_param['start_money']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_money'])){
-                if($amount > $search_param['end_money']){
+            if (!empty($search_param['end_money'])) {
+                if ($amount > $search_param['end_money']) {
                     unset($members[$index]);
                     continue;
                 }
             }
 
-            if(!empty($search_param['start_last_money_day'])||!empty($search_param['end_last_money_day'])){
+            if (!empty($search_param['start_last_money_day']) || !empty($search_param['end_last_money_day'])) {
                 $last_buy = PointList::where('user_id', $member->id)->orderBy('date', 'desc')->get()->first();
 
-                if(!empty($search_param['start_last_money_day'])){
-                    if(!isset($last_buy)){
+                if (!empty($search_param['start_last_money_day'])) {
+                    if (!isset($last_buy)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d', strtotime($last_buy->date)) < date('Y-m-d', strtotime($search_param['start_last_money_day']))){
+                    if (date('Y-m-d', strtotime($last_buy->date)) < date('Y-m-d', strtotime($search_param['start_last_money_day']))) {
                         unset($members[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_last_money_day'])){
-                    if(!isset($last_buy)){
+                if (!empty($search_param['end_last_money_day'])) {
+                    if (!isset($last_buy)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d', strtotime($last_buy->date)) > date('Y-m-d', strtotime($search_param['end_last_money_day']))){
+                    if (date('Y-m-d', strtotime($last_buy->date)) > date('Y-m-d', strtotime($search_param['end_last_money_day']))) {
                         unset($members[$index]);
                         continue;
                     }
                 }
             }
 
-            if(!empty($search_param['start_point'])){
-                if($member->point < $search_param['start_point']){
+            if (!empty($search_param['start_point'])) {
+                if ($member->point < $search_param['start_point']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_point'])){
-                if($member->point > $search_param['end_point']){
+            if (!empty($search_param['end_point'])) {
+                if ($member->point > $search_param['end_point']) {
                     unset($members[$index]);
                     continue;
                 }
             }
 
-            if(!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])){
+            if (!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])) {
                 $last_login = LoginLog::where('user_id', $member->id)->orderBy('created_at', 'desc')->get()->first();
 
-                if(!empty($search_param['start_last_login_day'])){
-                    if(!isset($last_login)){
+                if (!empty($search_param['start_last_login_day'])) {
+                    if (!isset($last_login)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d', strtotime($last_login->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))){
+                    if (date('Y-m-d', strtotime($last_login->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))) {
                         unset($members[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_last_login_day'])){
-                    if(!isset($last_login)){
+                if (!empty($search_param['end_last_login_day'])) {
+                    if (!isset($last_login)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d',strtotime($last_login->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))){
+                    if (date('Y-m-d', strtotime($last_login->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))) {
                         unset($members[$index]);
                         continue;
                     }
@@ -227,16 +230,15 @@ class AdminController extends Controller{
             }
 
             $member->age = $age;
-            if($member->gender == 0){
+            if ($member->gender == 0) {
                 $member->gender = '男性';
-            }
-            else{
+            } else {
                 $member->gender = '女性';
             }
 
             $login = LoginLog::where('user_id', $member->id)->orderBy('id', 'desc')->get()->first();
-            if(isset($login))
-                $member -> last_login = $login -> created_at;
+            if (isset($login))
+                $member->last_login = $login->created_at;
             else
                 $member->last_login = '';
         }
@@ -253,36 +255,35 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function memberDetail($member_id){
+    public function memberDetail($member_id)
+    {
         $member = User::where('id', $member_id)->get()->first();
         $login = LoginLog::where('user_id', $member_id)->orderBy('id', 'desc')->get()->first();
         $regions = Region::all();
-        if(isset($login)){
+        if (isset($login)) {
             $member->last_login = $login->created_at;
-        }
-        else{
+        } else {
             $member->last_login = '';
         }
         $pay_cnt = PointList::where('user_id', $member_id)->get()->count();
         $member->pay_cnt = $pay_cnt;
-        if($pay_cnt != 0){
+        if ($pay_cnt != 0) {
             $member_pay = PointList::where('user_id', $member_id)->select(DB::raw('sum(price) as price, sum(point) as point, user_id'))->groupBy('user_id')->get()->toArray();
 //            print_r($member_pay);
 //            die();
             $member->pay = $member_pay[0]['price'];
 
-        }
-        else{
+        } else {
             $member->pay = 0;
         }
 
-        $birth = $member -> birth;
+        $birth = $member->birth;
         $birthYear = date('Y', strtotime($birth));
         $cur_year = date("Y");
         $member->age = $cur_year - $birthYear;
         $questions = Question::leftjoin('characters', 'characters.id', 'questions.character_id')->where('user_id', $member_id)->orderBy('receive_date', 'desc')->paginate(10);
-        foreach ($questions as $question){
-            $birth = $question -> birth;
+        foreach ($questions as $question) {
+            $birth = $question->birth;
             $birthYear = date('Y', strtotime($birth));
             $cur_year = date("Y");
             $question->age = $cur_year - $birthYear;
@@ -300,33 +301,25 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function memberPoint(Request $request){
+    public function memberPoint(Request $request)
+    {
         date_default_timezone_set('Asia/Tokyo');
         $member_id = $request->member_id;
-//        $data = [
-//            'user_id'=>$member_id,
-//            'point'=> $request->point,
-//            'price'=>$request->price,
-//            'pay_type'=>'direct_pay',
-//            'date'=>date('Y-m-d H:i:s'),
-//            'month' => date('Y-m'),
-//            'day' => date('Y-m-d'),
-//            'hour' => date('Y-m-d H')
-//        ];
-//        PointList::create($data);
         $point = User::where('id', $member_id)->get()->first()->point;
         $point = $point + $request->point;
         User::where('id', $member_id)->update(['point' => $point]);
         return $this->memberDetail($member_id);
     }
 
-    public function characterRegister(){
+    public function characterRegister()
+    {
         return view('admin.character-register', [
             'tab' => 'character-register'
         ]);
     }
 
-    public function autoMessage(){
+    public function autoMessage()
+    {
         $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
         $auto_message = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->select(DB::raw('auto_messages.*, characters.name'))->where('type', '0')->orderBy('send_time', 'desc')->paginate(10);
         $result = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->where('type', '0')->orderBy('send_time', 'desc')->get()->count();
@@ -334,14 +327,17 @@ class AdminController extends Controller{
             'result' => $result,
             'per_page' => 10,
         ];
+        $users = User::where('role', 'user')->orderBy('id')->get();
         return view('admin.auto-message', compact('pagination_params'), [
             'tab' => 'auto-message',
             'characters' => $characters,
             'messages' => $auto_message,
+            'users' => $users
         ]);
     }
 
-    public function autoModify(Request $request){
+    public function autoModify(Request $request)
+    {
         $question_id = $request->question_id;
         $content = $request->q_content;
         AutoMessage::where('id', $question_id)->update(['content' => $content]);
@@ -350,39 +346,77 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function autoMessagePost1()
+    public function autoMessagePost(Request $request)
     {
         date_default_timezone_set('Asia/Tokyo');
-        $now = time();
-        $ten_minutes = $now - 60;
-        $date = date('Y-m-d H:i', $ten_minutes);
-        $messages = AutoMessage::where('send_time', 'like', '%'.$now.'%')->where('status', 1)->where('type', 0)->get();
-        foreach ($messages as $message) {
-            AutoMessage::where('id', $message->id)->update(['status' => 0]);
-            $search_param = [];
-            $search_param['unique_id'] = $message->unique_id;
-            $search_param['name'] = $message->user_name;
-            $search_param['gender'] = $message->gender;
-            $search_param['start_age'] = $message->start_age;
-            $search_param['end_age'] = $message->end_age;
-            $search_param['start_count'] = $message->start_count;
-            $search_param['end_count'] = $message->end_count;
-            $search_param['start_money'] = $message->start_price;
-            $search_param['end_money'] = $message->end_price;
-            $search_param['start_last_money_day'] = $message->start_money;
-            $search_param['end_last_money_day'] = $message->end_money;
-            $search_param['start_point'] = $message->start_point;
-            $search_param['end_point'] = $message->end_point;
-            $search_param['start_last_login_day'] = $message->start_login;
-            $search_param['end_last_login_day'] = $message->end_login;
+        $photo = null;
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo->store('question', 'public');
+        }
+        if ($request->type == 0) {
+            $send_time = date('Y-m-d H:i:s');
+            $status = 1;
+        } else {
+            $send_time = date('Y-m-d H:i:s', strtotime($request->send_time));
+            $status = 1;
+        }
 
-            $members_origin = User::where('role', 'user')->where('unique_id', 'like', '%' . $search_param['unique_id'] . '%')->where('name', 'like', '%' . $search_param['name'] . '%');
+        $data = [
+            'type' => $request->type,
+            'send_time' => $send_time,
+            'content' => $request->question_content,
+            'image' => $photo ? asset('storage') . "/" . $photo : null,
+            'character_id' => $request->character_id,
+            'unique_id' => implode(",", $request->unique_id),
+            'gender' => $request->gender,
+            'user_name' => $request->user_name,
+            'start_age' => $request->start_age,
+            'end_age' => $request->end_age,
+            'start_count' => $request->start_count,
+            'end_count' => $request->end_count,
+            'start_point' => $request->start_point,
+            'end_point' => $request->end_point,
+            'start_price' => $request->start_price,
+            'end_price' => $request->end_price,
+            'start_login' => $request->start_login,
+            'end_login' => $request->end_login,
+            'start_money' => $request->start_money,
+            'end_money' => $request->end_money,
+            'status' => $status
+        ];
+        AutoMessage::create($data);
+        if ($request->type == 0) {
+            $search_param = [];
+            $search_param['unique_id'] = $request->input('unique_id');
+            $search_param['name'] = $request->input('user_name');
+            $search_param['gender'] = $request->input('gender');
+            $search_param['start_age'] = $request->input('start_age');
+            $search_param['end_age'] = $request->input('end_age');
+            $search_param['start_count'] = $request->input('start_count');
+            $search_param['end_count'] = $request->input('end_count');
+            $search_param['start_money'] = $request->input('start_price');
+            $search_param['end_money'] = $request->input('end_price');
+            $search_param['start_last_money_day'] = $request->input('start_money');
+            $search_param['end_last_money_day'] = $request->input('end_money');
+            $search_param['start_point'] = $request->input('start_point');
+            $search_param['end_point'] = $request->input('end_point');
+            $search_param['start_last_login_day'] = $request->input('start_login');
+            $search_param['end_last_login_day'] = $request->input('end_login');
+
+            $members_origin = User::where('role', 'user')->where('name', 'like', '%' . $search_param['name'] . '%');
             $members = $members_origin->get();
             foreach ($members as $index => $member) {
                 $birth = $member->birth;
                 $birthYear = date('Y', strtotime($birth));
                 $cur_year = date("Y");
                 $age = $cur_year - $birthYear;
+
+                if(isset($search_param['unique_id'])){
+                    if(!in_array($member->unique_id, $search_param['unique_id'])){
+                        unset($members[$index]);
+                        continue;
+                    }
+                }
 
                 if (isset($search_param['gender'])) {
                     if ($member->gender != $search_param['gender']) {
@@ -405,7 +439,6 @@ class AdminController extends Controller{
 
                 $buy_point = PointList::where('user_id', $member->id)->get();
                 $cnt = $buy_point->count();
-
 
                 if (!empty($search_param['start_count'])) {
                     if ($cnt < $search_param['start_count']) {
@@ -500,221 +533,28 @@ class AdminController extends Controller{
                         }
                     }
                 }
-            }
-            foreach ($members as $member) {
-                $character = Character::where('id', $message->character_id)->get()->first();
-                $user = User::where('id', $member->id)->get()->first();
-                Log::warning('Cron sendReceivedMail by immediately: character_name:' . $character->name . ' email:' . $user->email);
-                sendReceivedMail($character->name, $user->email);
-            }
-        }
-        return 0;
-    }
-
-    public function autoMessagePost(Request $request){
-        date_default_timezone_set('Asia/Tokyo');
-        $photo = null;
-        if($request->hasFile('photo')){
-            $photo = $request->photo->store('question','public');
-        }
-        if($request->type == 0){
-            $send_time = date('Y-m-d H:i:s');
-            $status = 1;
-        }
-        else{
-            $send_time = date('Y-m-d H:i:s', strtotime($request->send_time));
-            $status = 1;
-        }
-
-        $data = [
-            'type' => $request->type,
-            'send_time' =>$send_time,
-            'content' => $request->question_content,
-            'image' =>$photo?asset('storage')."/".$photo:null,
-            'character_id' => $request->character_id,
-            'unique_id' => $request->unique_id,
-            'gender' => $request->gender,
-            'user_name' => $request->user_name,
-            'start_age' => $request->start_age,
-            'end_age' => $request->end_age,
-            'start_count' => $request->start_count,
-            'end_count' => $request->end_count,
-            'start_point' => $request->start_point,
-            'end_point' => $request->end_point,
-            'start_price' => $request->start_price,
-            'end_price' => $request->end_price,
-            'start_login' => $request->start_login,
-            'end_login' => $request->end_login,
-            'start_money' => $request->start_money,
-            'end_money' => $request->end_money,
-            'status' => $status
-        ];
-        AutoMessage::create($data);
-        if($request->type == 0){
-            $search_param = [];
-            $search_param['unique_id'] = $request->input('unique_id');
-            $search_param['name'] = $request->input('user_name');
-            $search_param['gender'] = $request->input('gender');
-            $search_param['start_age'] = $request->input('start_age');
-            $search_param['end_age'] = $request->input('end_age');
-            $search_param['start_count'] = $request->input('start_count');
-            $search_param['end_count'] = $request->input('end_count');
-            $search_param['start_money'] = $request->input('start_price');
-            $search_param['end_money'] = $request->input('end_price');
-            $search_param['start_last_money_day'] = $request->input('start_money');
-            $search_param['end_last_money_day'] = $request->input('end_money');
-            $search_param['start_point'] = $request->input('start_point');
-            $search_param['end_point'] = $request->input('end_point');
-            $search_param['start_last_login_day'] = $request->input('start_login');
-            $search_param['end_last_login_day'] = $request->input('end_login');
-
-            $members_origin = User::where('role', 'user')->where('unique_id', 'like', '%'.$search_param['unique_id'].'%')->where('name', 'like', '%'.$search_param['name'].'%');
-            $members = $members_origin->get();
-            foreach ($members as $index => $member){
-                $birth = $member -> birth;
-                $birthYear = date('Y', strtotime($birth));
-                $cur_year = date("Y");
-                $age = $cur_year - $birthYear;
-
-                if(isset($search_param['gender'])){
-                    if($member->gender != $search_param['gender']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-                if(!empty($search_param['start_age'])){
-                    if($age < $search_param['start_age']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-                if(!empty($search_param['end_age'])){
-                    if($age > $search_param['end_age']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-
-                $buy_point = PointList::where('user_id', $member->id)->get();
-                $cnt = $buy_point->count();
-
-
-                if(!empty($search_param['start_count'])){
-                    if($cnt < $search_param['start_count']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-                if(!empty($search_param['end_count'])){
-                    if($cnt > $search_param['end_count']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-
-                $amount = 0;
-                foreach ($buy_point as $buy){
-                    $amount += $buy -> price;
-                }
-
-                if(!empty($search_param['start_money'])){
-                    if($amount < $search_param['start_money']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-                if(!empty($search_param['end_money'])){
-                    if($amount > $search_param['end_money']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-
-                if(!empty($search_param['start_last_money_day'])||!empty($search_param['end_last_money_day'])){
-                    $last_buy = PointList::where('user_id', $member->id)->orderBy('date', 'desc')->get()->first();
-
-                    if(!empty($search_param['start_last_money_day'])){
-                        if(!isset($last_buy)){
-                            unset($members[$index]);
-                            continue;
-                        }
-                        if(date('Y-m-d', strtotime($last_buy->date)) < date('Y-m-d', strtotime($search_param['start_last_money_day']))){
-                            unset($members[$index]);
-                            continue;
-                        }
-                    }
-                    if(!empty($search_param['end_last_money_day'])){
-                        if(!isset($last_buy)){
-                            unset($members[$index]);
-                            continue;
-                        }
-                        if(date('Y-m-d', strtotime($last_buy->date)) > date('Y-m-d', strtotime($search_param['end_last_money_day']))){
-                            unset($members[$index]);
-                            continue;
-                        }
-                    }
-                }
-
-                if(!empty($search_param['start_point'])){
-                    if($member->point < $search_param['start_point']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-                if(!empty($search_param['end_point'])){
-                    if($member->point > $search_param['end_point']){
-                        unset($members[$index]);
-                        continue;
-                    }
-                }
-
-                if(!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])){
-                    $last_login = LoginLog::where('user_id', $member->id)->orderBy('created_at', 'desc')->get()->first();
-
-                    if(!empty($search_param['start_last_login_day'])){
-                        if(!isset($last_login)){
-                            unset($members[$index]);
-                            continue;
-                        }
-                        if(date('Y-m-d', strtotime($last_login->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))){
-                            unset($members[$index]);
-                            continue;
-                        }
-                    }
-                    if(!empty($search_param['end_last_login_day'])){
-                        if(!isset($last_login)){
-                            unset($members[$index]);
-                            continue;
-                        }
-                        if(date('Y-m-d',strtotime($last_login->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))){
-                            unset($members[$index]);
-                            continue;
-                        }
-                    }
-                }
 
                 $member->age = $age;
-                if($member->gender == 0){
+                if ($member->gender == 0) {
                     $member->gender = '男性';
-                }
-                else{
+                } else {
                     $member->gender = '女性';
                 }
 
                 $login = LoginLog::where('user_id', $member->id)->orderBy('id', 'desc')->get()->first();
-                if(isset($login))
-                    $member -> last_login = $login -> created_at;
+                if (isset($login))
+                    $member->last_login = $login->created_at;
                 else
                     $member->last_login = '';
             }
 
-            foreach ($members as $member){
+            foreach ($members as $member) {
                 $message_text = $request->question_content;
                 $import = User::where('id', $member->id)->get()->first();
 
                 $message_arr_tmp = explode('%', $message_text);
                 $message_arr = $message_arr_tmp;
-                foreach ($message_arr as $index => $str){
+                foreach ($message_arr as $index => $str) {
 
                     if ($str == "username") {
                         $message_arr[$index] = $import['name'];
@@ -731,16 +571,15 @@ class AdminController extends Controller{
                         $message_arr[$index] = $cur_year - $birthYear;
                     }
                     if ($str == 'userbirth') {
-                        $message_arr[$index] = date('Y年m月d日', strtotime($import['birth']));
+                        $message_arr[$index] = date('m月d日', strtotime($import['birth']));
                     }
                     if ($str == 'userpref') {
                         $message_arr[$index] = $import['region'];
                     }
                     if ($str == 'usersex') {
-                        if($import['gender'] == 0){
+                        if ($import['gender'] == 0) {
                             $message_arr[$index] = '男性';
-                        }
-                        else{
+                        } else {
                             $message_arr[$index] = '女性';
                         }
                         //$message_arr[$index] = $import['gender'];
@@ -748,7 +587,7 @@ class AdminController extends Controller{
                 }
 
                 $content = '';
-                foreach ($message_arr as $str){
+                foreach ($message_arr as $str) {
                     $content = $content . $str;
                 }
                 $data = [
@@ -756,22 +595,26 @@ class AdminController extends Controller{
                     'user_id' => $member->id,
                     'content' => $content,
                     'type' => 'character_sent',
-                    'receive_date'=>date('Y-m-d H:i:s'),
-                    'image_url'=>$photo?asset('storage')."/".$photo:null
+                    'receive_date' => date('Y-m-d H:i:s'),
+                    'image_url' => $photo ? asset('storage') . "/" . $photo : null
                 ];
 
-                Question::create($data);
-//                $character = Character::where('id', $request->character_id)->get()->first();
-//                $user = User::where('id', $member->id)->get()->first();
-//                Log::warning('sendReceivedMail: character_name:' . $character->name . ' email:' . $user->email);
-//                sendReceivedMail($character->name, $user->email);
+                $sub_content = mb_substr($content, 0, 20);;
+                $q_id = Question::create($data)->id;
+                $mail_data = [
+                    'question_id' => $q_id,
+                    'user_id' => $member->id,
+                    'content' => $sub_content,
+                    'send_time' => date('Y-m-d H:i:s'),
+                ];
+                Mail::create($mail_data);
             }
         }
-
         return $this->autoMessage();
     }
 
-    public function selectUsers(Request $request){
+    public function selectUsers(Request $request)
+    {
         $search_param = [];
         $search_param['unique_id'] = $request->input('unique_id');
         $search_param['name'] = $request->input('user_name');
@@ -789,28 +632,34 @@ class AdminController extends Controller{
         $search_param['start_last_login_day'] = $request->input('start_login');
         $search_param['end_last_login_day'] = $request->input('end_login');
 
-        $members_origin = User::where('role', 'user')->where('unique_id', 'like', '%'.$search_param['unique_id'].'%')->where('name', 'like', '%'.$search_param['name'].'%');
+        $members_origin = User::where('role', 'user')->where('name', 'like', '%' . $search_param['name'] . '%');
         $members = $members_origin->paginate(20);
-        foreach ($members as $index => $member){
-            $birth = $member -> birth;
+        foreach ($members as $index => $member) {
+            $birth = $member->birth;
             $birthYear = date('Y', strtotime($birth));
             $cur_year = date("Y");
             $age = $cur_year - $birthYear;
+            if(isset($search_param['unique_id'])){
+                if(!in_array($member->unique_id, $search_param['unique_id'])){
+                    unset($members[$index]);
+                    continue;
+                }
+            }
 
-            if(isset($search_param['gender'])){
-                if($member->gender != $search_param['gender']){
+            if (isset($search_param['gender'])) {
+                if ($member->gender != $search_param['gender']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['start_age'])){
-                if($age < $search_param['start_age']){
+            if (!empty($search_param['start_age'])) {
+                if ($age < $search_param['start_age']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_age'])){
-                if($age > $search_param['end_age']){
+            if (!empty($search_param['end_age'])) {
+                if ($age > $search_param['end_age']) {
                     unset($members[$index]);
                     continue;
                 }
@@ -820,94 +669,94 @@ class AdminController extends Controller{
             $cnt = $buy_point->count();
 
 
-            if(!empty($search_param['start_count'])){
-                if($cnt < $search_param['start_count']){
+            if (!empty($search_param['start_count'])) {
+                if ($cnt < $search_param['start_count']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_count'])){
-                if($cnt > $search_param['end_count']){
+            if (!empty($search_param['end_count'])) {
+                if ($cnt > $search_param['end_count']) {
                     unset($members[$index]);
                     continue;
                 }
             }
 
             $amount = 0;
-            foreach ($buy_point as $buy){
-                $amount += $buy -> price;
+            foreach ($buy_point as $buy) {
+                $amount += $buy->price;
             }
 
-            if(!empty($search_param['start_money'])){
-                if($amount < $search_param['start_money']){
+            if (!empty($search_param['start_money'])) {
+                if ($amount < $search_param['start_money']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_money'])){
-                if($amount > $search_param['end_money']){
+            if (!empty($search_param['end_money'])) {
+                if ($amount > $search_param['end_money']) {
                     unset($members[$index]);
                     continue;
                 }
             }
 
-            if(!empty($search_param['start_last_money_day'])||!empty($search_param['end_last_money_day'])){
+            if (!empty($search_param['start_last_money_day']) || !empty($search_param['end_last_money_day'])) {
                 $last_buy = PointList::where('user_id', $member->id)->orderBy('date', 'desc')->get()->first();
 
-                if(!empty($search_param['start_last_money_day'])){
-                    if(!isset($last_buy)){
+                if (!empty($search_param['start_last_money_day'])) {
+                    if (!isset($last_buy)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d', strtotime($last_buy->date)) < date('Y-m-d', strtotime($search_param['start_last_money_day']))){
+                    if (date('Y-m-d', strtotime($last_buy->date)) < date('Y-m-d', strtotime($search_param['start_last_money_day']))) {
                         unset($members[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_last_money_day'])){
-                    if(!isset($last_buy)){
+                if (!empty($search_param['end_last_money_day'])) {
+                    if (!isset($last_buy)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d', strtotime($last_buy->date)) > date('Y-m-d', strtotime($search_param['end_last_money_day']))){
+                    if (date('Y-m-d', strtotime($last_buy->date)) > date('Y-m-d', strtotime($search_param['end_last_money_day']))) {
                         unset($members[$index]);
                         continue;
                     }
                 }
             }
 
-            if(!empty($search_param['start_point'])){
-                if($member->point < $search_param['start_point']){
+            if (!empty($search_param['start_point'])) {
+                if ($member->point < $search_param['start_point']) {
                     unset($members[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_point'])){
-                if($member->point > $search_param['end_point']){
+            if (!empty($search_param['end_point'])) {
+                if ($member->point > $search_param['end_point']) {
                     unset($members[$index]);
                     continue;
                 }
             }
 
-            if(!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])){
+            if (!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])) {
                 $last_login = LoginLog::where('user_id', $member->id)->orderBy('created_at', 'desc')->get()->first();
 
-                if(!empty($search_param['start_last_login_day'])){
-                    if(!isset($last_login)){
+                if (!empty($search_param['start_last_login_day'])) {
+                    if (!isset($last_login)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d', strtotime($last_login->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))){
+                    if (date('Y-m-d', strtotime($last_login->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))) {
                         unset($members[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_last_login_day'])){
-                    if(!isset($last_login)){
+                if (!empty($search_param['end_last_login_day'])) {
+                    if (!isset($last_login)) {
                         unset($members[$index]);
                         continue;
                     }
-                    if(date('Y-m-d',strtotime($last_login->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))){
+                    if (date('Y-m-d', strtotime($last_login->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))) {
                         unset($members[$index]);
                         continue;
                     }
@@ -915,16 +764,15 @@ class AdminController extends Controller{
             }
 
             $member->age = $age;
-            if($member->gender == 0){
+            if ($member->gender == 0) {
                 $member->gender = '男性';
-            }
-            else{
+            } else {
                 $member->gender = '女性';
             }
 
             $login = LoginLog::where('user_id', $member->id)->orderBy('id', 'desc')->get()->first();
-            if(isset($login))
-                $member -> last_login = $login -> created_at;
+            if (isset($login))
+                $member->last_login = $login->created_at;
             else
                 $member->last_login = '';
         }
@@ -940,7 +788,8 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function autoMessageList(){
+    public function autoMessageList()
+    {
         $auto_message = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->select(DB::raw('auto_messages.*, characters.name'))->where('type', '1')->orderBy('send_time', 'desc')->paginate(10);
         $result = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->where('type', '1')->orderBy('send_time', 'desc')->get()->count();
         $pagination_params = [
@@ -953,12 +802,14 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function autoDelete($auto_id){
+    public function autoDelete($auto_id)
+    {
         AutoMessage::where('id', $auto_id)->delete();
         return $this->autoMessageList();
     }
 
-    public function memberDelete(Request $request){
+    public function memberDelete(Request $request)
+    {
         $member_id = $request->user_id;
         User::where('id', $member_id)->delete();
         Question::where('user_id', $member_id)->delete();
@@ -968,7 +819,21 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function characterDelete(Request $request){
+    public function memberMultiDelete(Request $request)
+    {
+        $members = $request->user_id;
+        foreach ($members as $member_id){
+            User::where('id', $member_id)->delete();
+            Question::where('user_id', $member_id)->delete();
+            LoginLog::where('user_id', $member_id)->delete();
+        }
+        return response()->json([
+            'status' => true
+        ]);
+    }
+
+    public function characterDelete(Request $request)
+    {
         $member_id = $request->character_id;
         Character::where('id', $member_id)->delete();
         Question::where('character_id', $member_id)->delete();
@@ -978,21 +843,22 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function characterRegisterPost(Request $request){
+    public function characterRegisterPost(Request $request)
+    {
         $photo = null;
-        if($request->hasFile('photo')){
-            $photo = $request->photo->store('question','public');
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo->store('question', 'public');
         }
 
         $data = [
-            'unique_id'=>rand(1000000,9999999),
-            'name'=>$request->name,
-            'description'=>$request->description,
+            'unique_id' => rand(1000000, 9999999),
+            'name' => $request->name,
+            'description' => $request->description,
             'gender' => $request->gender,
             'birth' => date('Y-m-d', strtotime($request->birthday)),
-            'ranking'=>1,
-            'decreasing_point'=>$request->decreasing_point,
-            'image'=>$photo?asset('storage')."/".$photo:null
+            'ranking' => 1,
+            'decreasing_point' => $request->decreasing_point,
+            'image' => $photo ? asset('storage') . "/" . $photo : null
         ];
         Character::create($data);
         return view('admin.character-register', [
@@ -1000,28 +866,28 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function modifyCharacter(Request $request){
+    public function modifyCharacter(Request $request)
+    {
         $photo = null;
-        if($request->hasFile('photo')){
-            $photo = $request->photo->store('question','public');
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo->store('question', 'public');
         }
-        if($photo == null){
+        if ($photo == null) {
             $data = [
                 'name' => $request->name,
-                'description'=>$request->message,
+                'description' => $request->message,
                 'gender' => $request->gender,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
-                'decreasing_point'=>$request->decreasing_point,
+                'decreasing_point' => $request->decreasing_point,
             ];
-        }
-        else{
+        } else {
             $data = [
                 'name' => $request->name,
-                'description'=>$request->message,
+                'description' => $request->message,
                 'gender' => $request->gender,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
-                'decreasing_point'=>$request->decreasing_point,
-                'image'=>$photo?asset('storage')."/".$photo:null
+                'decreasing_point' => $request->decreasing_point,
+                'image' => $photo ? asset('storage') . "/" . $photo : null
             ];
         }
 
@@ -1032,26 +898,26 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function modifyUser(Request $request){
+    public function modifyUser(Request $request)
+    {
         $photo = null;
-        if($request->hasFile('photo')){
-            $photo = $request->photo->store('question','public');
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo->store('question', 'public');
         }
-        if($photo == null){
+        if ($photo == null) {
             $data = [
                 'name' => $request->name,
                 'gender' => $request->gender,
                 'region' => $request->region,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
             ];
-        }
-        else{
+        } else {
             $data = [
                 'name' => $request->name,
                 'gender' => $request->gender,
                 'region' => $request->region,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
-                'image'=>$photo?asset('storage')."/".$photo:null
+                'image' => $photo ? asset('storage') . "/" . $photo : null
             ];
         }
 
@@ -1062,17 +928,17 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function searchCharacters(){
+    public function searchCharacters()
+    {
         $characters_origin = Character::orderBy('id', 'asc');
         $characters = $characters_origin->paginate(20);
-        foreach ($characters as $character){
-            $birth = $character -> birth;
+        foreach ($characters as $character) {
+            $birth = $character->birth;
             $birthYear = date('Y', strtotime($birth));
             $cur_year = date("Y");
-            if($character->gender == 0){
+            if ($character->gender == 0) {
                 $character->gender = '男性';
-            }
-            else{
+            } else {
                 $character->gender = '女性';
             }
 
@@ -1090,8 +956,8 @@ class AdminController extends Controller{
         ];
         $search_param = [];
         $search_param['unique_id'] = '';
-        $search_param['name'] ='';
-        $search_param['gender'] ='';
+        $search_param['name'] = '';
+        $search_param['gender'] = '';
         $search_param['start_age'] = '';
         $search_param['end_age'] = '';
         $search_param['start_reply_count'] = '';
@@ -1109,7 +975,8 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function searchCharactersPost(Request $request){
+    public function searchCharactersPost(Request $request)
+    {
         $search_param = [];
         $search_param['unique_id'] = $request->input('unique_id');
         $search_param['name'] = $request->input('name');
@@ -1124,78 +991,78 @@ class AdminController extends Controller{
         $search_param['start_last_login_day'] = $request->input('start_last_login_day');
         $search_param['end_last_login_day'] = $request->input('end_last_login_day');
 
-        $characters_origin = Character::where('unique_id', 'like', '%'.$search_param['unique_id'].'%')->where('name', 'like', '%'.$search_param['name'].'%')
-            ->where('description', 'like', '%'.$search_param['description'].'%');
+        $characters_origin = Character::where('unique_id', 'like', '%' . $search_param['unique_id'] . '%')->where('name', 'like', '%' . $search_param['name'] . '%')
+            ->where('description', 'like', '%' . $search_param['description'] . '%');
         $characters = $characters_origin->paginate(30);
-        foreach ($characters as $index => $character){
-            $birth = $character -> birth;
+        foreach ($characters as $index => $character) {
+            $birth = $character->birth;
             $birthYear = date('Y', strtotime($birth));
             $cur_year = date("Y");
             $age = $cur_year - $birthYear;
 
-            if(isset($search_param['gender'])){
-                if($character->gender != $search_param['gender']){
+            if (isset($search_param['gender'])) {
+                if ($character->gender != $search_param['gender']) {
                     unset($characters[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['start_age'])){
-                if($age < $search_param['start_age']){
+            if (!empty($search_param['start_age'])) {
+                if ($age < $search_param['start_age']) {
                     unset($characters[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['end_age'])){
-                if($age > $search_param['end_age']){
+            if (!empty($search_param['end_age'])) {
+                if ($age > $search_param['end_age']) {
                     unset($characters[$index]);
                     continue;
                 }
             }
-            if(!empty($search_param['start_reply_count']) || !empty($search_param['end_reply_count'])){
+            if (!empty($search_param['start_reply_count']) || !empty($search_param['end_reply_count'])) {
                 $cnt = Question::where('character_id', $character->id)->where('type', 'character_sent')->get()->count();
-                if(!empty($search_param['start_reply_count'])){
-                    if($cnt < $search_param['start_reply_count']){
+                if (!empty($search_param['start_reply_count'])) {
+                    if ($cnt < $search_param['start_reply_count']) {
                         unset($characters[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_reply_count'])){
-                    if($cnt > $search_param['end_reply_count']){
+                if (!empty($search_param['end_reply_count'])) {
+                    if ($cnt > $search_param['end_reply_count']) {
                         unset($characters[$index]);
                         continue;
                     }
                 }
             }
-            if(!empty($search_param['start_no_reply']) || !empty($search_param['end_no_reply'])){
+            if (!empty($search_param['start_no_reply']) || !empty($search_param['end_no_reply'])) {
                 $cnt_reply = Question::where('character_id', $character->id)->where('type', 'character_sent')->get()->count();
                 $cnt_receive = Question::where('character_id', $character->id)->where('type', 'user_sent')->get()->count();
                 $cnt = $cnt_receive - $cnt_reply;
-                if(!empty($search_param['start_no_reply'])){
-                    if($cnt < $search_param['start_no_reply']){
+                if (!empty($search_param['start_no_reply'])) {
+                    if ($cnt < $search_param['start_no_reply']) {
                         unset($characters[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_no_reply'])){
-                    if($cnt > $search_param['end_no_reply']){
+                if (!empty($search_param['end_no_reply'])) {
+                    if ($cnt > $search_param['end_no_reply']) {
                         unset($characters[$index]);
                         continue;
                     }
                 }
             }
 
-            if(!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])){
+            if (!empty($search_param['start_last_login_day']) || !empty($search_param['end_last_login_day'])) {
 
 
-                if(!empty($search_param['start_last_login_day'])){
+                if (!empty($search_param['start_last_login_day'])) {
 
-                    if(date('Y-m-d', strtotime($character->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))){
+                    if (date('Y-m-d', strtotime($character->created_at)) < date('Y-m-d', strtotime($search_param['start_last_login_day']))) {
                         unset($characters[$index]);
                         continue;
                     }
                 }
-                if(!empty($search_param['end_last_login_day'])){
-                    if(date('Y-m-d',strtotime($character->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))){
+                if (!empty($search_param['end_last_login_day'])) {
+                    if (date('Y-m-d', strtotime($character->created_at)) > date('Y-m-d', strtotime($search_param['end_last_login_day']))) {
                         unset($characters[$index]);
                         continue;
                     }
@@ -1203,10 +1070,9 @@ class AdminController extends Controller{
             }
 
             $character->age = $age;
-            if($character->gender == 0){
+            if ($character->gender == 0) {
                 $character->gender = '男性';
-            }
-            else{
+            } else {
                 $character->gender = '女性';
             }
         }
@@ -1223,7 +1089,8 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function questionModify(Request $request){
+    public function questionModify(Request $request)
+    {
         $question_id = $request->question_id;
         $content = $request->q_content;
         Question::where('id', $question_id)->update(['content' => $content]);
@@ -1233,7 +1100,8 @@ class AdminController extends Controller{
 
     }
 
-    public function saveMemo(Request $request){
+    public function saveMemo(Request $request)
+    {
         $user_id = $request->user_id;
         $memo = $request->memo;
         User::where('id', $user_id)->update(['memo' => $memo]);
@@ -1243,56 +1111,55 @@ class AdminController extends Controller{
 
     }
 
-    public function characterDetail($character_id){
+    public function characterDetail($character_id)
+    {
         $character = Character::where('id', $character_id)->get()->first();
-        $birth = $character -> birth;
+        $birth = $character->birth;
         $birthYear = date('Y', strtotime($birth));
         $cur_year = date("Y");
         $character->age = $cur_year - $birthYear;
         $questions = Question::leftjoin('users', 'users.id', 'questions.user_id')->select(DB::raw('questions.*, users.*, questions.id as question_id'))->where('character_id', $character_id)->orderBy('receive_date', 'desc')->paginate(10);
         $messages = Question::leftjoin('users', 'users.id', 'questions.user_id')->select(DB::raw('questions.*, users.*, questions.id as question_id'))->where('character_id', $character_id)->where('reply', '0')->where('type', 'user_sent')->orderBy('receive_date', 'desc')->paginate(10);
-        foreach($questions as $question){
+        foreach ($questions as $question) {
             $last_login = LoginLog::where('user_id', $question->user_id)->orderBy('id', 'desc')->get()->first();
-            if(isset($last_login))
+            if (isset($last_login))
                 $question->last_login = $last_login->created_at;
             else
                 $question->last_login = '';
             $pay_cnt = PointList::where('user_id', $question->user_id)->get()->count();
             $question->pay_cnt = $pay_cnt;
-            if($pay_cnt != 0){
+            if ($pay_cnt != 0) {
                 $member_pay = PointList::where('user_id', $question->user_id)->select(DB::raw('sum(price) as price, sum(point) as point, user_id'))->groupBy('user_id')->get()->toArray();
 //            print_r($member_pay);
 //            die();
                 $question->pay = $member_pay[0]['price'];
 
-            }
-            else{
+            } else {
                 $question->pay = 0;
             }
 
         }
-        foreach($messages as $question){
+        foreach ($messages as $question) {
             $last_login = LoginLog::where('user_id', $question->user_id)->orderBy('id', 'desc')->get()->first();
-            if(isset($last_login))
+            if (isset($last_login))
                 $question->last_login = $last_login->created_at;
             else
                 $question->last_login = '';
             $pay_cnt = PointList::where('user_id', $question->user_id)->get()->count();
             $question->pay_cnt = $pay_cnt;
-            if($pay_cnt != 0){
+            if ($pay_cnt != 0) {
                 $member_pay = PointList::where('user_id', $question->user_id)->select(DB::raw('sum(price) as price, sum(point) as point, user_id'))->groupBy('user_id')->get()->toArray();
 //            print_r($member_pay);
 //            die();
                 $question->pay = $member_pay[0]['price'];
 
-            }
-            else{
+            } else {
                 $question->pay = 0;
             }
 
         }
         $user_questions = Question::where('character_id', $character_id)->where('type', 'user_sent')->where('status', 'unread')->get();
-        foreach ($user_questions as $user_question){
+        foreach ($user_questions as $user_question) {
             Question::where('id', $user_question->id)->update(['status' => 'read']);
         }
         $users = User::where('role', 'user')->get();
@@ -1310,18 +1177,20 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function characterPoint(Request $request){
+    public function characterPoint(Request $request)
+    {
         $character_id = $request->character_id;
         $decreasing_point = $request->decreasing_point;
         Character::where('id', $character_id)->update(['decreasing_point' => $decreasing_point]);
         return $this->characterDetail($character_id);
     }
 
-    public function userSend(Request $request){
+    public function userSend(Request $request)
+    {
         $photo = null;
         date_default_timezone_set('Asia/Tokyo');
-        if($request->hasFile('photo')){
-            $photo = $request->photo->store('question','public');
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo->store('question', 'public');
         }
         $type = $request->type;
         $message_text = $request->question_content;
@@ -1329,7 +1198,7 @@ class AdminController extends Controller{
 
         $message_arr_tmp = explode('%', $message_text);
         $message_arr = $message_arr_tmp;
-        foreach ($message_arr as $index => $str){
+        foreach ($message_arr as $index => $str) {
 
             if ($str == "username") {
                 $message_arr[$index] = $import['name'];
@@ -1346,16 +1215,15 @@ class AdminController extends Controller{
                 $message_arr[$index] = $cur_year - $birthYear;
             }
             if ($str == 'userbirth') {
-                $message_arr[$index] = date('Y年m月d日', strtotime($import['birth']));
+                $message_arr[$index] = date('m月d日', strtotime($import['birth']));
             }
             if ($str == 'userpref') {
                 $message_arr[$index] = $import['region'];
             }
             if ($str == 'usersex') {
-                if($import['gender'] == 0){
+                if ($import['gender'] == 0) {
                     $message_arr[$index] = '男性';
-                }
-                else{
+                } else {
                     $message_arr[$index] = '女性';
                 }
                 //$message_arr[$index] = $import['gender'];
@@ -1363,60 +1231,67 @@ class AdminController extends Controller{
         }
 
         $content = '';
-        foreach ($message_arr as $str){
+        foreach ($message_arr as $str) {
             $content = $content . $str;
         }
-        if($type == '0'){
+        if ($type == '0') {
             $data = [
-                'user_id'=>$request->user_id,
-                'character_id'=>$request->character_id,
-                'content'=>$content,
-                'type'=>'character_sent',
-                'receive_date'=>date('Y-m-d H:i:s'),
-                'image_url'=>$photo?asset('storage')."/".$photo:null
+                'user_id' => $request->user_id,
+                'character_id' => $request->character_id,
+                'content' => $content,
+                'type' => 'character_sent',
+                'receive_date' => date('Y-m-d H:i:s'),
+                'image_url' => $photo ? asset('storage') . "/" . $photo : null
             ];
-        }
-        else{
+            $q_id = Question::create($data)->id;
+            $mail_data = [
+                'question_id' => $q_id,
+                'user_id' => $request->user_id,
+                'content' => mb_substr($content, 0, 20),
+                'send_time' => date('Y-m-d H:i:s'),
+            ];
+            Mail::create($mail_data);
+        } else {
             $send_time = $request->send_time;
             $data = [
-                'user_id'=>$request->user_id,
-                'character_id'=>$request->character_id,
-                'content'=>$content,
-                'type'=>'character_sent',
-                'receive_date'=>$send_time,
-                'image_url'=>$photo?asset('storage')."/".$photo:null
+                'user_id' => $request->user_id,
+                'character_id' => $request->character_id,
+                'content' => $content,
+                'type' => 'character_sent',
+                'receive_date' => $send_time,
+                'image_url' => $photo ? asset('storage') . "/" . $photo : null
             ];
+            $q_id = Question::create($data)->id;
+            $mail_data = [
+                'question_id' => $q_id,
+                'user_id' => $request->user_id,
+                'content' => mb_substr($content, 0, 20),
+                'send_time' => $send_time,
+            ];
+            Mail::create($mail_data);
         }
 
-        Question::create($data);
         Question::where('id', $request->question_id)->update(['reply' => '1']);
-        if($type == '0') {
-            $character = Character::where('id', $request->character_id)->get()->first();
-            $user = User::where('id', $request->user_id)->get()->first();
-
-            Log::warning('sendReceivedMail: character_name:' . $character->name . ' email:' . $user->email);
-            sendReceivedMail($character->name, $user->email);
-        }
-
         return response()->json([
             'status' => true
         ]);
     }
 
-    public function totalSales(){
+    public function totalSales()
+    {
         $point_lists = PointList::select(DB::raw('sum(price) as price, sum(point) as point, hour'))->groupBy('hour')->orderBy('created_at', 'desc')->paginate(20);
         $result = PointList::select(DB::raw('sum(price) as price, sum(point) as point, hour'))->groupBy('hour')->orderBy('created_at', 'desc')->get()->count();
         $pagination_params = [
             'result' => $result,
             'per_page' => 20,
         ];
-        foreach ($point_lists as $list){
+        foreach ($point_lists as $list) {
             $hour = $list->hour;
 
             $hour_arr = explode(' ', $hour);
             $day_arr = explode('-', $hour_arr[0]);
             $time_arr = explode(':', $hour_arr[1]);
-            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日'. ' ' . $time_arr[0] . '時';
+            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
             $list->hour_str = $hour_str;
         }
         $search_param = [];
@@ -1441,20 +1316,21 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function adTotal(){
+    public function adTotal()
+    {
         $point_lists = PointList::select(DB::raw('sum(price) as price, sum(point) as point, hour'))->groupBy('hour')->orderBy('created_at', 'desc')->paginate(20);
         $result = PointList::select(DB::raw('sum(price) as price, sum(point) as point, hour'))->groupBy('hour')->orderBy('created_at', 'desc')->get()->count();
         $pagination_params = [
             'result' => $result,
             'per_page' => 20,
         ];
-        foreach ($point_lists as $list){
+        foreach ($point_lists as $list) {
             $hour = $list->hour;
 
             $hour_arr = explode(' ', $hour);
             $day_arr = explode('-', $hour_arr[0]);
             $time_arr = explode(':', $hour_arr[1]);
-            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日'. ' ' . $time_arr[0] . '時';
+            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
             $list->hour_str = $hour_str;
         }
         $search_param = [];
@@ -1479,7 +1355,8 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function getTotalSales(Request $request){
+    public function getTotalSales(Request $request)
+    {
         $search_param = [];
         $search_param['start_day'] = $request->start_day;;
         $search_param['start_hour'] = $request->start_hour;;
@@ -1498,28 +1375,25 @@ class AdminController extends Controller{
 
         $point_lists = PointList::orderBy('created_at', 'asc')->get()->toArray();
 
-        if(!isset($search_param['start_day'])){
+        if (!isset($search_param['start_day'])) {
             $start_day = $point_lists[0]['created_at'];
-        }
-        else{
+        } else {
             $start_day = date('Y-m-d H:i:s', strtotime($request->start_day_time));
         }
 
-        if(!isset($search_param['end_day'])){
-            $end_day = $point_lists[count($point_lists)-1]['created_at'];
-        }
-        else{
+        if (!isset($search_param['end_day'])) {
+            $end_day = $point_lists[count($point_lists) - 1]['created_at'];
+        } else {
             $end_day = date('Y-m-d H:i:s', strtotime($request->end_day_time));
         }
 
-        if($search_param['unit'] == 'hour'){
-            if(!isset($search_param['start_register']) && !isset($search_param['end_register'])){
+        if ($search_param['unit'] == 'hour') {
+            if (!isset($search_param['start_register']) && !isset($search_param['end_register'])) {
                 $point_lists = PointList::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->select(DB::raw('sum(price) as price, sum(point) as point, hour'))
                     ->groupBy('hour')->orderBy('created_at', 'desc')->paginate(20);
                 $result = PointList::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->select(DB::raw('sum(price) as price, sum(point) as point, hour'))
                     ->groupBy('hour')->orderBy('created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register']) && isset($search_param['end_register'])){
+            } else if (isset($search_param['start_register']) && isset($search_param['end_register'])) {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
                     ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
@@ -1530,8 +1404,7 @@ class AdminController extends Controller{
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, hour'))
                     ->groupBy('hour')->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register'])){
+            } else if (isset($search_param['start_register'])) {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, hour'))
@@ -1540,8 +1413,7 @@ class AdminController extends Controller{
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, hour'))
                     ->groupBy('hour')->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else{
+            } else {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
                     ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, hour'))
@@ -1556,24 +1428,23 @@ class AdminController extends Controller{
                 'result' => $result,
                 'per_page' => 20,
             ];
-            foreach ($point_lists as $list){
+            foreach ($point_lists as $list) {
                 $hour = $list->hour;
 
                 $hour_arr = explode(' ', $hour);
                 $day_arr = explode('-', $hour_arr[0]);
                 $time_arr = explode(':', $hour_arr[1]);
-                $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日'. ' ' . $time_arr[0] . '時';
+                $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
                 $list->hour_str = $hour_str;
             }
         }
-        if($search_param['unit'] == 'day'){
-            if(!isset($search_param['start_register']) && !isset($search_param['end_register'])){
+        if ($search_param['unit'] == 'day') {
+            if (!isset($search_param['start_register']) && !isset($search_param['end_register'])) {
                 $point_lists = PointList::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->select(DB::raw('sum(price) as price, sum(point) as point, day'))
                     ->groupBy('day')->orderBy('created_at', 'desc')->paginate(20);
                 $result = PointList::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->select(DB::raw('sum(price) as price, sum(point) as point, day'))
                     ->groupBy('day')->orderBy('created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register']) && isset($search_param['end_register'])){
+            } else if (isset($search_param['start_register']) && isset($search_param['end_register'])) {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
                     ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
@@ -1584,8 +1455,7 @@ class AdminController extends Controller{
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, day'))
                     ->groupBy('day')->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register'])){
+            } else if (isset($search_param['start_register'])) {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, day'))
@@ -1594,8 +1464,7 @@ class AdminController extends Controller{
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, day'))
                     ->groupBy('day')->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else{
+            } else {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
                     ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, day'))
@@ -1610,21 +1479,20 @@ class AdminController extends Controller{
                 'result' => $result,
                 'per_page' => 20,
             ];
-            foreach ($point_lists as $list){
+            foreach ($point_lists as $list) {
                 $hour = $list->day;
                 $day_arr = explode('-', $hour);
                 $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日';
                 $list->hour_str = $hour_str;
             }
         }
-        if($search_param['unit'] == 'month'){
-            if(!isset($search_param['start_register']) && !isset($search_param['end_register'])){
+        if ($search_param['unit'] == 'month') {
+            if (!isset($search_param['start_register']) && !isset($search_param['end_register'])) {
                 $point_lists = PointList::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->select(DB::raw('sum(price) as price, sum(point) as point, month'))
                     ->groupBy('month')->orderBy('created_at', 'desc')->paginate(20);
                 $result = PointList::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->select(DB::raw('sum(price) as price, sum(point) as point, month'))
                     ->groupBy('month')->orderBy('created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register']) && isset($search_param['end_register'])){
+            } else if (isset($search_param['start_register']) && isset($search_param['end_register'])) {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
                     ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
@@ -1635,8 +1503,7 @@ class AdminController extends Controller{
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, month'))
                     ->groupBy('month')->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register'])){
+            } else if (isset($search_param['start_register'])) {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, month'))
@@ -1645,8 +1512,7 @@ class AdminController extends Controller{
                     ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, month'))
                     ->groupBy('month')->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else{
+            } else {
                 $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
                     ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
                     ->select(DB::raw('sum(price) as price, sum(point_lists.point) as point, month'))
@@ -1661,50 +1527,45 @@ class AdminController extends Controller{
                 'result' => $result,
                 'per_page' => 20,
             ];
-            foreach ($point_lists as $list){
+            foreach ($point_lists as $list) {
                 $hour = $list->month;
                 $day_arr = explode('-', $hour);
                 $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月';
                 $list->hour_str = $hour_str;
             }
         }
-
         return view('admin.total-sales', compact('pagination_params'), [
             'tab' => 'total-sales',
             'point_lists' => $point_lists,
             'search_param' => $search_param
         ]);
-
     }
 
-    public function payList(){
+    public function payList()
+    {
         $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->orderBy('point_lists.created_at', 'desc')->paginate(20);
         $result = PointList::orderBy('created_at', 'desc')->get()->count();
         $pagination_params = [
             'result' => $result,
             'per_page' => 20,
         ];
-        foreach ($point_lists as $list){
+        foreach ($point_lists as $list) {
             $hour = $list->hour;
-            if($list->gender == 0){
+            if ($list->gender == 0) {
                 $list->gender = '男性';
-            }
-            else{
+            } else {
                 $list->gender = '女性';
             }
 
             $total_price = PointList::where('user_id', $list->user_id)->select(DB::raw('sum(point_lists.price) as price, user_id'))->groupBy('user_id')->get()->toArray();
-
             $total_price = $total_price[0]['price'];
             $total_cnt = PointList::where('user_id', $list->user_id)->get()->count();
-
             $list->total_price = $total_price;
             $list->total_cnt = $total_cnt;
-
             $hour_arr = explode(' ', $hour);
             $day_arr = explode('-', $hour_arr[0]);
             $time_arr = explode(':', $hour_arr[1]);
-            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日'. ' ' . $time_arr[0] . '時';
+            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
             $list->hour_str = $hour_str;
         }
         $search_param = [];
@@ -1729,7 +1590,8 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function getPayList(Request $request){
+    public function getPayList(Request $request)
+    {
         $search_param = [];
         $search_param['start_day'] = $request->start_day;;
         $search_param['start_hour'] = $request->start_hour;;
@@ -1743,96 +1605,81 @@ class AdminController extends Controller{
         $search_param['end_register'] = $request->end_register;;
         $search_param['end_register_hour'] = $request->end_register_hour;;
         $search_param['end_register_min'] = $request->end_register_min;;
-        //$search_param['unit'] = $request->unit;
 
         $point_lists = PointList::orderBy('created_at', 'asc')->get()->toArray();
 
-        if(!isset($search_param['start_day'])){
+        if (!isset($search_param['start_day'])) {
             $start_day = $point_lists[0]['created_at'];
-        }
-        else{
+        } else {
             $start_day = date('Y-m-d H:i:s', strtotime($request->start_day_time));
         }
 
-        if(!isset($search_param['end_day'])){
-            $end_day = $point_lists[count($point_lists)-1]['created_at'];
-        }
-        else{
+        if (!isset($search_param['end_day'])) {
+            $end_day = $point_lists[count($point_lists) - 1]['created_at'];
+        } else {
             $end_day = date('Y-m-d H:i:s', strtotime($request->end_day_time));
         }
 
-//        if($search_param['unit'] == 'hour'){
-            if(!isset($search_param['start_register']) && !isset($search_param['end_register'])){
-                $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->paginate(20);
-                $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register']) && isset($search_param['end_register'])){
-                $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
-                    ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
-                    ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->paginate(20);
-                $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
-                    ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
-                    ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else if(isset($search_param['start_register'])){
-                $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
-                    ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->paginate(20);
-                $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
-                    ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-            else{
-                $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
-                    ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->paginate(20);
-                $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
-                    ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
-                    ->orderBy('point_lists.created_at', 'desc')->get()->count();
-            }
-        foreach ($point_lists as $list){
+        if (!isset($search_param['start_register']) && !isset($search_param['end_register'])) {
+            $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->paginate(20);
+            $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->get()->count();
+        } else if (isset($search_param['start_register']) && isset($search_param['end_register'])) {
+            $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
+                ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
+                ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->paginate(20);
+            $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
+                ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))
+                ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->get()->count();
+        } else if (isset($search_param['start_register'])) {
+            $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
+                ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->paginate(20);
+            $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')->where('email_verified_at', '>=', date('Y-m-d H:i:s', strtotime($request->start_register_time)))
+                ->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->get()->count();
+        } else {
+            $point_lists = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
+                ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->paginate(20);
+            $result = PointList::leftjoin('users', 'users.id', 'point_lists.user_id')
+                ->where('email_verified_at', '<=', date('Y-m-d H:i:s', strtotime($request->end_register_time)))->where('point_lists.created_at', '>=', $start_day)->where('point_lists.created_at', '<=', $end_day)
+                ->orderBy('point_lists.created_at', 'desc')->get()->count();
+        }
+        foreach ($point_lists as $list) {
             $hour = $list->hour;
-            if($list->gender == 0){
+            if ($list->gender == 0) {
                 $list->gender = '男性';
-            }
-            else{
+            } else {
                 $list->gender = '女性';
             }
 
             $total_price = PointList::where('user_id', $list->user_id)->select(DB::raw('sum(point_lists.price) as price, user_id'))->groupBy('user_id')->get()->toArray();
-
             $total_price = $total_price[0]['price'];
             $total_cnt = PointList::where('user_id', $list->user_id)->get()->count();
-
             $list->total_price = $total_price;
             $list->total_cnt = $total_cnt;
-
             $hour_arr = explode(' ', $hour);
             $day_arr = explode('-', $hour_arr[0]);
             $time_arr = explode(':', $hour_arr[1]);
-            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日'. ' ' . $time_arr[0] . '時';
+            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
             $list->hour_str = $hour_str;
         }
-
-            $pagination_params = [
-                'result' => $result,
-                'per_page' => 20,
-            ];
-            foreach ($point_lists as $list){
-                $hour = $list->hour;
-
-                $hour_arr = explode(' ', $hour);
-                $day_arr = explode('-', $hour_arr[0]);
-                $time_arr = explode(':', $hour_arr[1]);
-                $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日'. ' ' . $time_arr[0] . '時';
-                $list->hour_str = $hour_str;
-            }
-
-
+        $pagination_params = [
+            'result' => $result,
+            'per_page' => 20,
+        ];
+        foreach ($point_lists as $list) {
+            $hour = $list->hour;
+            $hour_arr = explode(' ', $hour);
+            $day_arr = explode('-', $hour_arr[0]);
+            $time_arr = explode(':', $hour_arr[1]);
+            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
+            $list->hour_str = $hour_str;
+        }
         return view('admin.pay-list', compact('pagination_params'), [
             'tab' => 'pay-list',
             'point_lists' => $point_lists,
@@ -1841,29 +1688,23 @@ class AdminController extends Controller{
 
     }
 
-    public function csvImport(){
+    public function csvImport()
+    {
         $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
-
         return view('admin.csv-import', [
             'tab' => 'csv-import',
             'characters' => $characters
         ]);
     }
 
-    public function sendCsvImport(Request $request){
+    public function sendCsvImport(Request $request)
+    {
         date_default_timezone_set('Asia/Tokyo');
         $validator = $this->validateUploadFile($request);
 
         if ($validator->fails() === true) {
             $response_array['status'] = 1;
             $response_array['message'] = $validator->errors()->first('csv_file');
-//            print_r($response_array);
-//            die();
-
-//            return view('admin.csv-import', [
-//                'tab' => 'csv-import',
-//                'response' => $response_array
-//            ]);
             $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
 
             return view('admin.csv-import', [
@@ -1899,12 +1740,12 @@ class AdminController extends Controller{
 
         $message_arr_tmp = explode('%', $message_text);
 
-        foreach ($import_users as $import){
+        foreach ($import_users as $import) {
 
             $user = User::where('email', str_replace(' ', '', $import['mail']))->get()->first();
 
             $message_arr = $message_arr_tmp;
-            foreach ($message_arr as $index => $str){
+            foreach ($message_arr as $index => $str) {
 
                 if ($str == "username") {
                     $message_arr[$index] = $import['name'];
@@ -1919,7 +1760,7 @@ class AdminController extends Controller{
                     $message_arr[$index] = $import['age'];
                 }
                 if ($str == 'userbirth') {
-                    $message_arr[$index] = date('Y年m月d日', strtotime($import['birth']));
+                    $message_arr[$index] = date('m月d日', strtotime($import['birth']));
                 }
                 if ($str == 'userpref') {
                     $message_arr[$index] = $import['area'];
@@ -1930,69 +1771,66 @@ class AdminController extends Controller{
             }
 
             $content = '';
-            foreach ($message_arr as $str){
+            foreach ($message_arr as $str) {
                 $content = $content . $str;
             }
-            if(isset($user)){
-
+            if (isset($user)) {
                 $data = [
-                    'user_id'=>$user->id,
-                    'character_id'=>$character_id['id'],
-                    'content'=>$content,
-                    'type'=>'character_sent',
-                    'receive_date'=>date('Y-m-d H:i:s'),
+                    'user_id' => $user->id,
+                    'character_id' => $character_id['id'],
+                    'content' => $content,
+                    'type' => 'character_sent',
+                    'receive_date' => date('Y-m-d H:i:s'),
                 ];
-
-                Question::create($data);
-                $character = Character::where('id', $character_id['id'])->get()->first();
-//                $user = User::where('id', $user->id)->get()->first();
-                //sendReceivedMail($character->name, $user->email);
-                Log::warning('sendReceivedMailCsv: character_name:' . $character->name . ' email:' . $user->email);
-                sendReceivedMailCsv($character->name, $user->email, '938271');
+                $q_id = Question::create($data)->id;
+                $mail_data = [
+                    'question_id' => $q_id,
+                    'user_id' => $user->id,
+                    'content' => mb_substr($content, 0, 20),
+                    'send_time' => date('Y-m-d H:i:s'),
+                ];
+                Mail::create($mail_data);
             }
-            else{
-                if($import['gender'] == '女性'){
-                    $gender = 1;
+            else {
+                if (filter_var($import['mail'], FILTER_VALIDATE_EMAIL)) {
+                    if ($import['gender'] == '女性') {
+                        $gender = 1;
+                    } else {
+                        $gender = 0;
+                    }
+                    $data = [
+                        'name' => $import['name'],
+                        'email' => str_replace(' ', '', $import['mail']),
+                        'password' => Hash::make('938271'),
+                        'unique_id' => rand(1000000, 9999999),
+                        'mobile' => $import['phone'],
+                        'role' => 'user',
+                        'email_verified_at' => date('Y-m-d H:i:s'),
+                        'gender' => $gender,
+                        'marry' => 0,
+                        'birth' => date('Y-m-d', strtotime($import['birth'])),
+                        'region' => $import['area'],
+                    ];
+
+                    $nuser_id = User::create($data)->id;
+//                    $nuser = User::where('email', $import['mail'])->get()->first();
+                    $qdata = [
+                        'user_id' => $nuser_id,
+                        'character_id' => $character_id['id'],
+                        'content' => $content,
+                        'type' => 'character_sent',
+                        'receive_date' => date('Y-m-d H:i:s'),
+                    ];
+                    $q_id = Question::create($qdata)->id;
+                    $mail_data = [
+                        'question_id' => $q_id,
+                        'user_id' => $nuser_id,
+                        'content' => mb_substr($content, 0, 20),
+                        'send_time' => date('Y-m-d H:i:s'),
+                    ];
+                    Mail::create($mail_data);
                 }
-                else{
-                    $gender = 0;
-                }
-                $data = [
-                    'name' =>  $import['name'],
-                    'email' => str_replace(' ', '', $import['mail']),
-                    'password' => Hash::make('938271'),
-                    'unique_id' => rand(1000000,9999999),
-                    'mobile' => $import['phone'],
-                    'role' => 'user',
-                    'email_verified_at' => date('Y-m-d H:i:s'),
-                    'gender' => $gender,
-                    'marry' => 0,
-                    'birth' => date('Y-m-d', strtotime($import['birth'])),
-                    'region' => $import['area'],
-                ];
-
-//                print_r($data);
-//                die();
-
-                User::create($data);
-                $nuser = User::where('email', $import['mail'])->get()->first();
-                $qdata = [
-                    'user_id'=>$nuser->id,
-                    'character_id'=>$character_id['id'],
-                    'content'=>$content,
-                    'type'=>'character_sent',
-                    'receive_date'=>date('Y-m-d H:i:s'),
-                ];
-
-                Question::create($qdata);
-                $character = Character::where('id', $character_id['id'])->get()->first();
-//                $user = User::where('id', $user->id)->get()->first();
-
-                Log::warning('sendReceivedMailCsv: character_name:' . $character->name . ' email:' . $nuser->email);
-                sendReceivedMailCsv($character->name, $nuser->email, '938271');
-
             }
-
         }
         $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
 
@@ -2002,12 +1840,15 @@ class AdminController extends Controller{
         ]);
     }
 
-    public function replyMessage(){
+    public function replyMessage()
+    {
         return view('admin.reply-message', [
             'tab' => 'reply-message',
         ]);
     }
-    public function digUser(){
+
+    public function digUser()
+    {
         $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
 
         return view('admin.dig-user', [
@@ -2015,7 +1856,34 @@ class AdminController extends Controller{
             'characters' => $characters
         ]);
     }
-    public function messageList(Request $request){
+    public function digMessage(Request $request)
+    {
+        $search_param = [];
+        $search_param['character_id'] = $request->character_id;
+        $search_param['name'] = '';
+        $search_param['gender'] = '';
+        $search_param['start_age'] = '';
+        $search_param['end_age'] = '';
+        $search_param['start_count'] = '';
+        $search_param['end_count'] = '';
+        $search_param['start_money'] = '';
+        $search_param['end_money'] = '';
+        $search_param['start_last_money_day'] = '';
+        $search_param['end_last_money_day'] = '';
+        $search_param['start_point'] = '';
+        $search_param['end_point'] = '';
+        $search_param['start_last_login_day'] = '';
+        $search_param['end_last_login_day'] = '';
+
+        $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
+
+        return view('admin.dig-message', [
+            'characters' => $characters
+        ]);
+    }
+
+    public function messageList(Request $request)
+    {
         $character_id = $request->character_id;
         $member_id = $request->member_id;
         $character_name = $request->character_name;
@@ -2026,35 +1894,34 @@ class AdminController extends Controller{
             ->select(DB::raw('users.*, characters.*, characters.unique_id as character_id, users.unique_id as member_id, characters.name as character_name, users.name as member_name,
             characters.image as character_image, users.image as user_image, characters.id as character_index, users.id as user_index,
             characters.birth as character_birth, users.birth as user_birth, questions.*, questions.id as question_id'))
-            ->where('characters.unique_id', 'like', '%'.$character_id.'%')->where('users.unique_id', 'like', '%'.$member_id.'%')
-            ->where('characters.name', 'like', '%'.$character_name.'%')->where('users.name', 'like', '%'.$member_name.'%')->orderBy('receive_date', 'desc');
+            ->where('characters.unique_id', 'like', '%' . $character_id . '%')->where('users.unique_id', 'like', '%' . $member_id . '%')
+            ->where('characters.name', 'like', '%' . $character_name . '%')->where('users.name', 'like', '%' . $member_name . '%')->orderBy('receive_date', 'desc');
 //        print_r($query->get());
 //        die();
 
         $messages = $query->paginate(10);
-        foreach ($messages as $message){
-            $character_birth = $message -> character_birth;
+        foreach ($messages as $message) {
+            $character_birth = $message->character_birth;
             $c_birthYear = date('Y', strtotime($character_birth));
-            $user_birth = $message -> user_birth;
+            $user_birth = $message->user_birth;
             $u_birthYear = date('Y', strtotime($user_birth));
             $cur_year = date("Y");
             $message->c_age = $cur_year - $c_birthYear;
             $message->u_age = $cur_year - $u_birthYear;
 
             $last_login = LoginLog::where('user_id', $message->user_index)->orderBy('id', 'desc')->get()->first();
-            if(isset($last_login))
+            if (isset($last_login))
                 $message->last_login = $last_login->created_at;
             else
                 $message->last_login = '';
             $pay_cnt = PointList::where('user_id', $message->user_index)->get()->count();
             $message->pay_cnt = $pay_cnt;
-            if($pay_cnt != 0){
+            if ($pay_cnt != 0) {
                 $member_pay = PointList::where('user_id', $message->user_index)->select(DB::raw('sum(price) as price, sum(point) as point, user_id'))->groupBy('user_id')->get()->toArray();
 
                 $message->pay = $member_pay[0]['price'];
 
-            }
-            else{
+            } else {
                 $message->pay = 0;
             }
             Question::where('id', $message->question_id)->update(['status' => 'read']);
@@ -2072,7 +1939,8 @@ class AdminController extends Controller{
 
     }
 
-    public function userList(Request $request){
+    public function userList(Request $request)
+    {
 
     }
 

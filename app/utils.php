@@ -23,10 +23,11 @@ function sendBankPort($code, $email){
     );
     Mail::to($email)->send(new \App\Mail\SendBankPort($details));
 }
-function sendReceivedMail($character_name, $email){
+function sendReceivedMail($character_name, $email, $content){
     $details = array(
         'character_name'=> $character_name,
-        'email' => $email
+        'email' => $email,
+        'content' => $content
     );
     Mail::to($email)->send(new \App\Mail\ReceivedMail($details));
 }

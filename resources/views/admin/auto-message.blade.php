@@ -216,8 +216,16 @@
                             <div class="col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">メンバーID</label>
-                                    <input type="number" class="form-control" name="unique_id" placeholder="メンバーID" value="">
+                                    <select name="unique_id[]" class="form-control select2" data-placeholder="メンバーID" multiple>
+                                        @for($i = 0; $i < count($users); $i++)
+                                            <option value="{{$users[$i]['unique_id']}}">{{$users[$i]['unique_id']}}</option>
+                                        @endfor
+                                    </select>
                                 </div>
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label">メンバーID</label>--}}
+{{--                                    <input type="number" class="form-control" name="unique_id" placeholder="メンバーID" value="">--}}
+{{--                                </div>--}}
                                 <div class="form-group">
                                     <label class="form-label">名称</label>
                                     <input type="text" class="form-control" name="user_name" placeholder="名称" value="">
@@ -582,7 +590,7 @@
                 url:url,
                 type:'post',
                 data: {
-                    unique_id : $('[name="unique_id"]').val(),
+                    unique_id : $('[name="unique_id[]"]').val(),
                     user_name : $('[name="user_name"]').val(),
                     gender : $('[name="gender"]').val(),
                     start_age : $('[name="start_age"]').val(),
