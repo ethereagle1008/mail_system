@@ -49,9 +49,22 @@ class SendAutoMessage extends Command
         $now = date('Y-m-d H:i') . ':00';
         $messages = AutoMessage::where('send_time', $now)->where('status', 1)->where('type', 1)->get();
         foreach ($messages as $message){
-            AutoMessage::where('id', $message->id)->update(['status' => 0]);
             $search_param = [];
-            $search_param['unique_id'] = explode(',', $message->unique_id);
+            if(!empty($message->unique_id)){
+                $search_param['unique_id'] = explode(',', $message->unique_id);
+            }
+            else{
+                $search_param['unique_id'] = [];
+            }
+            AutoMessage::where('id', $message->id)->update(['status' => 0]);
+//            $search_param = [];
+//            if(isset($message->unique_id)){
+//                $search_param['unique_id'] = explode(',', $message->unique_id);
+//            }
+//            else{
+//                $search_param['unique_id'] = [];
+//            }
+
             $search_param['name'] = $message->user_name;
             $search_param['gender'] = $message->gender;
             $search_param['start_age'] = $message->start_age;
@@ -74,7 +87,7 @@ class SendAutoMessage extends Command
                 $birthYear = date('Y', strtotime($birth));
                 $cur_year = date("Y");
                 $age = $cur_year - $birthYear;
-                if(isset($search_param['unique_id'])){
+                if(!empty($search_param['unique_id'])){
                     if(!in_array($member->unique_id, $search_param['unique_id'])){
                         unset($members[$index]);
                         continue;
@@ -253,7 +266,7 @@ class SendAutoMessage extends Command
                 $mail_data = [
                     'question_id' => $q_id,
                     'user_id' => $member->id,
-                    'content' => str_split($content, 20)[0],
+                    'content' => mb_substr($content, 0, 20),
                     'send_time' => date('Y-m-d H:i:s'),
                 ];
                 Mail::create($mail_data);

@@ -43,7 +43,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <form action="{{url('/manage/auto-message')}}" id="auto" method="post" class="card" enctype="multipart/form-data">
+                <form action="{{url('/manage/auto-message')}}" id="auto" method="post" class="card" enctype="multipart/form-data" onsubmit="return loadPage();">
                     @csrf
                     <div class="card-header">
                         <h3 class="card-title">送信内容と方式</h3>
@@ -449,7 +449,7 @@
                     </div>
                     <div class="card-footer text-right">
                         <div class="d-flex">
-                            <button type="submit" class="btn btn-primary ml-auto">メッセージを送信する</button>
+                            <button type="submit" class="btn btn-primary ml-auto" id="submit">メッセージを送信する</button>
                         </div>
                     </div>
                 </form>
@@ -514,6 +514,11 @@
 @endsection
 @section('page-js')
     <script type="text/javascript">
+        function loadPage(){
+            $('#submit')[0].disabled = true;
+            //$("#global-loader").fadeIn("slow");
+            return true;
+        }
         $('.preview').hide();
         var home_path = $("#home_path").val();
         $('#btn_name').click(function () {

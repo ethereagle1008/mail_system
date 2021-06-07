@@ -1,6 +1,12 @@
 @extends('admin.layout.base')
 
 @section('page-css')
+    <style>
+        #example_filter{
+            display: none;
+        }
+    </style>
+
 
 @endsection
 
@@ -71,13 +77,13 @@
                                     <label class="form-label">課金回数</label>
                                     <div class="row gutters-xs">
                                         <div class="col-4">
-                                            <input type="text" id="start_money" class="form-control" name="start_money" placeholder="" value="">
+                                            <input type="number" min="0" id="start_money" class="form-control" name="start_money" placeholder="" value="">
                                         </div>
                                         <div class="col-1">
                                             <label for="start_money" class="form-label mt-2">回~</label>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" id="end_money" class="form-control" name="end_money" placeholder="" value="">
+                                            <input type="number" min="0" id="end_money" class="form-control" name="end_money" placeholder="" value="">
                                         </div>
                                         <div class="col-1">
                                             <label for="end_money" class="form-label mt-2">回</label>
@@ -125,13 +131,13 @@
                                     <label class="form-label">所持ポイント</label>
                                     <div class="row gutters-xs">
                                         <div class="col-4">
-                                            <input type="text" id="start_point" class="form-control" name="start_point" placeholder="" value="">
+                                            <input type="number" type="text" id="start_point" class="form-control" name="start_point" placeholder="" value="">
                                         </div>
                                         <div class="col-1">
                                             <label for="start_point" class="form-label mt-2">Pt~</label>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" id="end_point" class="form-control" name="end_point" placeholder="" value="">
+                                            <input type="number" type="text" id="end_point" class="form-control" name="end_point" placeholder="" value="">
                                         </div>
                                         <div class="col-1">
                                             <label for="end_point" class="form-label mt-2">Pt</label>
@@ -181,13 +187,13 @@
                                     </label>
                                     <div class="row gutters-xs">
                                         <div class="col-4">
-                                            <input type="text" id="start_count" class="form-control" name="start_count" placeholder="" value="">
+                                            <input type="number" min="0" id="start_count" class="form-control" name="start_count" placeholder="" value="">
                                         </div>
                                         <div class="col-1">
                                             <label for="start_count" class="form-label mt-2">回~</label>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" id="end_count" class="form-control" name="end_count" placeholder="" value="">
+                                            <input type="number" min="0" id="end_count" class="form-control" name="end_count" placeholder="" value="">
                                         </div>
                                         <div class="col-1">
                                             <label for="end_count" class="form-label mt-2">回</label>
@@ -202,19 +208,19 @@
                                     <div class="row custom-controls-stacked">
                                         <div class="col-3">
                                             <label class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="unit" value="none">
+                                                <input type="radio" class="custom-control-input" name="reply" value="" checked>
                                                 <span class="custom-control-label">指定しない</span>
                                             </label>
                                         </div>
                                         <div class="col-3">
                                             <label class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="unit" value="no">
+                                                <input type="radio" class="custom-control-input" name="reply" value="0">
                                                 <span class="custom-control-label">未返信</span>
                                             </label>
                                         </div>
                                         <div class="col-3">
                                             <label class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="unit" value="reply">
+                                                <input type="radio" class="custom-control-input" name="reply" value="1">
                                                 <span class="custom-control-label">返信済み</span>
                                             </label>
                                         </div>
@@ -226,7 +232,7 @@
                             <div class="col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" id="agree" class="custom-control-input" />
+                                        <input type="checkbox" id="agree" class="custom-control-input" name="repeat"/>
                                         <span class="custom-control-label">ユーザー重複をしない</span>
                                     </label>
                                 </div>
@@ -244,7 +250,10 @@
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12">
-                <div class="card">
+                <div class="card" >
+                    <div class="card-body" id="table_container">
+
+                    </div>
 
                     <!-- table-responsive -->
                 </div>
@@ -258,16 +267,29 @@
     <script src="{{ asset('plugins/notify/js/jquery.growl.js') }}"></script>
     <script type="text/javascript">
 
-        $('#submit').click(function () {
+        var home_path = $("#home_path").val();
+        $('#submit').click(function (e) {
+            e.preventDefault();
             getMessageList();
         });
 
         function getMessageList() {
             var token = $("meta[name='_csrf']").attr("content");
-            var form = $('form')[0];
-            // You need to use standard javascript object here
-            var formData = new FormData(form);
-            //var formData = new FormData();
+            var formData = new FormData();
+
+            formData.append('character_id', $('[name=character_id]').val())
+            formData.append('reply', $('[name=reply]').val())
+            formData.append('repeat', $('[name=repeat]')[0].checked)
+            formData.append('start_count', $('[name=start_count]').val())
+            formData.append('end_count', $('[name=end_count]').val())
+            formData.append('start_money', $('[name=start_money]').val())
+            formData.append('end_money', $('[name=end_money]').val())
+            formData.append('start_last_character_send_day', $('[name=start_last_character_send_day]').val())
+            formData.append('end_last_character_send_day', $('[name=end_last_character_send_day]').val())
+            formData.append('start_point', $('[name=start_point]').val())
+            formData.append('end_point', $('[name=end_point]').val())
+            formData.append('end_last_character_send_day', $('[name=end_last_character_send_day]').val())
+            formData.append('end_last_user_send_day', $('[name=end_last_user_send_day]').val())
 
             $.ajaxSetup({
                 headers: {
@@ -284,6 +306,7 @@
                 contentType: false,
                 success: function (response) {
                     $('#table_container').html(response);
+                    $('#example').DataTable();
                 },
                 error: function () {
                     $.growl.warning({

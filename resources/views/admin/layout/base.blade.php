@@ -72,10 +72,15 @@
     <script src="{{ asset('js/vendors/selectize.min.js') }}"></script>
     <script src="{{ asset('js/vendors/jquery.tablesorter.min.js') }}"></script>
     <script src="{{ asset('js/vendors/circle-progress.min.js') }}"></script>
-    <script src="{{ asset('js/vendors/jquery.rating-stars.js') }}"></script>
+
 
     <!-- Fullside-menu Js-->
     <script src="{{ asset('plugins/toggle-sidebar/js/sidemenu.js') }}"></script>
+
+    <!-- Data tables -->
+    <script src="{{ asset('plugins/datatable/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatable/dataTables.bootstrap4.min.js') }}"></script>
+
     <!--Select2 js -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
 
