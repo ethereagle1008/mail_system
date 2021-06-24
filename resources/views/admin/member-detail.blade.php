@@ -227,7 +227,7 @@
                                                    </p>
                                                </div>
                                                <div class="row d-flex my-1">
-                                                   <p class="text-center">{{$member->name}}({{$member == '0' ? '男性' : '女性'}})</p>
+                                                   <p class="text-center">{{$member->name}}({{$member->gender == '0' ? '男性' : '女性'}})</p>
                                                </div>
                                                <div class="row d-flex my-1">
                                                    <p class="text-center">{{$member->age}}({{$member->birth}})</p>

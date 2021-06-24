@@ -11,6 +11,7 @@
 @endsection
 
 @section('content')
+    <input type="hidden" value="{{json_encode($characters)}}" id="characters">
     <div class="side-app">
         <div class="page-header">
             <h4 class="page-title">メンバー掘り起こし</h4>
@@ -70,6 +71,56 @@
 {{--                                    </select>--}}
 {{--                                </div>--}}
 {{--                            </div>--}}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-label">名称</label>
+                                    <input type="text" class="form-control" name="name" placeholder="名称">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">生年月日</label>
+                                    <div class="row gutters-xs">
+                                        <div class="col-12">
+                                            <div class="wd-200 mg-b-30">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                        </div>
+                                                    </div><input id="birthday" class="form-control fc-datepicker" name="birthday" placeholder="MM/DD/YYYY" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">削減ポイント</label>
+                                    <input type="number" class="form-control" name="decreasing_point" placeholder="削減ポイント">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">プロファイル画像</label>
+                                    {{--                                    <div class="preview" style="margin: 20px;">--}}
+                                    {{--                                        <img id="photo-preview" src="" alt="no_img" style=" width: 100px">--}}
+                                    {{--                                    </div>--}}
+                                    <div class="d-flex" id="profile_img" style="width: 100px;">
+                                        <img class="" src="{{asset('img/org.jpg')}}" name="image">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group" style="width: 50% !important;">
+                                    <label class="form-label">性別</label>
+                                    <select name="gender" class="form-control custom-select">
+                                        <option value="0">男性</option>
+                                        <option value="1">女性</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">メッセージ</label>
+                                    <textarea class="form-control" name="description" rows="12" placeholder=""></textarea>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
@@ -201,32 +252,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-label">キャラからの返信
-                                    </label>
-                                    <div class="row custom-controls-stacked">
-                                        <div class="col-3">
-                                            <label class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="reply" value="" checked>
-                                                <span class="custom-control-label">指定しない</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-3">
-                                            <label class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="reply" value="0">
-                                                <span class="custom-control-label">未返信</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-3">
-                                            <label class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="reply" value="1">
-                                                <span class="custom-control-label">返信済み</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="col-md-6 col-lg-6">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label">キャラからの返信--}}
+{{--                                    </label>--}}
+{{--                                    <div class="row custom-controls-stacked">--}}
+{{--                                        <div class="col-3">--}}
+{{--                                            <label class="custom-control custom-radio">--}}
+{{--                                                <input type="radio" class="custom-control-input" name="reply" value="" checked>--}}
+{{--                                                <span class="custom-control-label">指定しない</span>--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-3">--}}
+{{--                                            <label class="custom-control custom-radio">--}}
+{{--                                                <input type="radio" class="custom-control-input" name="reply" value="0">--}}
+{{--                                                <span class="custom-control-label">未返信</span>--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-3">--}}
+{{--                                            <label class="custom-control custom-radio">--}}
+{{--                                                <input type="radio" class="custom-control-input" name="reply" value="1">--}}
+{{--                                                <span class="custom-control-label">返信済み</span>--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
@@ -265,9 +316,12 @@
 @section('page-js')
     <link href="{{ asset('plugins/notify/css/jquery.growl.css') }}" rel="stylesheet">
     <script src="{{ asset('plugins/notify/js/jquery.growl.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.datetimepicker.css')}}">
+    <script type="text/javascript" src="{{asset('/js/jquery.datetimepicker.js')}}"></script>
     <script type="text/javascript">
 
         var home_path = $("#home_path").val();
+        var characters = JSON.parse($('#characters').val());
         $('#submit').click(function (e) {
             e.preventDefault();
             getMessageList();
@@ -304,9 +358,40 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                beforeSend: function(){
+                    $("#global-loader").fadeIn("slow")
+                },
+                complete: function(){
+                    $("#global-loader").fadeOut("slow")
+                },
                 success: function (response) {
                     $('#table_container').html(response);
-                    $('#example').DataTable();
+                    $('#example').DataTable({
+                        "language": {
+                            "decimal":        "",
+                            "emptyTable":     "表で使用できるデータがありません。",
+                            "info":           "_TOTAL_つのエントリのうち_START_~_END_を表示する",
+                            "infoEmpty":      "エントリ数0~0の0を表示",
+                            "infoFiltered":   "(filtered from _MAX_ total entries)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "表示 _MENU_ ",
+                            "loadingRecords": "ロード...",
+                            "processing":     "処理...",
+                            "search":         "検索:",
+                            "zeroRecords":    "一致するレコードが見つかりません。",
+                            "paginate": {
+                                "first":      "最初",
+                                "last":       "最終",
+                                "next":       "次へ",
+                                "previous":   "前へ"
+                            },
+                            "aria": {
+                                "sortAscending":  ": 列を昇順にソートするためにアクティブにする",
+                                "sortDescending": ": カラムを降順にソートするためにアクティブにする"
+                            }
+                        }
+                    });
                 },
                 error: function () {
                     $.growl.warning({
@@ -318,7 +403,18 @@
                 }
             });
         }
-
+        $('[name="character_id"]').change(function () {
+            for(var i = 0; i < characters.length; i++){
+                if(characters[i]['id'] == $(this).val()){
+                    $('[name=name]').val(characters[i]['name']);
+                    $('[name=gender]').val(characters[i]['gender']);
+                    $('[name=birthday]').val(characters[i]['birth']);
+                    $('[name=decreasing_point]').val(characters[i]['decreasing_point']);
+                    $('[name=description]').val(characters[i]['description']);
+                    $('[name=image]')[0].src = characters[i]['image'];
+                }
+            }
+        })
     </script>
 
 @endsection

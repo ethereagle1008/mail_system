@@ -486,7 +486,6 @@ class ComposerStaticInit3c94229eca671dff0ef697ae68937bed
 
     public static $classMap = array (
         'App\\AdAccessTime' => __DIR__ . '/../..' . '/app/AdAccessTime.php',
-        'App\\AdAceessTime' => __DIR__ . '/../..' . '/app/AdAceessTime.php',
         'App\\AdRegisterTime' => __DIR__ . '/../..' . '/app/AdRegisterTime.php',
         'App\\AutoMessage' => __DIR__ . '/../..' . '/app/AutoMessage.php',
         'App\\Character' => __DIR__ . '/../..' . '/app/Character.php',
@@ -514,6 +513,7 @@ class ComposerStaticInit3c94229eca671dff0ef697ae68937bed
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Middleware\\checkAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/checkAdmin.php',
         'App\\LoginLog' => __DIR__ . '/../..' . '/app/LoginLog.php',
+        'App\\Mail' => __DIR__ . '/../..' . '/app/Mail.php',
         'App\\Mail\\ReceivedMail' => __DIR__ . '/../..' . '/app/Mail/ReceivedMail.php',
         'App\\Mail\\ReceivedMailCsv' => __DIR__ . '/../..' . '/app/Mail/ReceivedMailCsv.php',
         'App\\Mail\\ResetPasswordEmail' => __DIR__ . '/../..' . '/app/Mail/ResetPasswordEmail.php',

@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\AdAccessTime' => $baseDir . '/app/AdAccessTime.php',
-    'App\\AdAceessTime' => $baseDir . '/app/AdAceessTime.php',
     'App\\AdRegisterTime' => $baseDir . '/app/AdRegisterTime.php',
     'App\\AutoMessage' => $baseDir . '/app/AutoMessage.php',
     'App\\Character' => $baseDir . '/app/Character.php',
@@ -35,6 +34,7 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Middleware\\checkAdmin' => $baseDir . '/app/Http/Middleware/checkAdmin.php',
     'App\\LoginLog' => $baseDir . '/app/LoginLog.php',
+    'App\\Mail' => $baseDir . '/app/Mail.php',
     'App\\Mail\\ReceivedMail' => $baseDir . '/app/Mail/ReceivedMail.php',
     'App\\Mail\\ReceivedMailCsv' => $baseDir . '/app/Mail/ReceivedMailCsv.php',
     'App\\Mail\\ResetPasswordEmail' => $baseDir . '/app/Mail/ResetPasswordEmail.php',

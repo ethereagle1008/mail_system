@@ -89,7 +89,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">メッセージ *</label>
+                                    <label class="form-label">メッセージ</label>
                                     <textarea class="form-control" name="description" rows="12" placeholder=""></textarea>
                                 </div>
                             </div>

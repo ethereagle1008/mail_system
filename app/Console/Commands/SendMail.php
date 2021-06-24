@@ -50,13 +50,23 @@ class SendMail extends Command
                 $character = Character::where('id', $q->character_id)->get()->first();
                 $user = User::where('id', $mail->user_id)->get()->first();
                 if(isset($character) && isset($user)){
-                    Log::warning('Cron sendReceivedMail by immediately: character_name:' . $character->name . ' email:' . $user->email . 'content: '. $mail->content);
+                    //Log::warning('Cron sendReceivedMail by immediately: character_name:' . $character->name . ' email:' . $user->email . 'content: '. $mail->content);
                     if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
                         sendReceivedMail($character->name, $user->email, $mail->content);
                         DB::table('mails')
                             ->where('id', $mail->id)
                             ->update(['status' => 'sent']);
                     }
+                    else{
+                        DB::table('mails')
+                            ->where('id', $mail->id)
+                            ->delete();
+                    }
+                }
+                else{
+                    DB::table('mails')
+                        ->where('id', $mail->id)
+                        ->delete();
                 }
             }
         });

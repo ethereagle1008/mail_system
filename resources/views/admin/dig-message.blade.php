@@ -71,8 +71,6 @@
                                         <input type="radio" class="custom-control-input" name="type_{{$message->id}}" value="1">
                                         <span class="custom-control-label">予約</span>
                                         <div class="dIB mt-n2 ml-2" style="margin-top: -8px;">
-                                            <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.datetimepicker.css')}}">
-                                            <script type="text/javascript" src="{{asset('/js/jquery.datetimepicker.js')}}"></script>
                                             <script>
                                                 $(function(){
                                                     $('input[name="send_time"]').datetimepicker({
@@ -131,7 +129,7 @@
                     <div class="row my-3">
                         <div class="col-12">
                             <div class="preview" style="margin: 20px;">
-                                <img class="photo-preview" src="" alt="no_img" style=" width: 100px">
+                                <img class="photo-preview" src="" alt="no_img" style="width: 100px">
                                 <button class="btn btn-sm btn-danger" onclick="deleteImg()">削除</button>
                             </div>
                             <input type="hidden" name="character_id" value="{{$message->character_id}}">

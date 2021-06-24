@@ -37,51 +37,49 @@ class AdminController extends Controller
 
     public function searchMembers()
     {
-        $members_origin = User::where('role', 'user');
-        $members = $members_origin->paginate(20);
-        foreach ($members as $member) {
-            $birth = $member->birth;
-            $birthYear = date('Y', strtotime($birth));
-            $cur_year = date("Y");
-            if ($member->gender == 0) {
-                $member->gender = '男性';
-            } else {
-                $member->gender = '女性';
-            }
+//        $members_origin = User::where('role', 'user');
+//        $members = $members_origin;
+//        foreach ($members as $member) {
+//            $birth = $member->birth;
+//            $birthYear = date('Y', strtotime($birth));
+//            $cur_year = date("Y");
+//            if ($member->gender == 0) {
+//                $member->gender = '男性';
+//            } else {
+//                $member->gender = '女性';
+//            }
+//
+//            $member->age = $cur_year - $birthYear;
+//            $login = LoginLog::where('user_id', $member->id)->orderBy('id', 'desc')->get()->first();
+//            if (isset($login))
+//                $member->last_login = $login->created_at;
+//            else
+//                $member->last_login = '';
+//        }
+//        $result = $members_origin->get()->count();
+//        $pagination_params = [
+//            'result' => $result,
+//            'per_page' => 20,
+//        ];
+//        $search_param = [];
+//        $search_param['unique_id'] = '';
+//        $search_param['name'] = '';
+//        $search_param['gender'] = '';
+//        $search_param['start_age'] = '';
+//        $search_param['end_age'] = '';
+//        $search_param['start_count'] = '';
+//        $search_param['end_count'] = '';
+//        $search_param['start_money'] = '';
+//        $search_param['end_money'] = '';
+//        $search_param['start_last_money_day'] = '';
+//        $search_param['end_last_money_day'] = '';
+//        $search_param['start_point'] = '';
+//        $search_param['end_point'] = '';
+//        $search_param['start_last_login_day'] = '';
+//        $search_param['end_last_login_day'] = '';
 
-            $member->age = $cur_year - $birthYear;
-            $login = LoginLog::where('user_id', $member->id)->orderBy('id', 'desc')->get()->first();
-            if (isset($login))
-                $member->last_login = $login->created_at;
-            else
-                $member->last_login = '';
-        }
-        $result = $members_origin->get()->count();
-        $pagination_params = [
-            'result' => $result,
-            'per_page' => 20,
-        ];
-        $search_param = [];
-        $search_param['unique_id'] = '';
-        $search_param['name'] = '';
-        $search_param['gender'] = '';
-        $search_param['start_age'] = '';
-        $search_param['end_age'] = '';
-        $search_param['start_count'] = '';
-        $search_param['end_count'] = '';
-        $search_param['start_money'] = '';
-        $search_param['end_money'] = '';
-        $search_param['start_last_money_day'] = '';
-        $search_param['end_last_money_day'] = '';
-        $search_param['start_point'] = '';
-        $search_param['end_point'] = '';
-        $search_param['start_last_login_day'] = '';
-        $search_param['end_last_login_day'] = '';
-
-        return view('admin.search-members', compact('pagination_params'), [
+        return view('admin.search-members', [
             'tab' => 'search-members',
-            'members' => $members,
-            'search_param' => $search_param
         ]);
     }
 
@@ -105,7 +103,7 @@ class AdminController extends Controller
         $search_param['end_last_login_day'] = $request->input('end_last_login_day');
 
         $members_origin = User::where('role', 'user')->where('unique_id', 'like', '%' . $search_param['unique_id'] . '%')->where('name', 'like', '%' . $search_param['name'] . '%');
-        $members = $members_origin->paginate(20);
+        $members = $members_origin->get();
         foreach ($members as $index => $member) {
             $birth = $member->birth;
             $birthYear = date('Y', strtotime($birth));
@@ -242,16 +240,15 @@ class AdminController extends Controller
             else
                 $member->last_login = '';
         }
-        $result = $members_origin->get()->count();
-        $pagination_params = [
-            'result' => $result,
-            'per_page' => 20,
-        ];
+        //$result = $members_origin->get()->count();
+//        $pagination_params = [
+//            'result' => $result,
+//            'per_page' => 20,
+//        ];
 
-        return view('admin.search-members', compact('pagination_params'), [
+        return view('admin.user-list', [
             'tab' => 'search-members',
             'members' => $members,
-            'search_param' => $search_param
         ]);
     }
 
@@ -391,7 +388,7 @@ class AdminController extends Controller
             'end_money' => $request->end_money,
             'status' => $status
         ];
-        Log::info('AutoMessage Create: ' . date('Y-m-d H:i:s') .'/n content: '. $request->question_content);
+        Log::info('AutoMessage Create: ' . date('Y-m-d H:i:s') .'/n send time: '. $send_time);
         AutoMessage::create($data);
         if ($request->type == 0) {
             $search_param = [];
@@ -1165,7 +1162,6 @@ class AdminController extends Controller
             } else {
                 $question->pay = 0;
             }
-
         }
         $user_questions = Question::where('character_id', $character_id)->where('type', 'user_sent')->where('status', 'unread')->get();
         foreach ($user_questions as $user_question) {
@@ -1296,7 +1292,6 @@ class AdminController extends Controller
         ];
         foreach ($point_lists as $list) {
             $hour = $list->hour;
-
             $hour_arr = explode(' ', $hour);
             $day_arr = explode('-', $hour_arr[0]);
             $time_arr = explode(':', $hour_arr[1]);
@@ -1868,15 +1863,9 @@ class AdminController extends Controller
     public function digMessage(Request $request)
     {
         $start_money = $request->start_money;
-        if(isset($start_money)){
-            if($start_money != 0){
-
-            }
-        }
         $end_money = $request->end_money;
-
         $character_id = $request->character_id;
-        $reply = $request->reply;
+        //$reply = $request->reply;
         $repeat = $request->repeat;
         $start_count = $request->start_count;
         if(!isset($start_count)){
@@ -1927,9 +1916,10 @@ class AdminController extends Controller
         //for money credit apply
         //LEFT JOIN (SELECT COUNT(id) as cnt_money, user_id FROM point_lists GROUP BY user_id) as D ON D.user_id = B.id
         //IFNULL(E.cnt_count,0) as cnt_count
+
         if(isset($character_id)){
-            if(isset($reply)){
-                if($repeat){
+
+                if($repeat == 'true'){
                     $questions = DB::select("SELECT
                             A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
                             B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
@@ -1940,7 +1930,7 @@ class AdminController extends Controller
                         LEFT JOIN	users as B ON A.user_id = B.id
                         LEFT JOIN characters as C ON A.character_id = C.id
                         LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND character_id = $character_id AND reply = $reply AND cnt_count >= $start_count AND cnt_count <= $end_count
+                        WHERE type = 'character_sent' AND character_id = $character_id AND cnt_count >= $start_count AND cnt_count <= $end_count
                         AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
                         AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
                         AND point >= $start_point AND point <= $end_point
@@ -1959,57 +1949,17 @@ class AdminController extends Controller
                         LEFT JOIN	users as B ON A.user_id = B.id
                         LEFT JOIN characters as C ON A.character_id = C.id
                         LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND character_id = $character_id AND reply = $reply AND cnt_count >= $start_count AND cnt_count <= $end_count
+                        WHERE type = 'character_sent' AND character_id = $character_id AND cnt_count >= $start_count AND cnt_count <= $end_count
                         AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
                         AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
                         AND point >= $start_point AND point <= $end_point
                         ORDER BY A.id DESC
                     ");
                 }
-            }
-            else{
-                if($repeat){
-                    $questions = DB::select("SELECT
-                            A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
-                            B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
-                            C.name as character_name, C.gender as character_gender, C.image as character_image, C.description,
-                            IFNULL(E.cnt_count,0) as cnt_count
-                        FROM
-                            questions as A
-                        LEFT JOIN	users as B ON A.user_id = B.id
-                        LEFT JOIN characters as C ON A.character_id = C.id
-                        LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND character_id = $character_id AND cnt_count >= $start_count AND cnt_count <= $end_count
-                        AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
-                        AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
-                        AND point >= $start_point AND point <= $end_point
-                        GROUP BY user_id
-                        ORDER BY A.id DESC
-                    ");
-                }
-                else{
-                    $questions = DB::select("SELECT
-                            A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
-                            B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
-                            C.name as character_name, C.gender as character_gender, C.image as character_image, C.description,
-                            IFNULL(E.cnt_count,0) as cnt_count
-                        FROM
-                            questions as A
-                        LEFT JOIN	users as B ON A.user_id = B.id
-                        LEFT JOIN characters as C ON A.character_id = C.id
-                        LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND character_id = $character_id AND cnt_count >= $start_count AND cnt_count <= $end_count
-                        AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
-                        AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
-                        AND point >= $start_point AND point <= $end_point
-                        ORDER BY A.id DESC
-                    ");
-                }
-            }
+
         }
         else{
-            if(isset($reply)){
-                if($repeat){
+                if($repeat == 'true'){
                     $questions = DB::select("SELECT
                             A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
                             B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
@@ -2020,7 +1970,7 @@ class AdminController extends Controller
                         LEFT JOIN	users as B ON A.user_id = B.id
                         LEFT JOIN characters as C ON A.character_id = C.id
                         LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND reply = $reply AND cnt_count >= $start_count AND cnt_count <= $end_count
+                        WHERE type = 'character_sent' AND cnt_count >= $start_count AND cnt_count <= $end_count
                         AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
                         AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
                         AND point >= $start_point AND point <= $end_point
@@ -2039,53 +1989,33 @@ class AdminController extends Controller
                         LEFT JOIN	users as B ON A.user_id = B.id
                         LEFT JOIN characters as C ON A.character_id = C.id
                         LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND reply = $reply AND cnt_count >= $start_count AND cnt_count <= $end_count
+                        WHERE type = 'character_sent' AND cnt_count >= $start_count AND cnt_count <= $end_count
                         AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
                         AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
                         AND point >= $start_point AND point <= $end_point
                         ORDER BY A.id DESC
                     ");
+
+//                    $query = "SELECT
+//                            A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
+//                            B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
+//                            C.name as character_name, C.gender as character_gender, C.image as character_image, C.description,
+//                            IFNULL(E.cnt_count,0) as cnt_count
+//                        FROM
+//                            questions as A
+//                        LEFT JOIN	users as B ON A.user_id = B.id
+//                        LEFT JOIN characters as C ON A.character_id = C.id
+//                        LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
+//                        WHERE type = 'character_sent' AND cnt_count >= $start_count AND cnt_count <= $end_count
+//                        AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
+//                        AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
+//                        AND point >= $start_point AND point <= $end_point
+//                        ORDER BY A.id DESC
+//                    ";
+//                    print_r($query);
+//                    die();
+
                 }
-            }
-            else{
-                if($repeat){
-                    $questions = DB::select("SELECT
-                            A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
-                            B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
-                            C.name as character_name, C.gender as character_gender, C.image as character_image, C.description,
-                            IFNULL(E.cnt_count,0) as cnt_count
-                        FROM
-                            questions as A
-                        LEFT JOIN	users as B ON A.user_id = B.id
-                        LEFT JOIN characters as C ON A.character_id = C.id
-                        LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND cnt_count >= $start_count AND cnt_count <= $end_count
-                        AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
-                        AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
-                        AND point >= $start_point AND point <= $end_point
-                        GROUP BY user_id
-                        ORDER BY A.id DESC
-                    ");
-                }
-                else{
-                    $questions = DB::select("SELECT
-                            A.id, A.character_id, A.user_id, A.reply, A.content, A.type, A.status, A.receive_date, A.image_url,
-                            B.name as user_name, B.birth as user_birth, B.gender as user_gender, B.image as user_image, B.memo as user_memo, B.point, B.region, YEAR(CURRENT_DATE) - YEAR(B.birth) AS age,
-                            C.name as character_name, C.gender as character_gender, C.image as character_image, C.description,
-                            IFNULL(E.cnt_count,0) as cnt_count
-                        FROM
-                            questions as A
-                        LEFT JOIN	users as B ON A.user_id = B.id
-                        LEFT JOIN characters as C ON A.character_id = C.id
-                        LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM questions WHERE type = 'character_sent' AND reply = 0 GROUP BY user_id) as E ON A.user_id = E.user_id
-                        WHERE type = 'user_sent' AND cnt_count >= $start_count AND cnt_count <= $end_count
-                        AND receive_date >= '$start_last_character_send_day' AND receive_date <= '$end_last_character_send_day'
-                        AND receive_date >= '$start_last_user_send_day' AND receive_date <= '$end_last_user_send_day'
-                        AND point >= $start_point AND point <= $end_point
-                        ORDER BY A.id DESC
-                    ");
-                }
-            }
         }
 
 //        $questions = DB::select("SELECT
@@ -2106,6 +2036,8 @@ class AdminController extends Controller
             'questions' => $questions
         ]);
     }
+
+
 
     public function messageList(Request $request)
     {
