@@ -113,6 +113,19 @@
                                                 </div>
                                                 <div class="row my-3">
                                                     <div class="col-6 d-flex align-content-center">
+                                                        <p class="text-center m-auto">キャラボックス</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <select name="box_id" class="form-control custom-select">
+                                                            <option></option>
+                                                            @foreach($boxes as $box)
+                                                                <option value="{{$box->id}}" {{$box->id == $character->box_id ? 'selected' : ''}}>{{$box->box_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-3">
+                                                    <div class="col-6 d-flex align-content-center">
                                                         <p class="text-center m-auto">性別</p>
                                                     </div>
                                                     <div class="col-6">
@@ -670,7 +683,9 @@
         $('#modify_character').click(function () {
             var token = $("meta[name='_csrf']").attr("content");
             var name = $(this).parent().parent().prev().find('input[name=name]').val();
+            var box_id = $(this).parent().parent().prev().find('[name=box_id]').val();
             var gender = $(this).parent().parent().prev().find('[name=gender]').val();
+
             var character_id = $(this).parent().parent().prev().find('input[name=character_id]').val();
             var birthday = $(this).parent().parent().prev().find('input[name=birthday]').val();
             var decreasing_point = $(this).parent().parent().prev().find('input[name=decreasing_point]').val();
@@ -682,6 +697,7 @@
             if(decreasing_point == '') return;
             var formData = new FormData();
             formData.append('name', name);
+            formData.append('box_id', box_id);
             formData.append('gender', gender);
             formData.append('character_id', character_id);
             formData.append('birthday', birthday);

@@ -28,6 +28,15 @@
                                     <input type="text" class="form-control" name="name" placeholder="名称" required>
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label">キャラボックス</label>
+                                    <select name="box_id" class="form-control custom-select">
+                                        <option selected></option>
+                                        @foreach($boxes as $box)
+                                            <option value="{{$box->id}}">{{$box->box_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">生年月日 *</label>
                                     <div class="row gutters-xs">
                                         <div class="col-12">

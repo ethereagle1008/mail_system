@@ -13,5 +13,6 @@ class Mail extends Model
         'content',
         'send_time',
         'status',
+        'type'
     ];
 }

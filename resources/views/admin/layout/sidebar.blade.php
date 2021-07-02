@@ -34,6 +34,9 @@ if(!empty(session()->get(SESS_ADMIN_UID))){
             <a class="side-menu__item {{$tab == 'search-characters' ? 'active' : ''}}" href="{{url('/manage/search-characters')}}"><i class="side-menu__icon fa fa-list-alt"></i><span class="side-menu__label">キャラ検索</span></a>
         </li>
         <li>
+            <a class="side-menu__item {{$tab == 'character-box' ? 'active' : ''}}" href="{{url('/manage/character-box')}}"><i class="side-menu__icon fa fa-archive"></i><span class="side-menu__label">キャラボックス</span></a>
+        </li>
+        <li>
             <a class="side-menu__item {{$tab == 'total-sales' ? 'active' : ''}}" href="{{url('/manage/total-sales')}}"><i class="side-menu__icon fa fa-jpy"></i><span class="side-menu__label">売上集計</span></a>
         </li>
         <li>

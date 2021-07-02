@@ -33,6 +33,12 @@ Route::group(['middleware'=>'checkAdmin','as' =>'admin.'],function () {
     Route::get('/character-register', 'AdminController@characterRegister');
     Route::post('/character-register', 'AdminController@characterRegisterPost');
 
+    Route::get('/character-box', 'AdminController@characterBox');
+    Route::post('/box_add', 'AdminController@characterBoxAdd');
+    Route::post('/box-delete', 'AdminController@characterBoxDel');
+    Route::get('/box-detail/{box_id}', 'AdminController@characterBoxDetail');
+    Route::post('/box-edit', 'AdminController@characterBoxEdit');
+
     Route::get('/search-characters', 'AdminController@searchCharacters')->name('search-characters');
     Route::post('/search-characters', 'AdminController@searchCharactersPost');
 

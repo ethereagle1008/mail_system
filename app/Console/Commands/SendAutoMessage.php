@@ -267,6 +267,7 @@ class SendAutoMessage extends Command
                     'question_id' => $q_id,
                     'user_id' => $member->id,
                     'content' => mb_substr($content, 0, 20),
+                    'type' => 'auto',
                     'send_time' => date('Y-m-d H:i:s'),
                 ];
                 Mail::create($mail_data);

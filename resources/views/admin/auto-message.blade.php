@@ -28,6 +28,11 @@
         img {
             vertical-align: middle;
         }
+
+         #user-list_filter{
+             display: none;
+         }
+
     </style>
 @endsection
 
@@ -299,7 +304,7 @@
                                 <div class="form-group">
                                     <label class="form-label">最終入金日</label>
                                     <div class="row gutters-xs">
-                                        <div class="col-4">
+                                        <div class="col-4 pl-0">
                                             <div class="dIB mt-n2 ml-2" style="margin-top: -8px;">
                                                 <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.datetimepicker.css')}}">
                                                 <script type="text/javascript" src="{{asset('/js/jquery.datetimepicker.js')}}"></script>
@@ -376,7 +381,7 @@
                                 <div class="form-group">
                                     <label class="form-label">最終ログイン日時</label>
                                     <div class="row gutters-xs">
-                                        <div class="col-4">
+                                        <div class="col-4 pl-0">
                                             <div class="dIB mt-n2 ml-2" style="margin-top: -8px;">
                                                 <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.datetimepicker.css')}}">
                                                 <script type="text/javascript" src="{{asset('/js/jquery.datetimepicker.js')}}"></script>
@@ -422,12 +427,30 @@
                                                         });
                                                     });
                                                 </script>
-                                                <input type="datetime" class="datetimepicker input-sm form-control " name="end_login" value="">
+                                                <input type="datetime" class="datetimepicker input-sm form-control" name="end_login" value="">
                                             </div>
 
                                         </div>
                                         <div class="col-2">
                                             <label for="end_last_login_day" class="form-label mt-2"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">同報件数
+                                    </label>
+                                    <div class="row gutters-xs">
+                                        <div class="col-4">
+                                            <input type="number" min="0" id="start_count" class="form-control" name="start_blue_count" placeholder="" value="">
+                                        </div>
+                                        <div class="col-1">
+                                            <label for="start_count" class="form-label mt-2">回~</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="number" min="0" id="end_count" class="form-control" name="end_blue_count" placeholder="" value="">
+                                        </div>
+                                        <div class="col-1">
+                                            <label for="end_count" class="form-label mt-2">回</label>
                                         </div>
                                     </div>
                                 </div>
@@ -609,13 +632,40 @@
                     start_point : $('[name="start_point"]').val(),
                     end_point : $('[name="end_point"]').val(),
                     start_login : $('[name="start_login"]').val(),
-                    end_login : $('[name="end_login"]').val()
+                    end_login : $('[name="end_login"]').val(),
+                    start_blue : $('[name=start_blue_count]').val(),
+                    end_blue : $('[name=end_blue_count]').val()
+
                 },
                 success: function (response) {
                     $("#select_user").html(response);
-                    $('html, body').animate({
-                        scrollTop: $("#btn_search").offset().top - $("#top_header").height() - 20
+                    $('#user-list').DataTable({
+                        "language": {
+                            "decimal":        "",
+                            "emptyTable":     "表で使用できるデータがありません。",
+                            "info":           "_TOTAL_つのエントリのうち_START_~_END_を表示する",
+                            "infoEmpty":      "エントリ数0~0の0を表示",
+                            "infoFiltered":   "(filtered from _MAX_ total entries)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "表示 _MENU_ ",
+                            "loadingRecords": "ロード...",
+                            "processing":     "処理...",
+                            "search":         "検索:",
+                            "zeroRecords":    "一致するレコードが見つかりません。",
+                            "paginate": {
+                                "first":      "最初",
+                                "last":       "最終",
+                                "next":       "次へ",
+                                "previous":   "前へ"
+                            },
+                            "aria": {
+                                "sortAscending":  ": 列を昇順にソートするためにアクティブにする",
+                                "sortDescending": ": カラムを降順にソートするためにアクティブにする"
+                            }
+                        }
                     });
+
                 },
                 error: function () {
                 }

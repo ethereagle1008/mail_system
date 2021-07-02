@@ -8,6 +8,7 @@ class Character extends Model
 {
     protected $fillable = [
         'unique_id',
+        'box_id',
         'name',
         'gender',
         'birth',
