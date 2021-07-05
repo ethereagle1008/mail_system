@@ -67,7 +67,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <select name="box_id" class="form-control custom-select">
-                                                            <option></option>
+                                                            <option value=""></option>
                                                             @foreach($boxes as $box)
                                                                 <option value="{{$box->id}}" {{$box->id == $member->box_id ? 'selected' : ''}}>{{$box->box_name}}</option>
                                                             @endforeach
@@ -450,7 +450,7 @@
         $('#modify_character').click(function () {
             var token = $("meta[name='_csrf']").attr("content");
             var name = $(this).parent().parent().parent().find('input[name=name]').val();
-            var box_id = $(this).parent().parent().prev().find('[name=box_id]').val();
+            var box_id = $(this).parent().parent().parent().find('[name=box_id]').val();
             var gender = $(this).parent().parent().parent().find('[name=gender]').val();
             var region = $(this).parent().parent().parent().find('[name=region]').val();
             var birthday = $(this).parent().parent().parent().find('input[name=birth]').val();
