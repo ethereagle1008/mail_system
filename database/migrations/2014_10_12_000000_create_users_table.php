@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('verification_code')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->mediumText('memo')->nullable();
+            $table->integer('box_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

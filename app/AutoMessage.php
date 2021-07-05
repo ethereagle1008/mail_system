@@ -13,6 +13,7 @@ class AutoMessage extends Model
         'content',
         'image',
         'character_id',
+        'box',
         'unique_id',
         'gender',
         'user_name',

@@ -217,6 +217,30 @@
                         <h3 class="card-title">送信先条件</h3>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">キャラボックス</label>
+                                    <input type="hidden" name="box_id" id="box_id">
+                                    <div class="form-group">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="box_0" class="custom-control-input" value="none"
+                                                   name="box">
+                                            <span class="custom-control-label">未所属</span>
+                                        </label>
+                                    </div>
+                                    @foreach($boxes as $box)
+                                        <div class="form-group">
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" id="box_{{$box->id}}" class="custom-control-input" value="{{$box->id}}"
+                                                       name="box">
+                                                <span class="custom-control-label">{{$box->box_name}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
                                 <div class="form-group">
@@ -495,7 +519,8 @@
                                 <td>{{$message->send_time}}</td>
                                 <th scope="row"><a href="{{url('/manage/character-detail/'.$message->character_id)}}">{{$message->name}}</a></th>
                                 <td>
-                                    @if(!empty($message->unique_id))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">メンバーID:{{$message->unique_id}}</p>@endif
+                                        @if(!empty($message->box))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">メンバーボックス:{{$message->box}}</p>@endif
+                                        @if(!empty($message->unique_id))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">メンバーID:{{$message->unique_id}}</p>@endif
                                         @if(!empty($message->user_name))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">名称:{{$message->user_name}}</p>@endif
                                         @if(!empty($message->gender))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">性別:{{$message->gender == 0 ? '男性':'女性'}}</p>@endif
                                         @if(!empty($message->start_age) || !empty($message->end_age))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">年齢:{{!empty($message->start_age) ? $message->start_age.'歳': ''}}~{{!empty($message->end_age) ? $message->end_age.'歳': ''}}</p>@endif
@@ -539,6 +564,14 @@
     <script type="text/javascript">
         function loadPage(){
             $('#submit')[0].disabled = true;
+            let box = [];
+            $('[name=box]').each(function (i) {
+                if($(this)[0].checked){
+                    box.push($(this).val());
+                }
+            })
+            $('#box_id').val(box);
+
             //$("#global-loader").fadeIn("slow");
             return true;
         }
@@ -606,7 +639,13 @@
         function getUserList() {
             var token = $("meta[name='_csrf']").attr("content");
             var form = $('#auto')[0]; // You need to use standard javascript object here
-            console.log(form);
+            let box = [];
+            $('[name=box]').each(function (i) {
+                if($(this)[0].checked){
+                    box.push($(this).val());
+                }
+            })
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': token
@@ -618,6 +657,7 @@
                 url:url,
                 type:'post',
                 data: {
+                    box:box,
                     unique_id : $('[name="unique_id[]"]').val(),
                     user_name : $('[name="user_name"]').val(),
                     gender : $('[name="gender"]').val(),

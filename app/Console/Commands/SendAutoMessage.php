@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\AutoMessage;
 use App\Character;
+use App\CharacterBox;
 use App\LoginLog;
 use App\Mail;
 use App\PointList;
@@ -50,6 +51,22 @@ class SendAutoMessage extends Command
         $messages = AutoMessage::where('send_time', $now)->where('status', 1)->where('type', 1)->get();
         foreach ($messages as $message){
             $search_param = [];
+            if(!empty($message->box)){
+                $boxes = explode(',', $message->box);
+                $box = [];
+                for($i = 0, $iMax = count($boxes); $i < $iMax; $i++){
+                    if($boxes[$i] !== '未所属'){
+                        $box[$i] = CharacterBox::where('box_name', $boxes[$i])->get()->first()->id;
+                    }
+                    else{
+                        $box[$i] = 'none';
+                    }
+                }
+                $search_param['box'] = $box;
+            }
+            else{
+                $search_param['box'] = [];
+            }
             if(!empty($message->unique_id)){
                 $search_param['unique_id'] = explode(',', $message->unique_id);
             }
@@ -87,6 +104,22 @@ class SendAutoMessage extends Command
                 $birthYear = date('Y', strtotime($birth));
                 $cur_year = date("Y");
                 $age = $cur_year - $birthYear;
+
+                if(isset($search_param['box'])){
+                    if(isset($member->box_id)){
+                        if(!in_array($member->box_id, $search_param['box'])){
+                            unset($members[$index]);
+                            continue;
+                        }
+                    }
+                    else{
+                        if(!in_array('none', $search_param['box'])){
+                            unset($members[$index]);
+                            continue;
+                        }
+                    }
+                }
+
                 if(!empty($search_param['unique_id'])){
                     if(!in_array($member->unique_id, $search_param['unique_id'])){
                         unset($members[$index]);

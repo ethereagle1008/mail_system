@@ -32,12 +32,22 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">キャラボックス</label>
-                                    <select name="box_id" class="form-control custom-select">
-                                        <option selected></option>
-                                        @foreach($boxes as $box)
-                                            <option value="{{$box->id}}">{{$box->box_name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="form-group">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="box_0" class="custom-control-input"
+                                                   name="box">
+                                            <span class="custom-control-label">未所属</span>
+                                        </label>
+                                    </div>
+                                    @foreach($boxes as $box)
+                                        <div class="form-group">
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" id="box_{{$box->id}}" class="custom-control-input"
+                                                       name="box">
+                                                <span class="custom-control-label">{{$box->box_name}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -345,7 +355,14 @@
         function getMessageList() {
             var token = $("meta[name='_csrf']").attr("content");
             var formData = new FormData();
+            let box = [];
+            $('[name=box]').each(function (i) {
+                if($(this)[0].checked){
+                    box.push($(this).val());
+                }
+            })
 
+            formData.append('box', box);
             formData.append('character_id', $('[name=character_id]').val())
             formData.append('reply', $('[name=reply]').val())
             formData.append('repeat', $('[name=repeat]')[0].checked)

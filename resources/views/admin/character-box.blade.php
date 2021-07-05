@@ -7,17 +7,17 @@
 @section('content')
     <div class="side-app">
         <div class="page-header">
-            <h4 class="page-title">キャラボックス</h4>
+            <h4 class="page-title">メンバーボックス</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">キャラボックス</li>
+                <li class="breadcrumb-item active" aria-current="page">メンバーボックス</li>
             </ol>
         </div>
         <div class="card">
             <div class="row">
                 <div class="col-12">
                     <div class="card-header">
-                        <h3 class="card-title">キャラボックス</h3>
+                        <h3 class="card-title">メンバーボックス</h3>
                     </div>
                     <div class="card-body">
                         <form method="post" action="{{url('/manage/box_add')}}" enctype="multipart/form-data">
@@ -34,7 +34,7 @@
                                 <div class="col-md-8">
                                     <div class="text-right">
                                         <div class="d-flex" style="margin-top: 20px;">
-                                            <button type="submit" class="btn btn-primary ml-auto">キャラボックス追加</button>
+                                            <button type="submit" class="btn btn-primary ml-auto">メンバーボックス追加</button>
                                         </div>
                                     </div>
                                 </div>

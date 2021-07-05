@@ -32,10 +32,10 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">キャラ</label>
-                                    <select name="unique_id[]" class="form-control select2" data-placeholder="キャラID" multiple>
-                                        @foreach($characters as $character)
+                                <div class="col-md-9">
+                                    <label class="form-label">メンバー</label>
+                                    <select name="unique_id[]" class="form-control select2" data-placeholder="メンバーID" multiple>
+                                        @foreach($users as $character)
                                             <option value="{{$character->id}}" {{$character->box == true ? 'selected' : ''}}>{{$character->unique_id}}</option>
                                         @endforeach
                                     </select>
@@ -45,7 +45,7 @@
                                 <div class="col-md-12">
                                     <div class="text-right">
                                         <div class="d-flex" style="margin-top: 20px;">
-                                            <button type="submit" class="btn btn-primary ml-auto">キャラボックス追加</button>
+                                            <button type="submit" class="btn btn-primary ml-auto">メンバーボックス変更</button>
                                         </div>
                                     </div>
                                 </div>

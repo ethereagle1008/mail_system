@@ -256,6 +256,7 @@ class AdminController extends Controller
     public function memberDetail($member_id)
     {
         $member = User::where('id', $member_id)->get()->first();
+        $boxes = CharacterBox::orderBy('id')->get();
         $login = LoginLog::where('user_id', $member_id)->orderBy('id', 'desc')->get()->first();
         $regions = Region::all();
         if (isset($login)) {
@@ -295,7 +296,8 @@ class AdminController extends Controller
             'tab' => 'search-members',
             'member' => $member,
             'questions' => $questions,
-            'regions' => $regions
+            'regions' => $regions,
+            'boxes' => $boxes
         ]);
     }
 
@@ -311,28 +313,28 @@ class AdminController extends Controller
 
     public function characterRegister()
     {
-        $boxes = CharacterBox::orderBy('id')->get();
         return view('admin.character-register', [
             'tab' => 'character-register',
-            'boxes' => $boxes
         ]);
     }
 
     public function autoMessage()
     {
         $characters = Character::orderBy('name', 'asc')->select(DB::raw('id, unique_id, name, gender, birth, image, decreasing_point, description'))->get()->toArray();
-        $auto_message = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->select(DB::raw('auto_messages.*, characters.name'))->where('type', '0')->orderBy('send_time', 'desc')->paginate(10);
+        $boxes = CharacterBox::orderBy('id')->get();
+        $auto_message = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->select(DB::raw('auto_messages.*, characters.name'))->where('type', '0')->orderBy('send_time', 'desc')->paginate(20);
         $result = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->where('type', '0')->orderBy('send_time', 'desc')->get()->count();
         $pagination_params = [
             'result' => $result,
-            'per_page' => 10,
+            'per_page' => 20,
         ];
         $users = User::where('role', 'user')->orderBy('id')->get();
         return view('admin.auto-message', compact('pagination_params'), [
             'tab' => 'auto-message',
             'characters' => $characters,
             'messages' => $auto_message,
-            'users' => $users
+            'users' => $users,
+            'boxes' => $boxes
         ]);
     }
 
@@ -360,12 +362,26 @@ class AdminController extends Controller
             $send_time = date('Y-m-d H:i:s', strtotime($request->send_time));
             $status = 1;
         }
-
+        $unique_id = "";
         if(isset($request->unique_id)){
             $unique_id = implode(",", $request->unique_id);
         }
-        else{
-            $unique_id = "";
+
+        $box_id = "";
+        $box_ids = [];
+        if(isset($request->box_id)){
+            $box_ids = explode(",", $request->box_id);
+            for($i = 0, $iMax = count($box_ids); $i < $iMax; $i++){
+                if($box_ids[$i] !== 'none'){
+                    $box = CharacterBox::where('id', $box_ids[$i])->get()->first();
+                    $box_id = $box_id . $box->box_name . ',';
+                }
+                else{
+                    $box_id = $box_id . '未所属,';
+                }
+
+            }
+            //$box_id = implode(",", $request->box);
         }
 
         $data = [
@@ -375,6 +391,7 @@ class AdminController extends Controller
             'image' => $photo ? asset('storage') . "/" . $photo : null,
             'character_id' => $request->character_id,
             'unique_id' => $unique_id,
+            'box' => $box_id,
             'gender' => $request->gender,
             'user_name' => $request->user_name,
             'start_age' => $request->start_age,
@@ -396,6 +413,7 @@ class AdminController extends Controller
         if ($request->type == 0) {
             $search_param = [];
             $search_param['unique_id'] = $request->input('unique_id');
+            $search_param['box'] = $box_ids;
             $search_param['name'] = $request->input('user_name');
             $search_param['gender'] = $request->input('gender');
             $search_param['start_age'] = $request->input('start_age');
@@ -418,6 +436,21 @@ class AdminController extends Controller
                 $birthYear = date('Y', strtotime($birth));
                 $cur_year = date("Y");
                 $age = $cur_year - $birthYear;
+
+                if(isset($search_param['box'])){
+                    if(isset($member->box_id)){
+                        if(!in_array($member->box_id, $search_param['box'])){
+                            unset($members[$index]);
+                            continue;
+                        }
+                    }
+                    else{
+                        if(!in_array('none', $search_param['box'])){
+                            unset($members[$index]);
+                            continue;
+                        }
+                    }
+                }
 
                 if(isset($search_param['unique_id'])){
                     if(!in_array($member->unique_id, $search_param['unique_id'])){
@@ -626,6 +659,7 @@ class AdminController extends Controller
     {
         $search_param = [];
         $search_param['unique_id'] = $request->input('unique_id');
+        $search_param['box'] = $request->input('box');
         $name = $request->input('user_name');
         $search_param['gender'] = $request->input('gender');
         $search_param['start_age'] = $request->input('start_age');
@@ -652,20 +686,15 @@ class AdminController extends Controller
         }
 
         $members = DB::select("SELECT
-                            A.id, A.name, A.unique_id, A.gender, A.birth, A.point,
+                            A.id, A.name, A.unique_id, A.gender, A.birth, A.point, A.role, A.box_id,
                             IFNULL(E.cnt_count,0) as cnt_count
                         FROM
                             users as A
                         LEFT JOIN (SELECT COUNT(id) as cnt_count, user_id FROM mails WHERE type = 'auto' AND status = 'sent' GROUP BY user_id) as E ON A.id = E.user_id
-                        WHERE A.name LIKE '%$name%'
+                        WHERE A.name LIKE '%$name%' AND A.role = 'user'
                         ORDER BY A.id ASC
                     ");
 
-//        print_r($members);
-//        die();
-
-//        $members_origin = User::leftjoin('')->where('role', 'user')->where('name', 'like', '%' . $search_param['name'] . '%');
-//        $members = $members_origin->paginate(20);
         foreach ($members as $index => $member) {
             $birth = $member->birth;
             $birthYear = date('Y', strtotime($birth));
@@ -674,6 +703,20 @@ class AdminController extends Controller
             if($member->cnt_count > $end_point || $member->cnt_count < $start_point){
                 unset($members[$index]);
                 continue;
+            }
+            if(isset($search_param['box'])){
+                if(isset($member->box_id)){
+                    if(!in_array($member->box_id, $search_param['box'])){
+                        unset($members[$index]);
+                        continue;
+                    }
+                }
+                else{
+                    if(!in_array('none', $search_param['box'])){
+                        unset($members[$index]);
+                        continue;
+                    }
+                }
             }
             if(isset($search_param['unique_id'])){
                 if(!in_array($member->unique_id, $search_param['unique_id'])){
@@ -821,11 +864,11 @@ class AdminController extends Controller
 
     public function autoMessageList()
     {
-        $auto_message = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->select(DB::raw('auto_messages.*, characters.name'))->where('type', '1')->orderBy('send_time', 'desc')->paginate(10);
+        $auto_message = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->select(DB::raw('auto_messages.*, characters.name'))->where('type', '1')->orderBy('send_time', 'desc')->paginate(20);
         $result = AutoMessage::leftjoin('characters', 'characters.id', 'auto_messages.character_id')->where('type', '1')->orderBy('send_time', 'desc')->get()->count();
         $pagination_params = [
             'result' => $result,
-            'per_page' => 10,
+            'per_page' => 20,
         ];
         return view('admin.auto-list', compact('pagination_params'), [
             'tab' => 'auto-list',
@@ -885,7 +928,6 @@ class AdminController extends Controller
 
         $data = [
             'unique_id' => rand(1000000, 9999999),
-            'box_id' => $request->box_id,
             'name' => $request->name,
             'description' => $request->description,
             'gender' => $request->gender,
@@ -908,7 +950,6 @@ class AdminController extends Controller
             $data = [
                 'name' => $request->name,
                 'description' => $request->message,
-                'box_id' => $request->box_id,
                 'gender' => $request->gender,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
                 'decreasing_point' => $request->decreasing_point,
@@ -917,7 +958,6 @@ class AdminController extends Controller
             $data = [
                 'name' => $request->name,
                 'description' => $request->message,
-                'box_id' => $request->box_id,
                 'gender' => $request->gender,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
                 'decreasing_point' => $request->decreasing_point,
@@ -941,6 +981,7 @@ class AdminController extends Controller
         if ($photo == null) {
             $data = [
                 'name' => $request->name,
+                'box_id' => $request->box_id,
                 'gender' => $request->gender,
                 'region' => $request->region,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
@@ -948,6 +989,7 @@ class AdminController extends Controller
         } else {
             $data = [
                 'name' => $request->name,
+                'box_id' => $request->box_id,
                 'gender' => $request->gender,
                 'region' => $request->region,
                 'birth' => date('Y-m-d', strtotime($request->birthday)),
@@ -1122,44 +1164,53 @@ class AdminController extends Controller
         ]);
     }
 
-    public function characterBox(){
+    public function userBox(){
         $boxes = CharacterBox::orderBy('id')->get();
         return view('admin.character-box', [
-            'tab' => 'character-box',
+            'tab' => 'user-box',
             'boxes' => $boxes
         ]);
     }
 
-    public function characterBoxAdd(Request $request){
+    public function userBoxAdd(Request $request){
         CharacterBox::create(['box_name' => $request->box_name]);
-        return $this->characterBox();
+        return $this->userBox();
     }
-    public function characterBoxDel(Request $request){
+    public function userBoxDel(Request $request){
         CharacterBox::where('id', $request->box_id)->delete();
+        User::where('box_id', $request->box_id)->update(['box_id' => null]);
         return response()->json([
             'status' => true
         ]);
     }
-    public function characterBoxDetail($box_id){
+    public function userBoxDetail($box_id){
         $box = CharacterBox::where('id', $box_id)->get()->first();
-        $characters = Character::orderBy('id')->get();
-        foreach ($characters as $character){
-            if($character->box_id == $box_id)
-                $character->box = true;
+        $users = User::where('role', 'user')->orderBy('id')->get();
+        foreach ($users as $index => $user){
+            if(isset($user->box_id)){
+                if($user->box_id == $box_id){
+                    $user->box = true;
+                }
+                else{
+                    unset($users[$index]);
+                    continue;
+                }
+            }
+
         }
         return view('admin.character-box-detail', [
             'tab' => 'character-box',
             'box' => $box,
-            'characters' => $characters
+            'users' => $users
         ]);
     }
-    public function characterBoxEdit(Request $request){
+    public function userBoxEdit(Request $request){
         CharacterBox::where('id', $request->box_id)->update(['box_name' => $request->box_name]);
         $characters = $request->unique_id;
-        for ($i = 0; $i < count($characters); $i++){
-            Character::where('id', $characters[$i])->update(['box_id' => $request->box_id]);
+        for ($i = 0, $iMax = count($characters); $i < $iMax; $i++){
+            User::where('id', $characters[$i])->update(['box_id' => $request->box_id]);
         }
-        return $this->characterBoxDetail($request->box_id);
+        return $this->userBoxDetail($request->box_id);
     }
 
     public function questionModify(Request $request)
@@ -1187,7 +1238,6 @@ class AdminController extends Controller
     public function characterDetail($character_id)
     {
         $character = Character::where('id', $character_id)->get()->first();
-        $boxes = CharacterBox::orderBy('id')->get();
         $birth = $character->birth;
         $birthYear = date('Y', strtotime($birth));
         $cur_year = date("Y");
@@ -1242,12 +1292,11 @@ class AdminController extends Controller
             'per_page' => 10,
         ];
         return view('admin.character-detail', compact('pagination_params'), [
-            'tab' => 'search-characters',
+            'tab' => 'sear ch-characters',
             'character' => $character,
             'questions' => $questions,
             'users' => $users,
             'messages' => $messages,
-            'boxes' => $boxes
         ]);
     }
 

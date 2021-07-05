@@ -63,6 +63,19 @@
                                                 </div>
                                                 <div class="row my-3">
                                                     <div class="col-6 d-flex align-content-center">
+                                                        <p class="text-center m-auto">キャラボックス</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <select name="box_id" class="form-control custom-select">
+                                                            <option></option>
+                                                            @foreach($boxes as $box)
+                                                                <option value="{{$box->id}}" {{$box->id == $member->box_id ? 'selected' : ''}}>{{$box->box_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-3">
+                                                    <div class="col-6 d-flex align-content-center">
                                                         <p class="text-center m-auto">性別</p>
                                                     </div>
                                                     <div class="col-6">
@@ -156,7 +169,7 @@
                                                         <button type="submit" class="btn btn-primary mr-auto" id="save_memo">メモ保存</button>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row mb-3" style="width: 150%;">
                                                     <div class="col-12 text-right">
                                                         <input type="submit" value=" 更新 " id="modify_character" class="btn btn-primary mr-auto" style="cursor: pointer">
                                                     </div>
@@ -437,6 +450,7 @@
         $('#modify_character').click(function () {
             var token = $("meta[name='_csrf']").attr("content");
             var name = $(this).parent().parent().parent().find('input[name=name]').val();
+            var box_id = $(this).parent().parent().prev().find('[name=box_id]').val();
             var gender = $(this).parent().parent().parent().find('[name=gender]').val();
             var region = $(this).parent().parent().parent().find('[name=region]').val();
             var birthday = $(this).parent().parent().parent().find('input[name=birth]').val();
@@ -448,6 +462,7 @@
             if(birthday=='1') return;
             var formData = new FormData();
             formData.append('name', name);
+            formData.append('box_id', box_id);
             formData.append('gender', gender);
             formData.append('region', region);
             formData.append('user_id', user_id);

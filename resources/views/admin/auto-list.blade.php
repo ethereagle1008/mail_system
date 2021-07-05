@@ -78,6 +78,7 @@
                                 <td>{{$message->send_time}}</td>
                                 <th><a href="{{url('/manage/character-detail/'.$message->character_id)}}">{{$message->name}}</a></th>
                                 <td>
+                                    @if(!empty($message->box))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">メンバーボックス:{{$message->box}}</p>@endif
                                     @if(!empty($message->unique_id))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">メンバーID:{{$message->unique_id}}</p>@endif
                                     @if(!empty($message->user_name))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">名称:{{$message->user_name}}</p>@endif
                                     @if(!empty($message->gender))<p style="border: 1px solid; padding: 2px; width: fit-content; margin-bottom: 2px;">性別:{{$message->gender == 0 ? '男性':'女性'}}</p>@endif
