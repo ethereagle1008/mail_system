@@ -2,11 +2,11 @@
     <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
         <tr>
-            <th class="wd-20p">キャラ</th>
-            <th class="wd-20p">メンバー</th>
-            <th class="wd-25p">メンバー情報</th>
-            <th class="wd-20p">未対応トーク</th>
-            <th class="wd-15p">返信用フォーム</th>
+            <th class="wd-15p" width="15%">キャラ</th>
+            <th class="wd-15p" width="15%">メンバー</th>
+            <th class="wd-15p" width="15%">メンバー情報</th>
+            <th class="wd-40p" width="40%">未対応トーク</th>
+            <th class="wd-15p" width="15%">返信用フォーム</th>
         </tr>
         </thead>
         <tbody>
@@ -49,11 +49,11 @@
                 <td>
                     @if(isset($message->image_url))
                         <div class="description">
-                            <figure><img src="{{$message->image_url}}" alt=""></figure>
+                            <figure><img src="{{$message->image_url}}" alt="" style="width: 50%"></figure>
                         </div>
                     @endif
                     <p>{{$message->receive_date}}受信</p>
-                    <p style="white-space: pre-line;">{{$message->content}}</p>
+                    <p style="white-space: pre-line; width: 100% !important;">{{$message->content}}</p>
                 </td>
                 <td>
                     <input type="hidden" name="user_id" value="{{$message->user_id}}">
