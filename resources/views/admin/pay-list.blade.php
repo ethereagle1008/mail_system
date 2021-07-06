@@ -65,7 +65,8 @@
                                                                 <div class="input-group-text">
                                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                                 </div>
-                                                            </div><input id="end_day" class="form-control fc-datepicker" name="end_day" placeholder="MM/DD/YYYY" type="text" value="{{$search_param['end_day']}}">
+                                                            </div>
+                                                            <input id="end_day" class="form-control fc-datepicker" name="end_day" placeholder="MM/DD/YYYY" type="text" value="{{$search_param['end_day']}}">
                                                             <input type="hidden" id="end_day_time" name="end_day_time">
                                                         </div>
                                                     </div>

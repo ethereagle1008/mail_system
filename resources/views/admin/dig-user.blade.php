@@ -31,10 +31,10 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">キャラボックス</label>
+                                    <label class="form-label">メンバーボックス</label>
                                     <div class="form-group">
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="box_0" class="custom-control-input"
+                                            <input type="checkbox" id="box_0" class="custom-control-input" value="none"
                                                    name="box">
                                             <span class="custom-control-label">未所属</span>
                                         </label>
@@ -42,7 +42,7 @@
                                     @foreach($boxes as $box)
                                         <div class="form-group">
                                             <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" id="box_{{$box->id}}" class="custom-control-input"
+                                                <input type="checkbox" id="box_{{$box->id}}" class="custom-control-input" value="{{$box->id}}"
                                                        name="box">
                                                 <span class="custom-control-label">{{$box->box_name}}</span>
                                             </label>
@@ -57,7 +57,7 @@
                                     <label class="form-label">キャラ選択</label>
                                     <select name="character_id" class="form-control custom-select">
                                         <option value="" selected></option>
-                                        @for($i = 0; $i < count($characters); $i++)
+                                        @for($i = 0,$iMax = count($characters); $i < $iMax; $i++)
                                             <option value="{{$characters[$i]['id']}}">{{$characters[$i]['unique_id']}}</option>
                                         @endfor
                                     </select>
@@ -176,7 +176,8 @@
                                                         <div class="input-group-text">
                                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                         </div>
-                                                    </div><input id="start_last_character_send_day" class="form-control fc-datepicker" value="" name="start_last_character_send_day" placeholder="MM/DD/YYYY" type="text">
+                                                    </div>
+                                                    <input id="start_last_character_send_day" class="form-control fc-datepicker" value="" name="start_last_character_send_day" placeholder="MM/DD/YYYY" type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +191,8 @@
                                                         <div class="input-group-text">
                                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                         </div>
-                                                    </div><input id="end_last_character_send_day" class="form-control fc-datepicker" value="" name="end_last_character_send_day" placeholder="MM/DD/YYYY" type="text">
+                                                    </div>
+                                                    <input id="end_last_character_send_day" class="form-control fc-datepicker" value="" name="end_last_character_send_day" placeholder="MM/DD/YYYY" type="text">
                                                 </div>
                                             </div>
 
@@ -356,15 +358,21 @@
             var token = $("meta[name='_csrf']").attr("content");
             var formData = new FormData();
             let box = [];
+            let reply
             $('[name=box]').each(function (i) {
                 if($(this)[0].checked){
                     box.push($(this).val());
                 }
             })
+            $('[name=reply]').each(function (i) {
+                if($(this)[0].checked){
+                    reply = $(this).val();
+                }
+            })
 
             formData.append('box', box);
             formData.append('character_id', $('[name=character_id]').val())
-            formData.append('reply', $('[name=reply]').val())
+            formData.append('reply', reply)
             formData.append('repeat', $('[name=repeat]')[0].checked)
             formData.append('start_count', $('[name=start_count]').val())
             formData.append('end_count', $('[name=end_count]').val())
