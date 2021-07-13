@@ -1920,11 +1920,16 @@ class AdminController extends Controller
                     } else {
                         $gender = 0;
                     }
+                    $unique_id = rand(1000000, 9999999);
+                    $already = User::where('unique_id', $unique_id)->get()->first();
+                    if(isset($already)){
+                        $unique_id = rand(1000000, 9999999);
+                    }
                     $data = [
                         'name' => $import['name'],
                         'email' => str_replace(' ', '', $import['mail']),
                         'password' => Hash::make('938271'),
-                        'unique_id' => rand(1000000, 9999999),
+                        'unique_id' => $unique_id,
                         'mobile' => $import['phone'],
                         'role' => 'user',
                         'email_verified_at' => date('Y-m-d H:i:s'),
@@ -1933,8 +1938,8 @@ class AdminController extends Controller
                         'birth' => date('Y-m-d', strtotime($import['birth'])),
                         'region' => $import['area'],
                     ];
-
                     $nuser_id = User::create($data)->id;
+
 //                    $nuser = User::where('email', $import['mail'])->get()->first();
                     $qdata = [
                         'user_id' => $nuser_id,
