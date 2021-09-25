@@ -1,69 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="496c3ff6-eef1-4916-8e34-b15c3d4e325d" name="Default Changelist" comment="0514 commit">
-      <change afterPath="$PROJECT_DIR$/app/Mail/ReceivedMailCsv.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/ad-total.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/dig-user.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/message-list.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/reply-message.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/user-list.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/user/mail/received_mail_csv.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/SendAutoMessage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/SendAutoMessage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/nicepage.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/nicepage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/auth/forget_password.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/auth/forget_password.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/auth/register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/auth/reset_password.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/auth/reset_password.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/auto-message.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/auto-message.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/character-detail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/character-detail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/character-register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/character-register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/csv-import.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/csv-import.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/layout/base.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/layout/base.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/layout/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/layout/footer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/layout/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/layout/navbar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/layout/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/layout/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/member-detail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/member-detail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/search-characters.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/search-characters.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/search-members.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/search-members.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/select-users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/select-users.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/forget_password.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/forget_password.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/reset_password.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/reset_password.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/atm-pay.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/atm-pay.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/bank-port.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/bank-port.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/credit-pay.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/credit-pay.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/credit-pc.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/credit-pc.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/credit-tel-final.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/credit-tel-final.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/credit-tel.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/credit-tel.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/landing.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/landing.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/layouts/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/layouts/navbar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/mail-list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/mail-list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/mail/port_mail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/mail/port_mail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/mail/received_mail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/mail/received_mail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/modify-profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/modify-profile.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/my-page.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/my-page.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/point-list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/point-list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/question.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/question.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/teacher-chat.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/teacher-chat.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/teacher-confirm.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/teacher-confirm.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/teacher-rank.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/teacher-rank.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/terms.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/terms.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/user-reply.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/user-reply.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-    </list>
+    <list default="true" id="496c3ff6-eef1-4916-8e34-b15c3d4e325d" name="Default Changelist" comment="0514 commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,6 +15,16 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/mail_system" />
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="c5143e00-c615-465a-bf70-aa41efddd24b" name="localhost" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/public" remote-root="D:/_WORKSPACE/Web/kenken/public" />
+        </path_mappings>
+      </server>
+      <server host="127.0.0.1" id="5d403897-8594-4395-b78d-2081ac6a0670" name="127.0.0.1" port="8000" />
+    </servers>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -189,10 +137,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Constants" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/config" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -219,24 +168,6 @@
   <component name="SvnConfiguration" cleanupOnStartRun="true">
     <configuration>C:\Users\JVS\AppData\Roaming\Subversion</configuration>
     <supportedVersion>125</supportedVersion>
-  </component>
-  <component name="SvnFileUrlMappingImpl">
-    <option name="myMappingRoots">
-      <list>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\_WORKSPACE\Web\MailSystem_workspace" />
-          <option name="myCopyRoot" value="D:\_WORKSPACE\Web\MailSystem_workspace" />
-        </SvnCopyRootSimple>
-      </list>
-    </option>
-    <option name="myMoreRealMappingRoots">
-      <list>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\_WORKSPACE\Web\MailSystem_workspace" />
-          <option name="myCopyRoot" value="D:\_WORKSPACE\Web\MailSystem_workspace" />
-        </SvnCopyRootSimple>
-      </list>
-    </option>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -313,6 +244,75 @@
       <workItem from="1621236622878" duration="534000" />
       <workItem from="1621565087607" duration="31950000" />
       <workItem from="1621836404434" duration="4865000" />
+      <workItem from="1622428454848" duration="3689000" />
+      <workItem from="1622432694002" duration="10058000" />
+      <workItem from="1622448981823" duration="484000" />
+      <workItem from="1622450487490" duration="3009000" />
+      <workItem from="1622467765137" duration="4671000" />
+      <workItem from="1622474095423" duration="29098000" />
+      <workItem from="1622553950243" duration="16844000" />
+      <workItem from="1622621591893" duration="10321000" />
+      <workItem from="1622853852065" duration="1459000" />
+      <workItem from="1622855375219" duration="2138000" />
+      <workItem from="1622956277454" duration="8251000" />
+      <workItem from="1623035719763" duration="415000" />
+      <workItem from="1623036940872" duration="24434000" />
+      <workItem from="1623204108947" duration="143000" />
+      <workItem from="1623213356271" duration="10394000" />
+      <workItem from="1623290267428" duration="2950000" />
+      <workItem from="1623306020448" duration="201000" />
+      <workItem from="1623306242397" duration="7427000" />
+      <workItem from="1623371428965" duration="1823000" />
+      <workItem from="1623376850988" duration="41000" />
+      <workItem from="1623487827045" duration="624000" />
+      <workItem from="1623573922711" duration="7171000" />
+      <workItem from="1623803577758" duration="1190000" />
+      <workItem from="1623827398120" duration="3097000" />
+      <workItem from="1623888263961" duration="1742000" />
+      <workItem from="1624240341200" duration="11339000" />
+      <workItem from="1624282991640" duration="2771000" />
+      <workItem from="1624409042976" duration="6991000" />
+      <workItem from="1624492630673" duration="5238000" />
+      <workItem from="1624521985310" duration="5338000" />
+      <workItem from="1624540217414" duration="9902000" />
+      <workItem from="1624874679643" duration="2035000" />
+      <workItem from="1624897968077" duration="16352000" />
+      <workItem from="1624982896303" duration="20000" />
+      <workItem from="1625112958299" duration="10889000" />
+      <workItem from="1625145166089" duration="31517000" />
+      <workItem from="1625465412468" duration="13288000" />
+      <workItem from="1625493094160" duration="15918000" />
+      <workItem from="1625641432249" duration="2721000" />
+      <workItem from="1626056176133" duration="3119000" />
+      <workItem from="1626139402937" duration="97000" />
+      <workItem from="1626226418614" duration="1562000" />
+      <workItem from="1626708680215" duration="2582000" />
+      <workItem from="1627000937193" duration="615000" />
+      <workItem from="1627353189890" duration="1724000" />
+      <workItem from="1628474920255" duration="1119000" />
+      <workItem from="1629255312976" duration="895000" />
+      <workItem from="1629268214553" duration="4871000" />
+      <workItem from="1629281160808" duration="8873000" />
+      <workItem from="1629530212195" duration="2334000" />
+      <workItem from="1629680523193" duration="1816000" />
+      <workItem from="1629849267918" duration="18362000" />
+      <workItem from="1630222427084" duration="878000" />
+      <workItem from="1630325620296" duration="8869000" />
+      <workItem from="1630558725138" duration="1604000" />
+      <workItem from="1630771306897" duration="3400000" />
+      <workItem from="1631246302965" duration="1042000" />
+      <workItem from="1631494440279" duration="612000" />
+      <workItem from="1631519950092" duration="3138000" />
+      <workItem from="1631542594230" duration="7315000" />
+      <workItem from="1631602408421" duration="6763000" />
+      <workItem from="1631671575664" duration="59000" />
+      <workItem from="1631698975706" duration="1075000" />
+      <workItem from="1631799721052" duration="2858000" />
+      <workItem from="1631836900141" duration="5144000" />
+      <workItem from="1631958305313" duration="65000" />
+      <workItem from="1631976137101" duration="1261000" />
+      <workItem from="1632126963151" duration="1508000" />
+      <workItem from="1632531021797" duration="922000" />
     </task>
     <servers />
   </component>
@@ -326,57 +326,99 @@
     <option name="LAST_COMMIT_MESSAGE" value="0514 commit" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615605563664">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1631802093502">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1615605563664" />
-    <state x="583" y="20" key="CommitChangelistDialog2" timestamp="1620957522607">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1631802093502" />
+    <state width="1877" height="211" key="GridCell.Tab.0.bottom" timestamp="1625668908790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="20" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1620957522607" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1620886922105">
+    <state width="1877" height="211" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908790" />
+    <state width="1877" height="211" key="GridCell.Tab.0.center" timestamp="1625668908790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1620886922105" />
-    <state x="794" y="439" key="NewPhpFileDialog" timestamp="1620836881359">
+    <state width="1877" height="211" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908790" />
+    <state width="1877" height="211" key="GridCell.Tab.0.left" timestamp="1625668908790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="794" y="439" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1620836881359" />
-    <state x="637" y="105" key="SettingsEditor" timestamp="1617297039540">
+    <state width="1877" height="211" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908790" />
+    <state width="1877" height="211" key="GridCell.Tab.0.right" timestamp="1625668908790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="637" y="105" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1617297039540" />
-    <state x="1007" y="149" width="583" height="613" key="find.popup" timestamp="1621908676089">
+    <state width="1877" height="211" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908790" />
+    <state width="1877" height="211" key="GridCell.Tab.1.bottom" timestamp="1625668908791">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1007" y="149" width="583" height="613" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1621908676089" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1621908443016">
+    <state width="1877" height="211" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state width="1877" height="211" key="GridCell.Tab.1.center" timestamp="1625668908791">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1621908443016" />
+    <state width="1877" height="211" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state width="1877" height="211" key="GridCell.Tab.1.left" timestamp="1625668908790">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="211" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908790" />
+    <state width="1877" height="211" key="GridCell.Tab.1.right" timestamp="1625668908791">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="211" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state width="1877" height="211" key="GridCell.Tab.2.bottom" timestamp="1625668908791">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="211" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state width="1877" height="211" key="GridCell.Tab.2.center" timestamp="1625668908791">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="211" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state width="1877" height="211" key="GridCell.Tab.2.left" timestamp="1625668908791">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="211" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state width="1877" height="211" key="GridCell.Tab.2.right" timestamp="1625668908791">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="211" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625668908791" />
+    <state x="794" y="439" key="NewPhpFileDialog" timestamp="1625189765681">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="794" y="439" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1625189765681" />
+    <state x="1125" y="164" width="583" height="613" key="find.popup" timestamp="1631802095432">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1125" y="164" width="583" height="613" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1631802095432" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/search-members.blade.php</url>
-          <line>30</line>
+          <line>36</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/member-detail.blade.php</url>
-          <line>332</line>
+          <line>345</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/app/Http/Controllers/AdminController.php</url>
-          <line>1839</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/user/landing.blade.php</url>
           <line>1222</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/character-detail.blade.php</url>
+          <line>2</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/AdminController.php</url>
+          <line>700</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/AdminController.php</url>
+          <line>371</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

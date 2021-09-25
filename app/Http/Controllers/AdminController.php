@@ -431,13 +431,15 @@ class AdminController extends Controller
 
             $members_origin = User::where('role', 'user')->where('name', 'like', '%' . $search_param['name'] . '%');
             $members = $members_origin->get();
+            //Log::info('AutoMessage Create: ' . date('Y-m-d H:i:s') .'/n box: '. $search_param['box']);
+            Log::info('AutoMessage Create: ' . date('Y-m-d H:i:s') .'/n box: '. isset($search_param['box']));
             foreach ($members as $index => $member) {
                 $birth = $member->birth;
                 $birthYear = date('Y', strtotime($birth));
                 $cur_year = date("Y");
                 $age = $cur_year - $birthYear;
 
-                if(isset($search_param['box'])){
+                if(count($search_param['box']) !== 0){
                     if(isset($member->box_id)){
                         if(!in_array($member->box_id, $search_param['box'])){
                             unset($members[$index]);
@@ -640,7 +642,8 @@ class AdminController extends Controller
                     'image_url' => $photo ? asset('storage') . "/" . $photo : null
                 ];
 
-                $sub_content = mb_substr($content, 0, 20);;
+                $sub_content = mb_substr($content, 0, 20);
+                Log::info('AutoMessage Create: ' . date('Y-m-d H:i:s') .'/n user_id: '. $member->id);
                 $q_id = Question::create($data)->id;
                 $mail_data = [
                     'question_id' => $q_id,

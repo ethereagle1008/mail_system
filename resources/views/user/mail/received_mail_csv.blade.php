@@ -1,6 +1,6 @@
 登録完了いたしました。<br>
 <br>
-<a href="http://soku.site/login-insecure?email={{$details['email']}}&password=938271">ログイン</a>
+<a href="http://soku.tokyoeropedia.mixh.jp/login-insecure?email={{$details['email']}}&password=938271">ログイン</a>
 <br>
 <br>
 このメールは送信専用です。<br>

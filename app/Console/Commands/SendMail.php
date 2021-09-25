@@ -43,7 +43,7 @@ class SendMail extends Command
      */
     public function handle()
     {
-        Mail::where('send_time', '<', date('Y-m-d H:i:s'))->where('status', 'nosent')->orderBy('id')->chunkById(500, function ($mails) {
+        Mail::where('send_time', '<', date('Y-m-d H:i:s'))->where('status', 'nosent')->orderBy('id')->chunkById(50, function ($mails) {
             foreach ($mails as $mail) {
                 $q_id = $mail->question_id;
                 $q = Question::where('id', $q_id)->get()->first();

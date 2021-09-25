@@ -160,24 +160,14 @@
                 <h1 class="u-align-center u-text u-text-2 cursor-pointer">お問い合わせ</h1>
             </div>
         </div>
+       
         <div
-            class="navbar- u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-border-1 u-border-grey-40 u-container-style u-group u-group-2">
-            <div class="u-container-layout u-valign-middle u-container-layout-2">
-                <h1 class="u-align-center u-text u-text-3 cursor-pointer"></h1>
+            class="navbar-point u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-border-1 u-border-grey-40 u-container-style u-group u-group-3">
+            <div class="u-container-layout u-valign-middle u-container-layout-3">
+                <h1 class="u-align-center u-text u-text-4 cursor-pointer"></h1>
             </div>
         </div>
-{{--        <div--}}
-{{--            class="navbar-point u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-border-1 u-border-grey-40 u-container-style u-group u-group-3">--}}
-{{--            <div class="u-container-layout u-valign-middle u-container-layout-3">--}}
-{{--                <h1 class="u-align-center u-text u-text-4 cursor-pointer">ポイント購入画面</h1>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-        <div
-            class="navbar-guide1 u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-border-1 u-border-grey-40 u-container-style u-group u-group-4">
-            <div class="u-container-layout u-valign-middle u-container-layout-4">
-                <h1 class="u-align-center u-text u-text-5 cursor-pointer"></h1>
-            </div>
-        </div>
+
 
         <p class="u-text u-text-8">©RENAI SOUDAN</p>
     </footer>
