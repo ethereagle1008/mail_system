@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\AdAccessTime' => $baseDir . '/app/AdAccessTime.php',
+    'App\\AdCode' => $baseDir . '/app/AdCode.php',
     'App\\AdRegisterTime' => $baseDir . '/app/AdRegisterTime.php',
     'App\\AutoMessage' => $baseDir . '/app/AutoMessage.php',
     'App\\Character' => $baseDir . '/app/Character.php',

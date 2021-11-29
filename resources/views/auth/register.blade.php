@@ -5,6 +5,7 @@ if(isset($_GET['ad'])){
 \App\AdAccessTime::create([
             'ad_code' => $ad_code,
             'access_time' => date('Y-m-d H:i:s'),
+            'type' => 'access'
         ]);
 }else{
     $ad_code = "";
@@ -75,29 +76,29 @@ if(isset($_GET['ad'])){
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="row">
-                                        <div class="col-7">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <label class="form-label">メールアドレス</label>
                                                 <input type="text" id="email" class="form-control" placeholder="メールアドレス">
                                                 <input type="hidden" name="email" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-5 pl-0">
-                                            <div class="form-group">
-                                                <label class="form-label">@</label>
-                                                <select class="form-control" name="email_type">
-                                                    <option value="@docomo.ne.jp">@docomo.ne.jp</option>
-                                                    <option value="@au.com">@au.com</option>
-                                                    <option value="@softbank.ne.jp">@softbank.ne.jp</option>
-                                                    <option value="@ezweb.ne.jp">@ezweb.ne.jp</option>
-                                                    <option value="@t.vodafone.ne.jp">@t.vodafone.ne.jp</option>
-                                                    <option value="@k.vodafone.ne.jp">@k.vodafone.ne.jp</option>
-                                                    <option value="@d.vodafone.ne.jp">@d.vodafone.ne.jp</option>
-                                                    <option value="@h.vodafone.ne.jp">@h.vodafone.ne.jp</option>
-                                                    <option value="@c.vodafone.ne.jp">@c.vodafone.ne.jp</option>
-                                                </select>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-5 pl-0">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label class="form-label">@</label>--}}
+{{--                                                <select class="form-control" name="email_type">--}}
+{{--                                                    <option value="@docomo.ne.jp">@docomo.ne.jp</option>--}}
+{{--                                                    <option value="@au.com">@au.com</option>--}}
+{{--                                                    <option value="@softbank.ne.jp">@softbank.ne.jp</option>--}}
+{{--                                                    <option value="@ezweb.ne.jp">@ezweb.ne.jp</option>--}}
+{{--                                                    <option value="@t.vodafone.ne.jp">@t.vodafone.ne.jp</option>--}}
+{{--                                                    <option value="@k.vodafone.ne.jp">@k.vodafone.ne.jp</option>--}}
+{{--                                                    <option value="@d.vodafone.ne.jp">@d.vodafone.ne.jp</option>--}}
+{{--                                                    <option value="@h.vodafone.ne.jp">@h.vodafone.ne.jp</option>--}}
+{{--                                                    <option value="@c.vodafone.ne.jp">@c.vodafone.ne.jp</option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                     </div>
 
                                 </div>
@@ -253,7 +254,8 @@ if(isset($_GET['ad'])){
             return false;
         }
         else{
-            $('[name=email]').val($('#email').val() + $('[name=email_type]').val());
+            //$('[name=email]').val($('#email').val() + $('[name=email_type]').val());
+            $('[name=email]').val($('#email').val());
         }
         if($('#password').val()==""){
             $.growl.warning({

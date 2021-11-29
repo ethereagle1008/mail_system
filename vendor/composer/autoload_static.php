@@ -486,6 +486,7 @@ class ComposerStaticInit3c94229eca671dff0ef697ae68937bed
 
     public static $classMap = array (
         'App\\AdAccessTime' => __DIR__ . '/../..' . '/app/AdAccessTime.php',
+        'App\\AdCode' => __DIR__ . '/../..' . '/app/AdCode.php',
         'App\\AdRegisterTime' => __DIR__ . '/../..' . '/app/AdRegisterTime.php',
         'App\\AutoMessage' => __DIR__ . '/../..' . '/app/AutoMessage.php',
         'App\\Character' => __DIR__ . '/../..' . '/app/Character.php',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AdAccessTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -51,6 +52,15 @@ class HomeController extends Controller
     public function check_code(Request $request){
         $user = Auth::user();
         date_default_timezone_set('Asia/Tokyo');
+        $ad_code = $user->ad_code;
+        if(isset($ad_code)){
+            $this->ad_code = $ad_code;
+            AdAccessTime::create([
+                'ad_code' => $ad_code,
+                'access_time' => date('Y-m-d H:i:s'),
+                'type' => 'register'
+            ]);
+        }
         if($request->code==$user->verification_code){
             $user->email_verified_at = date('Y-m-d H:i:s');
             $user->save();

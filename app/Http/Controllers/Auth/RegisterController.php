@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\AdAccessTime;
 use App\AdRegisterTime;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -83,17 +84,9 @@ class RegisterController extends Controller
             'gender'=>$data['gender'],
             'birth'=>date('Y-m-d', strtotime($data['birth'])),
             'marry'=>$data['marry'],
-            'region'=>$data['region']
+            'region'=>$data['region'],
+            'ad_code' => isset($data['ad_code']) ? $data['ad_code'] : ''
         ]);
-        $id = $new_user->id;
-        if(isset($data['ad_code'])){
-            $this->ad_code = $data['ad_code'];
-            AdRegisterTime::create([
-                'user_id' => $id,
-                'ad_code' => $data['ad_code'],
-                'register_time' => date('Y-m-d H:i:s'),
-            ]);
-        }
 
         return $new_user;
     }

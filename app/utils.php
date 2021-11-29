@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Mail;
 function sendVerifyEmail($code, $email){
     $details = array(
         'code'=> $code,
-        'title'=>'Email Verification'
+        'title'=>'このメールは送信専用です。'
     );
     Mail::to($email)->send(new \App\Mail\VerifyEmail($details));
 }

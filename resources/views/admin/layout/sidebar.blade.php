@@ -58,6 +58,9 @@ if(!empty(session()->get(SESS_ADMIN_UID))){
             <a class="side-menu__item {{$tab == 'dig-user' ? 'active' : ''}}" href="{{url('/manage/dig-user')}}"><i class="side-menu__icon fa fa-binoculars"></i><span class="side-menu__label">掘り起こし</span></a>
         </li>
         <li>
+            <a class="side-menu__item {{$tab == 'ad-code' ? 'active' : ''}}" href="{{url('/manage/ad-code')}}"><i class="side-menu__icon fa fa-industry"></i><span class="side-menu__label">広告コード</span></a>
+        </li>
+        <li>
             <a class="side-menu__item {{$tab == 'ad-total' ? 'active' : ''}}" href="{{url('/manage/ad-total')}}"><i class="side-menu__icon fa fa-audio-description"></i><span class="side-menu__label">広告集計</span></a>
         </li>
     </ul>

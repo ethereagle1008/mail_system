@@ -10,6 +10,7 @@ class AdAccessTime extends Model
     protected $fillable = [
         'ad_code',
         'user_id',
-        'access_time'
+        'access_time',
+        'type'
     ];
 }

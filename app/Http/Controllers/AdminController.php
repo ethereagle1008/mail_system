@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\AdAccessTime;
+use App\AdCode;
 use App\AutoMessage;
 use App\Character;
 use App\CharacterBox;
@@ -1443,40 +1445,146 @@ class AdminController extends Controller
 
     public function adTotal()
     {
-        $point_lists = PointList::select(DB::raw('sum(price) as price, sum(point) as point, hour'))->groupBy('hour')->orderBy('created_at', 'desc')->paginate(20);
-        $result = PointList::select(DB::raw('sum(price) as price, sum(point) as point, hour'))->groupBy('hour')->orderBy('created_at', 'desc')->get()->count();
-        $pagination_params = [
-            'result' => $result,
-            'per_page' => 20,
-        ];
-        foreach ($point_lists as $list) {
-            $hour = $list->hour;
-
-            $hour_arr = explode(' ', $hour);
-            $day_arr = explode('-', $hour_arr[0]);
-            $time_arr = explode(':', $hour_arr[1]);
-            $hour_str = $day_arr[0] . '年' . $day_arr[1] . '月' . $day_arr[2] . '日' . ' ' . $time_arr[0] . '時';
-            $list->hour_str = $hour_str;
-        }
-        $search_param = [];
-        $search_param['start_day'] = '';
-        $search_param['start_hour'] = '';
-        $search_param['start_min'] = '';
-        $search_param['end_day'] = '';
-        $search_param['end_hour'] = 0;
-        $search_param['end_min'] = 0;
-        $search_param['start_register'] = '';
-        $search_param['start_register_hour'] = 0;
-        $search_param['start_register_min'] = 0;
-        $search_param['end_register'] = '';
-        $search_param['end_register_hour'] = 0;
-        $search_param['end_register_min'] = 0;
-        $search_param['unit'] = 'hour';
-
-        return view('admin.ad-total', compact('pagination_params'), [
+        return view('admin.ad-total', [
             'tab' => 'ad-total',
-            'point_lists' => $point_lists,
-            'search_param' => $search_param
+        ]);
+    }
+
+    public function adTotalList(Request $request)
+    {
+        $search_param['start_day'] = $request->start_day;
+        $search_param['start_hour'] = $request->start_hour;
+        $search_param['start_min'] = $request->start_min;
+        $search_param['end_day'] = $request->end_day;
+        $search_param['end_hour'] = $request->end_hour;
+        $search_param['end_min'] = $request->end_min;
+        $search_param['unit'] = $request->unit;
+        $search_param['media_type'] = $request->media_type;
+
+        if(isset($search_param['media_type'])){
+            $point_lists = AdAccessTime::where('type', $search_param['media_type'])->orderBy('created_at', 'asc')->get()->toArray();
+        }
+        else{
+            $point_lists = AdAccessTime::orderBy('created_at', 'asc')->get()->toArray();
+        }
+
+        if (!isset($search_param['start_day'])) {
+            $start_day = '2000-01-01 00:00:00';
+        } else {
+            $start_day = date('Y-m-d H:i:s', strtotime($request->start_day_time));
+        }
+
+        if (!isset($search_param['end_day'])) {
+            $end_day = '2100-01-01 00:00:00';
+        } else {
+            $end_day = date('Y-m-d H:i:s', strtotime($request->end_day_time));
+        }
+        if(isset($search_param['media_type'])){
+            $ad_codes = AdCode::where('media_type', $search_param['media_type'])->get();
+        }
+        else{
+            $ad_codes = AdCode::get();
+        }
+
+        foreach ($ad_codes as $item){
+            $point_lists = AdAccessTime::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->where('ad_code', $item->code)->select(DB::raw('COUNT(id) as cnt_id, type'))
+                ->groupBy('type')->get();
+            foreach ($point_lists as $point){
+                if($point->type === 'access'){
+                    $item->access = $point->cnt_id;
+                }
+                else{
+                    $item->register = $point->cnt_id;
+                }
+            }
+        }
+
+        return view('admin.ad-total-list', [
+            'tab' => 'ad-total',
+            'codes' => $ad_codes,
+        ]);
+    }
+    public function publicAdTotal()
+    {
+        return view('admin.public-ad-total', [
+            'tab' => 'public-ad-total',
+        ]);
+    }
+
+    public function publicAdTotalList(Request $request)
+    {
+        $search_param['start_day'] = $request->start_day;
+        $search_param['start_hour'] = $request->start_hour;
+        $search_param['start_min'] = $request->start_min;
+        $search_param['end_day'] = $request->end_day;
+        $search_param['end_hour'] = $request->end_hour;
+        $search_param['end_min'] = $request->end_min;
+        $search_param['unit'] = $request->unit;
+        $search_param['media_type'] = $request->media_type;
+
+        if(isset($search_param['media_type'])){
+            $point_lists = AdAccessTime::where('type', $search_param['media_type'])->orderBy('created_at', 'asc')->get()->toArray();
+        }
+        else{
+            $point_lists = AdAccessTime::orderBy('created_at', 'asc')->get()->toArray();
+        }
+
+        if (!isset($search_param['start_day'])) {
+            $start_day = '2000-01-01 00:00:00';
+        } else {
+            $start_day = date('Y-m-d H:i:s', strtotime($request->start_day_time));
+        }
+
+        if (!isset($search_param['end_day'])) {
+            $end_day = '2100-01-01 00:00:00';
+        } else {
+            $end_day = date('Y-m-d H:i:s', strtotime($request->end_day_time));
+        }
+        if(isset($search_param['media_type'])){
+            $ad_codes = AdCode::where('media_type', $search_param['media_type'])->get();
+        }
+        else{
+            $ad_codes = AdCode::get();
+        }
+
+        foreach ($ad_codes as $item){
+            $point_lists = AdAccessTime::where('created_at', '>=', $start_day)->where('created_at', '<=', $end_day)->where('ad_code', $item->code)->select(DB::raw('COUNT(id) as cnt_id, type'))
+                ->groupBy('type')->get();
+            foreach ($point_lists as $point){
+                if($point->type === 'access'){
+                    $item->access = $point->cnt_id;
+                }
+                else{
+                    $item->register = $point->cnt_id;
+                }
+            }
+        }
+
+        return view('admin.ad-total-list', [
+            'tab' => 'ad-total',
+            'codes' => $ad_codes,
+        ]);
+    }
+
+    public function adCode(){
+        return view('admin.ad-code', [
+            'tab' => 'ad-code',
+        ]);
+    }
+    public function adList(){
+        $codes = AdCode::all();
+        return view('admin.ad-list', [
+            'codes' => $codes,
+        ]);
+    }
+    public function addCode(Request $request){
+        $data = [
+            'code' => $request->code,
+            'media_type' => $request->media_type
+        ];
+        AdCode::create($data);
+        return response()->json([
+            'status' => true
         ]);
     }
 

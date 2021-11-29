@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login','AdminController@login')->name('manage-login');
 Route::get('/ad-total', 'AdminController@adTotal')->name('ad-total');
 Route::post('/ad-total', 'AdminController@postAdTotal');
+Route::post('/ad-total-list', 'AdminController@adTotalList');
+Route::get('/public-ad-total', 'AdminController@publicAdTotal')->name('public-ad-total');
+Route::post('/public-ad-total-list', 'AdminController@publicAdTotalList');
 
 
 Route::group(['middleware'=>'checkAdmin','as' =>'admin.'],function () {
@@ -71,5 +74,9 @@ Route::group(['middleware'=>'checkAdmin','as' =>'admin.'],function () {
     Route::get('/dig-user', 'AdminController@digUser');
     Route::post('/dig-message', 'AdminController@digMessage');
     Route::post('/user-list', 'AdminController@userList');
+
+    Route::get('/ad-code', 'AdminController@adCode')->name('ad-code');
+    Route::get('/ad-list', 'AdminController@adList');
+    Route::post('/add-code', 'AdminController@addCode');
 });
 
