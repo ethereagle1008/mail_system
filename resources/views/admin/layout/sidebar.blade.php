@@ -52,7 +52,7 @@ if(!empty(session()->get(SESS_ADMIN_UID))){
             <a class="side-menu__item {{$tab == 'auto-list' ? 'active' : ''}}" href="{{url('/manage/auto-list')}}"><i class="side-menu__icon fa fa-envelope"></i><span class="side-menu__label">予約メッセージ</span></a>
         </li>
         <li>
-            <a class="side-menu__item {{$tab == 'reply-message' ? 'active' : ''}}" href="{{url('/manage/reply-message')}}"><i class="side-menu__icon fa fa-commenting-o"></i><span class="side-menu__label">メール返信</span></a>
+            <a class="side-menu__item {{$tab == 'reply-message' ? 'active' : ''}}" href="{{   url('/manage/reply-message')}}"><i class="side-menu__icon fa fa-commenting-o"></i><span class="side-menu__label">メール返信</span></a>
         </li>
         <li>
             <a class="side-menu__item {{$tab == 'dig-user' ? 'active' : ''}}" href="{{url('/manage/dig-user')}}"><i class="side-menu__icon fa fa-binoculars"></i><span class="side-menu__label">掘り起こし</span></a>

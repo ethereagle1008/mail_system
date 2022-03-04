@@ -55,7 +55,8 @@ class SendAutoMessage extends Command
                 $boxes = explode(',', $message->box);
                 $box = [];
                 for($i = 0, $iMax = count($boxes); $i < $iMax; $i++){
-                    if($boxes[$i] !== '未所属'){
+                    Log::info("automessage for none group: " . $boxes[$i]);
+                    if($boxes[$i] != '未所属'){
                         $box[$i] = CharacterBox::where('box_name', $boxes[$i])->get()->first()->id;
                     }
                     else{
