@@ -16,6 +16,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/mail_system" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="PhpServers">
     <servers>
       <server host="localhost" id="c5143e00-c615-465a-bf70-aa41efddd24b" name="localhost" use_path_mappings="true">
@@ -141,23 +144,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Constants" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../B_Creator/BCreator" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/WORKSPACE/WEB/02MailSystem_workspace/mail_system&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\_WORKSPACE\Web\MailSystem_workspace\resources" />
@@ -170,6 +164,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration" cleanupOnStartRun="true">
     <configuration>C:\Users\JVS\AppData\Roaming\Subversion</configuration>
     <supportedVersion>125</supportedVersion>
@@ -343,88 +338,36 @@
       <workItem from="1636080435446" duration="1527000" />
       <workItem from="1636365137725" duration="1379000" />
       <workItem from="1636375767305" duration="1559000" />
+      <workItem from="1639411219961" duration="735000" />
+      <workItem from="1640699992061" duration="58000" />
+      <workItem from="1640788418937" duration="3230000" />
+      <workItem from="1641828931753" duration="3925000" />
+      <workItem from="1641953077347" duration="634000" />
+      <workItem from="1643270709683" duration="1194000" />
+      <workItem from="1644073276907" duration="3375000" />
+      <workItem from="1646039672718" duration="1292000" />
+      <workItem from="1649768650041" duration="3678000" />
+      <workItem from="1649894315555" duration="93000" />
+      <workItem from="1651851027841" duration="2610000" />
+      <workItem from="1654564706878" duration="867000" />
+      <workItem from="1654567009812" duration="452000" />
+      <workItem from="1654567674754" duration="17000" />
+      <workItem from="1654668272917" duration="1199000" />
+      <workItem from="1655079582901" duration="1198000" />
+      <workItem from="1655096651775" duration="1608000" />
+      <workItem from="1655365390080" duration="79000" />
+      <workItem from="1656044334088" duration="156000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="0514 commit" />
     <option name="LAST_COMMIT_MESSAGE" value="0514 commit" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1635729420798">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1635729420798" />
-    <state width="412" height="466" key="DebuggerActiveHint" timestamp="1633578533768">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="412" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1633578533768" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1635755614853">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1635755614853" />
-    <state width="1877" height="211" key="GridCell.Tab.0.bottom" timestamp="1633587263191">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263191" />
-    <state width="1877" height="211" key="GridCell.Tab.0.center" timestamp="1633587263191">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263191" />
-    <state width="1877" height="211" key="GridCell.Tab.0.left" timestamp="1633587263191">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263191" />
-    <state width="1877" height="211" key="GridCell.Tab.0.right" timestamp="1633587263191">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263191" />
-    <state width="1877" height="211" key="GridCell.Tab.1.bottom" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state width="1877" height="211" key="GridCell.Tab.1.center" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state width="1877" height="211" key="GridCell.Tab.1.left" timestamp="1633587263191">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263191" />
-    <state width="1877" height="211" key="GridCell.Tab.1.right" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state width="1877" height="211" key="GridCell.Tab.2.bottom" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state width="1877" height="211" key="GridCell.Tab.2.center" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state width="1877" height="211" key="GridCell.Tab.2.left" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state width="1877" height="211" key="GridCell.Tab.2.right" timestamp="1633587263192">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="211" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1633587263192" />
-    <state x="794" y="439" key="NewPhpFileDialog" timestamp="1635903875565">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="794" y="439" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1635903875565" />
-    <state x="1149" y="343" width="583" height="613" key="find.popup" timestamp="1636376678634">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1149" y="343" width="583" height="613" key="find.popup/0.0.1920.1040/1920.75.1600.860@0.0.1920.1040" timestamp="1636376678634" />
-    <state x="1149" y="343" width="583" height="613" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1636046662731" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
